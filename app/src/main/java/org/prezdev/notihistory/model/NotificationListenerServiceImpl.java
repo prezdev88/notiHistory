@@ -6,6 +6,7 @@ import android.os.Build;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.Date;
@@ -16,7 +17,7 @@ public class NotificationListenerServiceImpl extends NotificationListenerService
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         Notification notification = sbn.getNotification();
-
+        /*https://www.javacodegeeks.com/2013/10/android-notificationlistenerservice-example.html*/
         Log.i(tag, "********** Notificación NUEVA **********");
         Log.i(tag, "ID :" + sbn.getId());
         Log.i(tag, "Ticket text: "+ notification.tickerText);
@@ -36,12 +37,24 @@ public class NotificationListenerServiceImpl extends NotificationListenerService
         Log.i(tag, "EXTRA_INFO_TEXT: "+notification.extras.getCharSequence(Notification.EXTRA_INFO_TEXT));
 
         try{
-            CharSequence charSequence = notification.extras.getCharSequence(Notification.EXTRA_TEXT_LINES);
+            CharSequence[] lines =
+                    notification.extras.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
+            if(lines != null && lines.length > 0) {
+                StringBuilder sb = new StringBuilder();
+                for (CharSequence msg : lines) {
+                    if (!TextUtils.isEmpty(msg)) {
+                        sb.append(msg.toString());
+                        sb.append('\n');
+                    }
+                }
+                Log.i(tag, "EXTRA_TEXT_LINES: "+sb.toString().trim());
+            }
+            CharSequence chars =
+                    notification.extras.getCharSequence(Notification.EXTRA_BIG_TEXT);
+            if(!TextUtils.isEmpty(chars))
+                Log.i(tag, "EXTRA_BIG_TEXT: "+chars.toString());
 
-            StringBuilder sb = new StringBuilder(charSequence.length());
-            sb.append(charSequence);
 
-            Log.i(tag, "EXTRA_TEXT_LINES: "+sb.toString());
         }catch(Exception ex){
             Log.i(tag, "cago: "+ex.getMessage());
         }
