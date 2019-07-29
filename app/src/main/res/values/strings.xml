@@ -13,4 +13,8 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+    <string name="notificationNotConfigured">Dale a NotiHistory acceso a tus notificaciones</string>
+    <string name="_continue">Continuar</string>
+    <string name="exit">Salir</string>
 </resources>
