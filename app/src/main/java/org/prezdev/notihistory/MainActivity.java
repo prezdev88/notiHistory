@@ -3,11 +3,13 @@ package org.prezdev.notihistory;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -24,9 +26,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
+import org.prezdev.notihistory.fragments.AppsFragment;
+import org.prezdev.notihistory.model.App;
+import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private NotificationServiceImpl notificationService;
 
     @Override
     public void onResume(){
@@ -71,6 +78,10 @@ public class MainActivity extends AppCompatActivity
                     10);
 
         }
+
+        notificationService = new NotificationServiceImpl(getApplicationContext());
+
+
 
         /*
         Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
@@ -138,15 +149,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-        } else if (id == R.id.nav_slideshow) {
+        if (id == R.id.nav_app_notifications) {
+            AppsFragment appsFragment = new AppsFragment();
 
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
+            fragmentManager.beginTransaction().replace(R.id.content, appsFragment).commit();
+        }  else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 

@@ -27,6 +27,7 @@ public class NotificationVO {
 
     private Drawable getDrawable(MainActivity mainActivity) throws PackageManager.NameNotFoundException {
         PackageManager manager = mainActivity.getPackageManager();
+
         Resources resources = manager.getResourcesForApplication(packageName);
 
         Drawable icon = resources.getDrawable(iconId);

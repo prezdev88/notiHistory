@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import org.prezdev.notihistory.dataBase.BD;
+import org.prezdev.notihistory.model.App;
 import org.prezdev.notihistory.model.INotificationDao;
 import org.prezdev.notihistory.model.NotificationVO;
 
@@ -98,5 +99,37 @@ public class NotificationDao implements INotificationDao {
         db.close();
 
         return lista;
+    }
+
+    @Override
+    public List<App> getApps() {
+        List<App> apps = new ArrayList<>();
+
+        String query =
+            "SELECT DISTINCT(packageName), COUNT(*), id " +
+            "FROM notification " +
+            "WHERE extraText != '' " +
+            "GROUP BY packageName ORDER BY COUNT(*) DESC";
+
+        connection = new BD(context, DB_PATH, 1);
+        db = connection.getWritableDatabase();
+        cursor = db.rawQuery(query, null);
+
+        App app;
+        if(cursor.moveToFirst()){
+            do{
+                app = new App();
+
+                app.setPackageName(cursor.getString(0));
+                app.setNotificationsCount(cursor.getInt(1));
+                app.setId(cursor.getInt(2));
+
+                apps.add(app);
+            }while(cursor.moveToNext());
+        }
+
+        db.close();
+
+        return apps;
     }
 }

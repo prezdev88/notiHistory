@@ -1,0 +1,11 @@
+SELECT DISTINCT(category) FROM notification;
+
+SELECT DISTINCT(packageName), COUNT(*) 'Cantidad' 
+FROM notification 
+WHERE extraText != ""
+GROUP BY packageName ORDER BY Cantidad DESC;
+
+SELECT * FROM notification 
+WHERE packageName = 'com.whatsapp' AND
+extraText != "" AND category = 'msg'
+ORDER BY postTime DESC;

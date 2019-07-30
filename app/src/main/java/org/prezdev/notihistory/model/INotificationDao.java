@@ -6,4 +6,6 @@ public interface INotificationDao {
     void save(NotificationVO notificationVO);
 
     List<NotificationVO> read();
+
+    List<App> getApps();
 }
