@@ -60,45 +60,8 @@ public class NotificationDao implements INotificationDao {
     }
 
     @Override
-    public List<NotificationVO> read() {
-        List<NotificationVO> lista = new ArrayList<>();
-        NotificationVO notificationVO = null;
-
-        connection = new BD(context, DB_PATH, 1);
-        db = connection.getWritableDatabase();
-
-        String select = "SELECT * FROM notification";
-
-        cursor = db.rawQuery(select, null);
-
-        if(cursor.moveToFirst()){
-            do{
-                notificationVO = new NotificationVO();
-
-                notificationVO.setId(cursor.getInt(0));
-                notificationVO.setColor(cursor.getInt(1));
-                notificationVO.setCategory(cursor.getString(2));
-
-                try {
-                    notificationVO.setPostTime(dateFormat.parse(cursor.getString(3)));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                notificationVO.setPackageName(cursor.getString(4));
-                notificationVO.setIconId(cursor.getInt(5));
-                notificationVO.setExtraText(cursor.getString(6));
-                notificationVO.setExtraTitle(cursor.getString(7));
-                notificationVO.setExtraSummaryText(cursor.getString(8));
-                notificationVO.setExtraBigText(cursor.getString(9));
-
-                lista.add(notificationVO);
-            }while(cursor.moveToNext());
-        }
-
-        db.close();
-
-        return lista;
+    public List<NotificationVO> findAll() {
+        return findAllByQuery("SELECT * FROM notification");
     }
 
     @Override
@@ -131,5 +94,55 @@ public class NotificationDao implements INotificationDao {
         db.close();
 
         return apps;
+    }
+
+    @Override
+    public List<NotificationVO> findAllByPackageName(String packageName) {
+        return findAllByQuery(
+                "SELECT * FROM notification " +
+                "WHERE packageName = '"+packageName+"' AND " +
+                "extraText != '' " +
+                /*"GROUP BY postTime " +*/
+                "ORDER BY postTime DESC ");
+    }
+
+    @Override
+    public List<NotificationVO> findAllByQuery(String query) {
+        List<NotificationVO> lista = new ArrayList<>();
+        NotificationVO notificationVO = null;
+
+        connection = new BD(context, DB_PATH, 1);
+        db = connection.getWritableDatabase();
+
+        cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                notificationVO = new NotificationVO();
+
+                notificationVO.setId(cursor.getInt(0));
+                notificationVO.setColor(cursor.getInt(1));
+                notificationVO.setCategory(cursor.getString(2));
+
+                try {
+                    notificationVO.setPostTime(dateFormat.parse(cursor.getString(3)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                notificationVO.setPackageName(cursor.getString(4));
+                notificationVO.setIconId(cursor.getInt(5));
+                notificationVO.setExtraText(cursor.getString(6));
+                notificationVO.setExtraTitle(cursor.getString(7));
+                notificationVO.setExtraSummaryText(cursor.getString(8));
+                notificationVO.setExtraBigText(cursor.getString(9));
+
+                lista.add(notificationVO);
+            }while(cursor.moveToNext());
+        }
+
+        db.close();
+
+        return lista;
     }
 }

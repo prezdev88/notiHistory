@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.model.App;
+import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 public class MainActivity extends AppCompatActivity
@@ -113,12 +115,23 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        /*DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
+        }*/
+
+        /*Fragment visibleFragment = Util.getVisibleFragment(this);
+
+        if(visibleFragment == null){
+            super.onBackPressed();
+        }else{
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction().replace(R.id.content, appsFragment).commit();
+
+        }*/
     }
 
     @Override

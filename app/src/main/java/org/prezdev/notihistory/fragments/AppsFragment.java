@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
+import org.prezdev.notihistory.listeners.OnItemClickListener;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 public class AppsFragment extends Fragment {
@@ -25,12 +26,16 @@ public class AppsFragment extends Fragment {
 
         ListView appList = view.findViewById(R.id.appList);
 
+        appList.setOnItemClickListener(new OnItemClickListener(appList));
+
         AppAdapter appAdapter = new AppAdapter(view.getContext(), notificationService.getApps());
 
         appList.setAdapter(appAdapter);
 
         return view;
     }
+
+
 
 
 }

@@ -19,11 +19,16 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<NotificationVO> read() {
-        return notificationDao.read();
+        return notificationDao.findAll();
     }
 
     @Override
     public List<App> getApps() {
         return notificationDao.getApps();
+    }
+
+    @Override
+    public List<NotificationVO> findAllByPackageName(String packageName) {
+        return notificationDao.findAllByPackageName(packageName);
     }
 }

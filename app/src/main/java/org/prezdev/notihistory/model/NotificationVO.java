@@ -1,5 +1,6 @@
 package org.prezdev.notihistory.model;
 
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -25,14 +26,23 @@ public class NotificationVO {
     private String extraSummaryText;
     private String extraBigText;
 
-    private Drawable getDrawable(MainActivity mainActivity) throws PackageManager.NameNotFoundException {
-        PackageManager manager = mainActivity.getPackageManager();
-
-        Resources resources = manager.getResourcesForApplication(packageName);
+    public Drawable getDrawable(PackageManager packageManager) throws PackageManager.NameNotFoundException {
+        Resources resources = packageManager.getResourcesForApplication(packageName);
 
         Drawable icon = resources.getDrawable(iconId);
 
         return icon;
+    }
+
+    public String getName(PackageManager packageManager) {
+        ApplicationInfo applicationInfo;
+        try {
+            applicationInfo = packageManager.getApplicationInfo( this.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            applicationInfo = null;
+        }
+
+        return (String) (applicationInfo != null ? packageManager.getApplicationLabel(applicationInfo) : "App sin nombre");
     }
 
     public int getId() {

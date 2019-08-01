@@ -9,4 +9,6 @@ public interface NotificationService {
     List<NotificationVO> read();
 
     List<App> getApps();
+
+    List<NotificationVO> findAllByPackageName(String packageName);
 }

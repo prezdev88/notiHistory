@@ -1,4 +1,4 @@
-package org.prezdev.notihistory.notificationListener;
+package org.prezdev.notihistory.listeners.notificationListener;
 
 import android.app.Notification;
 import android.os.Bundle;

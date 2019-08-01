@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.model.App;
+import org.prezdev.notihistory.model.Util;
 
 import java.util.List;
 
@@ -18,10 +19,12 @@ public class AppAdapter extends BaseAdapter {
 
     private Context context;
     private List<App> apps;
+    private Util util;
 
     public AppAdapter(Context context, List<App> apps) {
         this.context = context;
         this.apps = apps;
+        this.util = new Util(context.getPackageManager());
     }
 
     @Override
@@ -49,20 +52,17 @@ public class AppAdapter extends BaseAdapter {
 
         App app = apps.get(i);
 
-        ImageView ivIcon = view.findViewById(R.id.ivIcon);
-        TextView lblAppName = view.findViewById(R.id.lblAppName);
+        ImageView ivIcon = view.findViewById(R.id.notiIcon);
+        TextView lblAppName = view.findViewById(R.id.lblDatetime);
         TextView lblNotificationCount = view.findViewById(R.id.lblNotificationCount);
 
-        PackageManager packageManager = context.getPackageManager();
-
-
         try {
-            ivIcon.setImageDrawable(app.getDrawable(packageManager));
+            ivIcon.setImageDrawable(util.getDrawableByPackageName(app.getPackageName()));
         } catch (PackageManager.NameNotFoundException e) {
 
         }
 
-        lblAppName.setText(app.getName(packageManager));
+        lblAppName.setText(util.getAppNameByPackageName(app.getPackageName()));
         lblNotificationCount.setText(String.valueOf(app.getNotificationsCount()));
 
         return view;

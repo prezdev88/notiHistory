@@ -5,7 +5,11 @@ import java.util.List;
 public interface INotificationDao {
     void save(NotificationVO notificationVO);
 
-    List<NotificationVO> read();
+    List<NotificationVO> findAll();
 
     List<App> getApps();
+
+    List<NotificationVO> findAllByPackageName(String packageName);
+
+    List<NotificationVO> findAllByQuery(String query);
 }
