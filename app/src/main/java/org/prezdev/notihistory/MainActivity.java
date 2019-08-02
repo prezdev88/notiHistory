@@ -24,10 +24,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import org.prezdev.notihistory.adapter.AppAdapter;
+import org.prezdev.notihistory.adapter.NotificationAdapter;
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
+import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.model.App;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            if (!NotificationManagerCompat.getEnabledListenerPackages(this).contains(getPackageName())) {        //ask for permission
+            if (!NotificationManagerCompat.getEnabledListenerPackages(this).contains(getPackageName())) {
                 NotificationConfigDialog notificationConfigDialog = new NotificationConfigDialog();
 
                 notificationConfigDialog.show(this.getSupportFragmentManager(), "tag");
@@ -91,8 +96,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(
+        int requestCode,
+        String[] permissions,
+        int[] grantResults
+    ) {
         switch (requestCode) {
             case 10: {
                 // If request is cancelled, the result arrays are empty.
@@ -107,9 +115,6 @@ public class MainActivity extends AppCompatActivity
                 }
                 return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
     }
 
@@ -132,6 +137,24 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content, appsFragment).commit();
 
         }*/
+
+        Fragment visibleFragment = Util.getVisibleFragment(this);
+
+        if(visibleFragment == null){
+            super.onBackPressed();
+        }else{
+            if(visibleFragment instanceof AppsFragment){
+                super.onBackPressed();
+            }else if(visibleFragment instanceof NotificationsFragment){
+                AppsFragment appsFragment = new AppsFragment(this);
+
+                getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content, appsFragment)
+                    .commit();
+            }
+        }
+
     }
 
     @Override
@@ -165,9 +188,12 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_app_notifications) {
-            AppsFragment appsFragment = new AppsFragment();
+            AppsFragment appsFragment = new AppsFragment(this);
 
-            fragmentManager.beginTransaction().replace(R.id.content, appsFragment).commit();
+            fragmentManager
+                .beginTransaction()
+                .replace(R.id.content, appsFragment)
+                .commit();
         }  else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

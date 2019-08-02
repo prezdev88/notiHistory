@@ -1,5 +1,6 @@
 package org.prezdev.notihistory.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,16 +9,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
-import org.prezdev.notihistory.listeners.OnItemClickListener;
+import org.prezdev.notihistory.listeners.OnAppClickListener;
 import org.prezdev.notihistory.listeners.SwipeRefreshAppsListener;
+import org.prezdev.notihistory.model.App;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
+import java.util.List;
+
+@SuppressLint("ValidFragment")
 public class AppsFragment extends Fragment {
 
+    private SwipeRefreshLayout appsSwipeRefresh;
     private NotificationServiceImpl notificationService;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private List<App> apps;
+    private AppAdapter appAdapter;
+    private ListView lvApps;
+    private MainActivity mainActivity;
+
+    public AppsFragment(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
 
     @Override
     public View onCreateView(
@@ -25,20 +39,27 @@ public class AppsFragment extends Fragment {
     ) {
         View view = inflater.inflate(R.layout.fragment_apps, container, false);
 
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+        lvApps = view.findViewById(R.id.lvApps);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshAppsListener(view));
+        lvApps.setOnItemClickListener(new OnAppClickListener(this.mainActivity));
 
         notificationService = new NotificationServiceImpl(view.getContext());
+        apps = notificationService.getApps();
+        appAdapter = new AppAdapter(view.getContext(), apps);
 
-        ListView appList = view.findViewById(R.id.appList);
+        lvApps.setAdapter(appAdapter);
 
-        appList.setOnItemClickListener(new OnItemClickListener(appList, view));
+        /*------------------------- Swipe Refresh -------------------------*/
+        appsSwipeRefresh = view.findViewById(R.id.appsSwipeRefresh);
 
-        AppAdapter appAdapter = new AppAdapter(view.getContext(), notificationService.getApps());
+        appsSwipeRefresh.setColorSchemeResources(
+            R.color.orange,
+            R.color.green,
+            R.color.blue
+        );
 
-        appList.setAdapter(appAdapter);
+        appsSwipeRefresh.setOnRefreshListener(new SwipeRefreshAppsListener(view));
+        /*------------------------- Swipe Refresh -------------------------*/
 
         return view;
     }

@@ -6,47 +6,51 @@ import android.view.View;
 import android.widget.ListView;
 
 import org.prezdev.notihistory.R;
-import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.adapter.NotificationAdapter;
-import org.prezdev.notihistory.model.App;
 import org.prezdev.notihistory.model.NotificationVO;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
 
-public class SwipeRefreshNotificationsListener implements SwipeRefreshLayout.OnRefreshListener {
+public class SwipeRefreshNotificationsListener implements SwipeRefreshLayout.OnRefreshListener, Runnable {
 
     private View view;
     private NotificationServiceImpl notificationService;
+    private SwipeRefreshLayout notificationsSwipeRefresh;
+    private ListView lvNotifications;
 
     public SwipeRefreshNotificationsListener(View view) {
         this.view = view;
+        notificationsSwipeRefresh = view.findViewById(R.id.notificationsSwipeRefresh);
+        lvNotifications = view.findViewById(R.id.lvNotifications);
     }
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                notificationService = new NotificationServiceImpl(view.getContext());
-                List<NotificationVO> notifications = notificationService.findAllByPackageName(
-                    Util.currentApp.getPackageName()
-                );
+        new Handler().postDelayed(this, 500);
+    }
 
-                NotificationAdapter notificationAdapter = new NotificationAdapter(
-                    view.getContext(),
-                    notifications
-                );
+    @Override
+    public void run() {
+        // Se obtiene el servicio de notificaciones
+        notificationService = new NotificationServiceImpl(view.getContext());
 
-                ListView appList = view.findViewById(R.id.appList);
+        // Se obtienen las notificaciones de la aplicación actual
+        List<NotificationVO> notifications = notificationService.findAllByPackageName(
+            Util.currentApp.getPackageName()
+        );
 
-                appList.setAdapter(notificationAdapter);
+        // Se crea el adapter
+        NotificationAdapter notificationAdapter = new NotificationAdapter(
+            view.getContext(),
+            notifications
+        );
 
-                SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        // Colocando las notificaciones en el listView
+        lvNotifications.setAdapter(notificationAdapter);
 
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        }, 1000);
+        // Parando animación de load
+        notificationsSwipeRefresh.setRefreshing(false);
     }
 }

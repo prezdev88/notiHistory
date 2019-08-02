@@ -1,6 +1,5 @@
 package org.prezdev.notihistory.listeners;
 
-import android.content.Context;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -13,33 +12,38 @@ import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
 
-public class SwipeRefreshAppsListener implements SwipeRefreshLayout.OnRefreshListener {
+public class SwipeRefreshAppsListener implements SwipeRefreshLayout.OnRefreshListener, Runnable {
 
     private View view;
     private NotificationServiceImpl notificationService;
+    private SwipeRefreshLayout appsSwipeRefresh;
+    private ListView lvApps;
 
     public SwipeRefreshAppsListener(View view) {
         this.view = view;
+        this.appsSwipeRefresh = view.findViewById(R.id.appsSwipeRefresh);
+        this.lvApps = view.findViewById(R.id.lvApps);
     }
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                notificationService = new NotificationServiceImpl(view.getContext());
-                List<App> apps = notificationService.getApps();
+        new Handler().postDelayed(this, 500);
+    }
 
-                AppAdapter appAdapter = new AppAdapter(view.getContext(), apps);
+    @Override
+    public void run() {
+        notificationService = new NotificationServiceImpl(view.getContext());
 
-                ListView appList = view.findViewById(R.id.appList);
+        // Obteniendo las apps de la base de datos de notificaciones
+        List<App> apps = notificationService.getApps();
 
-                appList.setAdapter(appAdapter);
+        // Creando el adapter
+        AppAdapter appAdapter = new AppAdapter(view.getContext(), apps);
 
-                SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        // Colocando las apps en el listView
+        lvApps.setAdapter(appAdapter);
 
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        }, 1000);
+        // Parando la animación de load
+        appsSwipeRefresh.setRefreshing(false);
     }
 }

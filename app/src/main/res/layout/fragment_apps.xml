@@ -8,7 +8,7 @@
     tools:context=".fragments.AppsFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+        android:id="@+id/appsSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
-            android:id="@+id/appList"
+            android:id="@+id/lvApps"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
