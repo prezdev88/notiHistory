@@ -34,10 +34,12 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
         // lanzar un fragment
         NotificationsFragment notificationsFragment = new NotificationsFragment();
 
-        mainActivity.getSupportFragmentManager()
+        if(mainActivity != null){
+            mainActivity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content, notificationsFragment)
                 .commit();
+        }
 
     }
 }

@@ -18,12 +18,13 @@
 
     <TextView
         android:id="@+id/lblDatetime"
-        android:layout_width="257dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/lblNotificationCount"
         app:layout_constraintStart_toEndOf="@+id/notiIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +33,7 @@
         android:layout_width="60sp"
         android:layout_height="60sp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center"
         android:text="0"
         android:textColor="#303F9F"

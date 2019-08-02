@@ -29,6 +29,8 @@ public class AppsFragment extends Fragment {
     private ListView lvApps;
     private MainActivity mainActivity;
 
+    public AppsFragment(){}
+
     public AppsFragment(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
