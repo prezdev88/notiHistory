@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Util {
     private PackageManager packageManager;
+    public static App currentApp;
 
     public Util(PackageManager packageManager) {
         this.packageManager = packageManager;
