@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,6 +65,11 @@ public class AppAdapter extends BaseAdapter {
 
         lblAppName.setText(util.getAppNameByPackageName(app.getPackageName()));
         lblNotificationCount.setText(String.valueOf(app.getNotificationsCount()));
+
+        // ivIcon.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
+        // lblAppName.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
+
+        view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
 
         return view;
     }
