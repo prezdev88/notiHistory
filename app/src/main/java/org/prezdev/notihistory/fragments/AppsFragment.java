@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,9 @@ public class AppsFragment extends Fragment {
 
     public AppsFragment(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+        //this.setExitTransition(new Slide(Gravity.LEFT).setDuration(300));
+        this.setExitTransition(new Fade());
+        this.setEnterTransition(new Slide(Gravity.LEFT).setDuration(300));
     }
 
     @Override

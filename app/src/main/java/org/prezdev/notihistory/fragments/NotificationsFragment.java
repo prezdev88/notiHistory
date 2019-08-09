@@ -3,6 +3,9 @@ package org.prezdev.notihistory.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,11 @@ public class NotificationsFragment extends Fragment {
     private NotificationServiceImpl notificationService;
     private ListView lvNotifications;
     private SwipeRefreshLayout notificationsSwipeRefresh;
+
+    public NotificationsFragment(){
+        this.setExitTransition(new Fade());
+        this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
+    }
 
     @Override
     public View onCreateView(

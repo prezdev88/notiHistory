@@ -1,9 +1,10 @@
 package org.prezdev.notihistory;
 
 import android.Manifest;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,19 +25,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import org.prezdev.notihistory.adapter.AppAdapter;
-import org.prezdev.notihistory.adapter.NotificationAdapter;
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.model.App;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -158,13 +160,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -204,4 +199,55 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /*SEARCH BAR*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Util util = new Util(getPackageManager());
+
+                Fragment visibleFragment = Util.getVisibleFragment(MainActivity.this);
+
+                if(visibleFragment instanceof AppsFragment){
+                    List<App> apps = notificationService.getApps();
+                    List<App> search = new ArrayList<>();
+
+                    for(App app : apps){
+                        if(util.getAppNameByPackageName(app.getPackageName()).toLowerCase().contains(s.toLowerCase())){
+                            search.add(app);
+                        }
+                    }
+
+                    AppAdapter appAdapter = new AppAdapter(getApplicationContext(), search);
+
+                    ListView lvApps = findViewById(R.id.lvApps);
+                    lvApps.setAdapter(appAdapter);
+                }
+
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    /*SEARCH BAR*/
 }

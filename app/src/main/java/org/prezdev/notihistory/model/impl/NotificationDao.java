@@ -72,7 +72,7 @@ public class NotificationDao implements INotificationDao {
             "SELECT DISTINCT(packageName), COUNT(*), id " +
             "FROM notification " +
             "WHERE extraText != '' " +
-            "GROUP BY packageName ORDER BY COUNT(*) DESC";
+            "GROUP BY packageName ORDER BY postTime DESC";
 
         connection = new BD(context, DB_PATH, 1);
         db = connection.getWritableDatabase();

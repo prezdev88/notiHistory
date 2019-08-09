@@ -1,5 +1,6 @@
 package org.prezdev.notihistory.listeners;
 
+import android.transition.Fade;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,6 +34,7 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
 
         // lanzar un fragment
         NotificationsFragment notificationsFragment = new NotificationsFragment();
+
 
         if(mainActivity != null){
             mainActivity.getSupportFragmentManager()
