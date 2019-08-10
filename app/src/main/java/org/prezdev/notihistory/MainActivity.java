@@ -32,6 +32,7 @@ import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
+import org.prezdev.notihistory.listeners.OnSearchListener;
 import org.prezdev.notihistory.model.App;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
@@ -214,37 +215,7 @@ public class MainActivity extends AppCompatActivity
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                Util util = new Util(getPackageManager());
-
-                Fragment visibleFragment = Util.getVisibleFragment(MainActivity.this);
-
-                if(visibleFragment instanceof AppsFragment){
-                    List<App> apps = notificationService.getApps();
-                    List<App> search = new ArrayList<>();
-
-                    for(App app : apps){
-                        if(util.getAppNameByPackageName(app.getPackageName()).toLowerCase().contains(s.toLowerCase())){
-                            search.add(app);
-                        }
-                    }
-
-                    AppAdapter appAdapter = new AppAdapter(getApplicationContext(), search);
-
-                    ListView lvApps = findViewById(R.id.lvApps);
-                    lvApps.setAdapter(appAdapter);
-                }
-
-                return false;
-            }
-        });
+        searchView.setOnQueryTextListener(new OnSearchListener(this));
 
         return true;
     }
