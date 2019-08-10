@@ -1,5 +1,6 @@
 package org.prezdev.notihistory.listeners;
 
+import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +26,8 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Toolbar toolbar = mainActivity.findViewById(R.id.toolbar);
+
         notificationService = NotificationServiceImpl.getInstance(view.getContext());
 
         AppAdapter appAdapter = (AppAdapter) adapterView.getAdapter();
@@ -35,12 +38,13 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
         // lanzar un fragment
         NotificationsFragment notificationsFragment = new NotificationsFragment();
 
-
         if(mainActivity != null){
             mainActivity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content, notificationsFragment)
                 .commit();
+
+            toolbar.collapseActionView();
         }
 
     }
