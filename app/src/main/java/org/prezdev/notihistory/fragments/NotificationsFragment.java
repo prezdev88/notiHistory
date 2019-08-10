@@ -52,7 +52,7 @@ public class NotificationsFragment extends Fragment {
         notificationsSwipeRefresh.setOnRefreshListener(new SwipeRefreshNotificationsListener(view));
         /*------------------------- Swipe Refresh -------------------------*/
 
-        notificationService = new NotificationServiceImpl(view.getContext());
+        notificationService = NotificationServiceImpl.getInstance(view.getContext());
         lvNotifications = view.findViewById(R.id.lvNotifications);
 
         // Se obtiene el nombre del paquete de la app seleccionada por el usuario

@@ -51,7 +51,7 @@ public class AppsFragment extends Fragment {
 
         lvApps.setOnItemClickListener(new OnAppClickListener(this.mainActivity));
 
-        notificationService = new NotificationServiceImpl(view.getContext());
+        notificationService = NotificationServiceImpl.getInstance(view.getContext());
         apps = notificationService.getApps();
         appAdapter = new AppAdapter(view.getContext(), apps);
 

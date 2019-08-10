@@ -29,7 +29,7 @@ public class NotificationAdapter extends BaseAdapter {
     public NotificationAdapter(Context context, List<NotificationVO> notifications) {
         this.context = context;
         this.notifications = notifications;
-        this.util = new Util(context.getPackageManager());
+        this.util = Util.getInstance(context.getPackageManager());
     }
 
     @Override

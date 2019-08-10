@@ -25,7 +25,7 @@ public class AppAdapter extends BaseAdapter {
     public AppAdapter(Context context, List<App> apps) {
         this.context = context;
         this.apps = apps;
-        this.util = new Util(context.getPackageManager());
+        this.util = Util.getInstance(context.getPackageManager());
     }
 
     @Override

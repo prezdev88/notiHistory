@@ -3,7 +3,6 @@ package org.prezdev.notihistory;
 import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,20 +24,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.listeners.OnSearchListener;
-import org.prezdev.notihistory.model.App;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -89,7 +83,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        notificationService = new NotificationServiceImpl(getApplicationContext());
+        notificationService = NotificationServiceImpl.getInstance(getApplicationContext());
 
 
 

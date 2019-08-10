@@ -15,8 +15,17 @@ import java.util.List;
 public class Util {
     private PackageManager packageManager;
     public static App currentApp;
+    public static Util util;
 
-    public Util(PackageManager packageManager) {
+    public static Util getInstance(PackageManager packageManager){
+        if(util == null){
+            util = new Util(packageManager);
+        }
+
+        return util;
+    }
+
+    private Util(PackageManager packageManager) {
         this.packageManager = packageManager;
     }
 

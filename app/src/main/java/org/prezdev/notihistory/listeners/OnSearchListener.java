@@ -1,6 +1,7 @@
 package org.prezdev.notihistory.listeners;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.widget.ListView;
@@ -24,8 +25,9 @@ public class OnSearchListener implements SearchView.OnQueryTextListener {
     private Context context;
 
     public OnSearchListener(MainActivity mainActivity){
-        this.util = new Util(mainActivity.getApplicationContext().getPackageManager());
-        this.notificationService = new NotificationServiceImpl(mainActivity.getApplicationContext());
+        PackageManager packageManager = mainActivity.getApplicationContext().getPackageManager();
+        this.util = Util.getInstance(packageManager);
+        this.notificationService = NotificationServiceImpl.getInstance(mainActivity.getApplicationContext());
         this.mainActivity = mainActivity;
         this.context = mainActivity.getApplicationContext();
     }

@@ -25,7 +25,7 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        notificationService = new NotificationServiceImpl(view.getContext());
+        notificationService = NotificationServiceImpl.getInstance(view.getContext());
 
         AppAdapter appAdapter = (AppAdapter) adapterView.getAdapter();
         App app = (App) appAdapter.getItem(i);
