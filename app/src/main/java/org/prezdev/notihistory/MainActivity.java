@@ -29,6 +29,7 @@ import android.widget.Toast;
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
+import org.prezdev.notihistory.listeners.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.OnSearchListener;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -210,6 +212,8 @@ public class MainActivity extends AppCompatActivity
                 searchManager.getSearchableInfo(getComponentName()));
 
         searchView.setOnQueryTextListener(new OnSearchListener(this));
+
+        searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeSearchListener());
 
         return true;
     }

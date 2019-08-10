@@ -53,6 +53,7 @@ public class AppsFragment extends Fragment {
 
         notificationService = NotificationServiceImpl.getInstance(view.getContext());
         apps = notificationService.getApps();
+
         appAdapter = new AppAdapter(view.getContext(), apps);
 
         lvApps.setAdapter(appAdapter);

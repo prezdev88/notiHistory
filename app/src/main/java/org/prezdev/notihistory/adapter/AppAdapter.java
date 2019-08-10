@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.model.App;
 import org.prezdev.notihistory.model.Util;
 
@@ -69,7 +70,9 @@ public class AppAdapter extends BaseAdapter {
         // ivIcon.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
         // lblAppName.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
 
-        view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
+        if(Config.appItemListAnimation){
+            view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
+        }
 
         return view;
     }
