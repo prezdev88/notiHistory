@@ -1,6 +1,7 @@
 package org.prezdev.notihistory.model;
 
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class Util {
     private PackageManager packageManager;
-    public static App currentApp;
+    public static NotificationApp currentNotificationApp;
     public static Util util;
 
     public static Util getInstance(PackageManager packageManager){
@@ -59,5 +60,9 @@ public class Util {
             }
         }
         return null;
+    }
+
+    public boolean isSystemPackage(PackageInfo pkgInfo) {
+        return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
     }
 }

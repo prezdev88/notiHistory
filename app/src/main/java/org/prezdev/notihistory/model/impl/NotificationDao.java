@@ -1,18 +1,13 @@
 package org.prezdev.notihistory.model.impl;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import org.prezdev.notihistory.dataBase.BD;
-import org.prezdev.notihistory.model.App;
+import org.prezdev.notihistory.model.NotificationApp;
 import org.prezdev.notihistory.model.INotificationDao;
 import org.prezdev.notihistory.model.NotificationVO;
 
@@ -65,8 +60,8 @@ public class NotificationDao implements INotificationDao {
     }
 
     @Override
-    public List<App> getApps() {
-        List<App> apps = new ArrayList<>();
+    public List<NotificationApp> getApps() {
+        List<NotificationApp> notificationApps = new ArrayList<>();
 
         String query =
             "SELECT DISTINCT(packageName), COUNT(*), id " +
@@ -78,22 +73,22 @@ public class NotificationDao implements INotificationDao {
         db = connection.getWritableDatabase();
         cursor = db.rawQuery(query, null);
 
-        App app;
+        NotificationApp notificationApp;
         if(cursor.moveToFirst()){
             do{
-                app = new App();
+                notificationApp = new NotificationApp();
 
-                app.setPackageName(cursor.getString(0));
-                app.setNotificationsCount(cursor.getInt(1));
-                app.setId(cursor.getInt(2));
+                notificationApp.setPackageName(cursor.getString(0));
+                notificationApp.setNotificationsCount(cursor.getInt(1));
+                notificationApp.setId(cursor.getInt(2));
 
-                apps.add(app);
+                notificationApps.add(notificationApp);
             }while(cursor.moveToNext());
         }
 
         db.close();
 
-        return apps;
+        return notificationApps;
     }
 
     @Override

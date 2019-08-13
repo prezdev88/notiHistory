@@ -17,7 +17,7 @@ import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.listeners.OnAppClickListener;
 import org.prezdev.notihistory.listeners.SwipeRefreshAppsListener;
-import org.prezdev.notihistory.model.App;
+import org.prezdev.notihistory.model.NotificationApp;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class AppsFragment extends Fragment {
 
     private SwipeRefreshLayout appsSwipeRefresh;
     private NotificationServiceImpl notificationService;
-    private List<App> apps;
+    private List<NotificationApp> notificationApps;
     private AppAdapter appAdapter;
     private ListView lvApps;
     private MainActivity mainActivity;
@@ -52,9 +52,9 @@ public class AppsFragment extends Fragment {
         lvApps.setOnItemClickListener(new OnAppClickListener(this.mainActivity));
 
         notificationService = NotificationServiceImpl.getInstance(view.getContext());
-        apps = notificationService.getApps();
+        notificationApps = notificationService.getNotificationApps();
 
-        appAdapter = new AppAdapter(view.getContext(), apps);
+        appAdapter = new AppAdapter(view.getContext(), notificationApps);
 
         lvApps.setAdapter(appAdapter);
 

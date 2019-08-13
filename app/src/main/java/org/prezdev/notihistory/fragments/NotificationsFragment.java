@@ -56,7 +56,7 @@ public class NotificationsFragment extends Fragment {
         lvNotifications = view.findViewById(R.id.lvNotifications);
 
         // Se obtiene el nombre del paquete de la app seleccionada por el usuario
-        String packageName = Util.currentApp.getPackageName();
+        String packageName = Util.currentNotificationApp.getPackageName();
 
         // Se obtienen las notificaciones de esa app
         List<NotificationVO> notifications = notificationService.findAllByPackageName(packageName);

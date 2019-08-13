@@ -24,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
@@ -31,9 +32,11 @@ import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.listeners.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.OnSearchListener;
+import org.prezdev.notihistory.model.App;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,7 +72,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView lblVersion = headerView.findViewById(R.id.lblVersion);
+        lblVersion.setText("v"+BuildConfig.VERSION_NAME+"-alpha");
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -88,6 +96,14 @@ public class MainActivity extends AppCompatActivity
         notificationService = NotificationServiceImpl.getInstance(getApplicationContext());
 
 
+        List<App> installedApps = notificationService.getInstalledApps(false);
+
+        for(App app : installedApps){
+            System.out.println(app.getName());
+            System.out.println(app.getPackageName());
+            System.out.println(app.getVersionName() + " - " + app.getVersionCode());
+            System.out.println("--------------------------");
+        }
 
         /*
         Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");

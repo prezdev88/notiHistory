@@ -38,7 +38,7 @@ public class SwipeRefreshNotificationsListener implements SwipeRefreshLayout.OnR
 
         // Se obtienen las notificaciones de la aplicación actual
         List<NotificationVO> notifications = notificationService.findAllByPackageName(
-            Util.currentApp.getPackageName()
+            Util.currentNotificationApp.getPackageName()
         );
 
         // Se crea el adapter

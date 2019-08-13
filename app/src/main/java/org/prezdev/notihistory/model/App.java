@@ -1,10 +1,38 @@
 package org.prezdev.notihistory.model;
 
+import android.graphics.drawable.Drawable;
+
 public class App {
     private int id;
     private String name;
     private String packageName;
-    private int notificationsCount;
+    private Drawable icon;
+    private String versionName;
+    private int versionCode;
+
+    public String getVersionName() {
+        return versionName;
+    }
+
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
+    }
+
+    public int getVersionCode() {
+        return versionCode;
+    }
+
+    public void setVersionCode(int versionCode) {
+        this.versionCode = versionCode;
+    }
+
+    public Drawable getIcon() {
+        return icon;
+    }
+
+    public void setIcon(Drawable icon) {
+        this.icon = icon;
+    }
 
     public int getId() {
         return id;
@@ -14,12 +42,8 @@ public class App {
         this.id = id;
     }
 
-    public int getNotificationsCount() {
-        return notificationsCount;
-    }
-
-    public void setNotificationsCount(int notificationsCount) {
-        this.notificationsCount = notificationsCount;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
