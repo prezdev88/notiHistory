@@ -20,7 +20,7 @@ public class Table {
         "CREATE TABLE app("+
         "   id INTEGER PRIMARY KEY AUTOINCREMENT," +
         "   name TEXT,"+
-        "   packageName TEXT," +
+        "   packageName TEXT" +
         ")";
 
 }

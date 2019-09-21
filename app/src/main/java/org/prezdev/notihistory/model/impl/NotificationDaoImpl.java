@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteStatement;
 
 import org.prezdev.notihistory.dataBase.BD;
 import org.prezdev.notihistory.dataBase.Connection;
-import org.prezdev.notihistory.model.INotificationDao;
+import org.prezdev.notihistory.model.NotificationDao;
 import org.prezdev.notihistory.model.NotificationVO;
 
 import java.text.ParseException;
@@ -13,17 +13,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationDao extends Connection implements INotificationDao {
+public class NotificationDaoImpl extends Connection implements NotificationDao {
 
 
-    public NotificationDao(Context context){
+    public NotificationDaoImpl(Context context){
         super(context);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
     @Override
     public void save(NotificationVO notificationVO) {
-        connection = new BD(context, DB_PATH, 1);
+        connection = new BD(context, DB_PATH);
         sqLiteDatabase = connection.getWritableDatabase();
 
         String insert = "INSERT INTO notification VALUES(null, ?,?,?,?,?,?,?,?,?)";
@@ -66,7 +66,7 @@ public class NotificationDao extends Connection implements INotificationDao {
         List<NotificationVO> lista = new ArrayList<>();
         NotificationVO notificationVO = null;
 
-        connection = new BD(context, DB_PATH, 1);
+        connection = new BD(context, DB_PATH);
         sqLiteDatabase = connection.getWritableDatabase();
 
         cursor = sqLiteDatabase.rawQuery(query, null);

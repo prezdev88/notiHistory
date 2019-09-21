@@ -96,17 +96,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         appService = AppServiceImpl.getInstance(getApplicationContext());
-
-
-        List<InstalledApp> installedApps = appService.getInstalledApps(false);
-
-        for(InstalledApp installedApp : installedApps){
-            System.out.println(installedApp.getName());
-            System.out.println(installedApp.getPackageName());
-            System.out.println(installedApp.getVersionName() + " - " + installedApp.getVersionCode());
-            System.out.println("--------------------------");
-        }
-
         /*
         Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
         startActivity(intent);*/

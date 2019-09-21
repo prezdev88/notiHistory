@@ -9,6 +9,13 @@ import org.prezdev.notihistory.adapter.InstalledAppAdapter;
 import org.prezdev.notihistory.model.InstalledApp;
 
 public class OnInstalledAppClickListener implements AdapterView.OnItemClickListener {
+
+    private OnInstalledAppStateChangeListener onInstalledAppStateChangeListener;
+
+    public OnInstalledAppClickListener(OnInstalledAppStateChangeListener onInstalledAppStateChangeListener) {
+        this.onInstalledAppStateChangeListener = onInstalledAppStateChangeListener;
+    }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Switch chkAddApp = view.findViewById(R.id.chkAddApp);
@@ -19,5 +26,7 @@ public class OnInstalledAppClickListener implements AdapterView.OnItemClickListe
         installedApp.toogle();
 
         chkAddApp.setChecked(installedApp.isSelected());
+
+        onInstalledAppStateChangeListener.stateChange(installedApp);
     }
 }

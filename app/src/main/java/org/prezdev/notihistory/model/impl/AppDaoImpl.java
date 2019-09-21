@@ -28,7 +28,7 @@ public class AppDaoImpl extends Connection implements AppDao {
             "WHERE extraText != '' " +
             "GROUP BY packageName ORDER BY postTime DESC";
 
-        connection = new BD(context, DB_PATH, 1);
+        connection = new BD(context, DB_PATH);
         sqLiteDatabase = connection.getWritableDatabase();
         cursor = sqLiteDatabase.rawQuery(query, null);
 
@@ -52,7 +52,7 @@ public class AppDaoImpl extends Connection implements AppDao {
 
     @Override
     public void save(InstalledApp installedApp) {
-        connection = new BD(context, DB_PATH, 1);
+        connection = new BD(context, DB_PATH);
         sqLiteDatabase = connection.getWritableDatabase();
 
         String insert = "INSERT INTO app VALUES(null, ?,?)";
@@ -69,7 +69,7 @@ public class AppDaoImpl extends Connection implements AppDao {
 
     @Override
     public void delete(String packageName) {
-        connection = new BD(context, DB_PATH, 1);
+        connection = new BD(context, DB_PATH);
         sqLiteDatabase = connection.getWritableDatabase();
 
         String delete = "DELETE FROM app WHERE packageName = ?";
@@ -87,21 +87,15 @@ public class AppDaoImpl extends Connection implements AppDao {
     public boolean isAppInDatabase(String packageName) {
         boolean isAppInDatabase;
 
-        connection = new BD(context, DB_PATH, 1);
+        connection = new BD(context, DB_PATH);
         sqLiteDatabase = connection.getReadableDatabase();
 
         String select =
             "SELECT * " +
             "FROM app " +
-            "WHERE packageName = ?";
+            "WHERE packageName = '"+packageName+"'";
 
-        SQLiteStatement statement = sqLiteDatabase.compileStatement(select);
-
-        statement.bindString(1, packageName);
-
-        String query = statement.simpleQueryForString();
-
-        cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor = sqLiteDatabase.rawQuery(select, null);
 
         isAppInDatabase = cursor.moveToFirst();
 

@@ -8,8 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 // TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").
 public class BD extends SQLiteOpenHelper{
 
-    public BD(Context context, String name, int version) {
-        super(context, name, null, version);
+    private static final int DB_VERSION = 2;
+
+    public BD(Context context, String name) {
+        super(context, name, null, DB_VERSION);
     }
 
     @Override
@@ -20,7 +22,14 @@ public class BD extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        /*No implementado*/
+        try{
+            switch (newVersion){
+                case 2:
+                    sqLiteDatabase.execSQL(Table.APP);
+
+                    break;
+            }
+        }catch(Exception ex){}
     }
 
 }

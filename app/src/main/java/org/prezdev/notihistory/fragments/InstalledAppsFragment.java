@@ -11,14 +11,15 @@ import android.widget.ListView;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.InstalledAppAdapter;
 import org.prezdev.notihistory.listeners.OnInstalledAppClickListener;
+import org.prezdev.notihistory.listeners.OnInstalledAppLongClickListener;
+import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
 import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
-import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
 
 
-public class InstalledAppsFragment extends Fragment {
+public class InstalledAppsFragment extends Fragment implements OnInstalledAppStateChangeListener {
     private ListView lvInstalledApps;
     private AppServiceImpl appService;
 
@@ -33,13 +34,16 @@ public class InstalledAppsFragment extends Fragment {
 
         lvInstalledApps = view.findViewById(R.id.lvInstalledApps);
 
-        lvInstalledApps.setOnItemClickListener(new OnInstalledAppClickListener());
+        lvInstalledApps.setOnItemClickListener(new OnInstalledAppClickListener(this));
+        lvInstalledApps.setOnItemLongClickListener(new OnInstalledAppLongClickListener());
 
         appService = AppServiceImpl.getInstance(context);
 
         List<InstalledApp> installedApps = appService.getInstalledApps(false);
 
-        InstalledAppAdapter installedAppAdapter = new InstalledAppAdapter(context, installedApps);
+        InstalledAppAdapter installedAppAdapter = new InstalledAppAdapter(
+            context, installedApps, this
+        );
 
         lvInstalledApps.setAdapter(installedAppAdapter);
 
@@ -47,5 +51,12 @@ public class InstalledAppsFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void stateChange(InstalledApp installedApp) {
+        if(installedApp.isSelected()){
+            appService.save(installedApp);
+        }else{
+            appService.delete(installedApp.getPackageName());
+        }
+    }
 }

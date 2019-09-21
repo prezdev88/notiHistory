@@ -2,7 +2,7 @@ package org.prezdev.notihistory.model;
 
 import java.util.List;
 
-public interface INotificationDao {
+public interface NotificationDao {
     void save(NotificationVO notificationVO);
 
     List<NotificationVO> findAll();

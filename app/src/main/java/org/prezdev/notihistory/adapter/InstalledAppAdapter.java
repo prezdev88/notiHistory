@@ -14,18 +14,26 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppSwitchListener;
 import org.prezdev.notihistory.model.InstalledApp;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.List;
 
 public class InstalledAppAdapter extends BaseAdapter {
     private Context context;
     private List<InstalledApp> installedApps;
+    private OnInstalledAppStateChangeListener onInstalledAppStateChangeListener;
 
-    public InstalledAppAdapter(Context context, List<InstalledApp> installedApps) {
+    public InstalledAppAdapter(
+        Context context,
+        List<InstalledApp> installedApps,
+        OnInstalledAppStateChangeListener onInstalledAppStateChangeListener
+    ) {
         this.context = context;
         this.installedApps = installedApps;
+        this.onInstalledAppStateChangeListener = onInstalledAppStateChangeListener;
     }
 
     @Override
@@ -61,7 +69,10 @@ public class InstalledAppAdapter extends BaseAdapter {
         TextView lblAppVersion = view.findViewById(R.id.lblAppVersion);
         Switch chkAddApp = view.findViewById(R.id.chkAddApp);
 
-        chkAddApp.setOnClickListener(new OnInstalledAppSwitchListener(installedApp));
+        chkAddApp.setOnClickListener(new OnInstalledAppSwitchListener(
+            installedApp,
+            this.onInstalledAppStateChangeListener
+        ));
 
         appInstalledIcon.setImageDrawable(installedApp.getIcon());
         lblAppInstalledName.setText(installedApp.getName());

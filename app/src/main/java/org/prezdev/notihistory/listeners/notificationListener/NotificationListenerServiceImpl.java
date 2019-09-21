@@ -6,7 +6,9 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import org.prezdev.notihistory.model.NotificationVO;
-import org.prezdev.notihistory.model.impl.NotificationDao;
+import org.prezdev.notihistory.model.impl.AppDaoImpl;
+import org.prezdev.notihistory.model.impl.NotificationDaoImpl;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.Date;
 
@@ -14,46 +16,55 @@ import java.util.Date;
 //if(!TextUtils.isEmpty(chars))
 
 public class NotificationListenerServiceImpl extends NotificationListenerService {
-    private NotificationDao notificationDao;
+    private NotificationDaoImpl notificationDao;
+    private AppServiceImpl appService;
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        notificationDao = new NotificationDao(getApplicationContext());
+        appService = AppServiceImpl.getInstance(getApplicationContext());
 
-        Notification notification = sbn.getNotification();
-        Bundle bundle = notification.extras;
-        CharSequence extraBigText = bundle.getCharSequence(Notification.EXTRA_BIG_TEXT);
-        int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
         String packageName = sbn.getPackageName();
 
-        NotificationVO noti = new NotificationVO();
+        // El usuario quiere guardar las notificaciones de esa app?
+        if(appService.isAppInDatabase(packageName)){
+            notificationDao = new NotificationDaoImpl(getApplicationContext());
 
-        noti.setPackageName(packageName);
-        noti.setCategory(notification.category);
-        noti.setColor(notification.color);
-        noti.setIconId(iconId);
 
-        noti.setPostTime(new Date(sbn.getPostTime()));
+            Notification notification = sbn.getNotification();
+            Bundle bundle = notification.extras;
+            CharSequence extraBigText = bundle.getCharSequence(Notification.EXTRA_BIG_TEXT);
+            int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
 
-        if(extraBigText != null){
-            noti.setExtraBigText(extraBigText.toString());
+
+            NotificationVO noti = new NotificationVO();
+
+            noti.setPackageName(packageName);
+            noti.setCategory(notification.category);
+            noti.setColor(notification.color);
+            noti.setIconId(iconId);
+
+            noti.setPostTime(new Date(sbn.getPostTime()));
+
+            if(extraBigText != null){
+                noti.setExtraBigText(extraBigText.toString());
+            }
+
+            if(bundle.getCharSequence(Notification.EXTRA_SUMMARY_TEXT) != null){
+                noti.setExtraSummaryText(bundle.getCharSequence(Notification.EXTRA_SUMMARY_TEXT).toString());
+            }
+
+            if(bundle.getCharSequence(Notification.EXTRA_TEXT) != null){
+                noti.setExtraText(bundle.getCharSequence(Notification.EXTRA_TEXT).toString());
+            }
+
+            if(bundle.getCharSequence(Notification.EXTRA_TITLE) != null){
+                noti.setExtraTitle(bundle.getCharSequence(Notification.EXTRA_TITLE).toString());
+            }
+
+            Log.d("New Notification", noti.toString());
+
+            notificationDao.save(noti);
         }
-
-        if(bundle.getCharSequence(Notification.EXTRA_SUMMARY_TEXT) != null){
-            noti.setExtraSummaryText(bundle.getCharSequence(Notification.EXTRA_SUMMARY_TEXT).toString());
-        }
-
-        if(bundle.getCharSequence(Notification.EXTRA_TEXT) != null){
-            noti.setExtraText(bundle.getCharSequence(Notification.EXTRA_TEXT).toString());
-        }
-
-        if(bundle.getCharSequence(Notification.EXTRA_TITLE) != null){
-            noti.setExtraTitle(bundle.getCharSequence(Notification.EXTRA_TITLE).toString());
-        }
-
-        Log.d("New Notification", noti.toString());
-
-        notificationDao.save(noti);
     }
 
     @Override

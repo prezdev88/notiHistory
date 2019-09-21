@@ -81,6 +81,8 @@ public class AppServiceImpl implements AppService {
             installedApp.setVersionName(packageInfo.versionName);
             installedApp.setVersionCode(packageInfo.versionCode);
 
+            installedApp.setSelected(isAppInDatabase(packageName));
+
             installedApps.add(installedApp);
         }
 
@@ -114,7 +116,9 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public boolean isSystemPackage(PackageInfo pkgInfo) {
-        return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+        return !(packageManager.getLaunchIntentForPackage(pkgInfo.packageName) != null);
+
+        // return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
     }
 
     /*------------------- Apps que el usuario escogió en el Fragment -------------------*/
