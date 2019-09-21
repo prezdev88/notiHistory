@@ -16,8 +16,10 @@ public class BD extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(Table.NOTIFICATION);
-        sqLiteDatabase.execSQL(Table.APP);
+        try{
+            sqLiteDatabase.execSQL(Table.NOTIFICATION);
+            sqLiteDatabase.execSQL(Table.APP);
+        }catch(Exception ex){}
     }
 
     @Override
