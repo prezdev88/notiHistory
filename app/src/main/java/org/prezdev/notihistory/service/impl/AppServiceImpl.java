@@ -116,4 +116,21 @@ public class AppServiceImpl implements AppService {
     public boolean isSystemPackage(PackageInfo pkgInfo) {
         return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
     }
+
+    /*------------------- Apps que el usuario escogió en el Fragment -------------------*/
+    @Override
+    public void save(InstalledApp installedApp) {
+        appDao.save(installedApp);
+    }
+
+    @Override
+    public void delete(String packageName) {
+        appDao.delete(packageName);
+    }
+
+    @Override
+    public boolean isAppInDatabase(String packageName) {
+        return appDao.isAppInDatabase(packageName);
+    }
+    /*------------------- Apps que el usuario escogió en el Fragment -------------------*/
 }

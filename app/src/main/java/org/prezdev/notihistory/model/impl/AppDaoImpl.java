@@ -1,10 +1,12 @@
 package org.prezdev.notihistory.model.impl;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteStatement;
 
 import org.prezdev.notihistory.dataBase.BD;
 import org.prezdev.notihistory.dataBase.Connection;
 import org.prezdev.notihistory.model.AppDao;
+import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 
 import java.util.ArrayList;
@@ -27,8 +29,8 @@ public class AppDaoImpl extends Connection implements AppDao {
             "GROUP BY packageName ORDER BY postTime DESC";
 
         connection = new BD(context, DB_PATH, 1);
-        db = connection.getWritableDatabase();
-        cursor = db.rawQuery(query, null);
+        sqLiteDatabase = connection.getWritableDatabase();
+        cursor = sqLiteDatabase.rawQuery(query, null);
 
         NotificationInstalledApp notificationApp;
         if(cursor.moveToFirst()){
@@ -43,8 +45,68 @@ public class AppDaoImpl extends Connection implements AppDao {
             }while(cursor.moveToNext());
         }
 
-        db.close();
+        sqLiteDatabase.close();
 
         return notificationApps;
+    }
+
+    @Override
+    public void save(InstalledApp installedApp) {
+        connection = new BD(context, DB_PATH, 1);
+        sqLiteDatabase = connection.getWritableDatabase();
+
+        String insert = "INSERT INTO app VALUES(null, ?,?)";
+
+        SQLiteStatement statement = sqLiteDatabase.compileStatement(insert);
+
+        statement.bindString(1, installedApp.getName());
+        statement.bindString(2, installedApp.getPackageName());
+
+        statement.executeInsert();
+
+        sqLiteDatabase.close();
+    }
+
+    @Override
+    public void delete(String packageName) {
+        connection = new BD(context, DB_PATH, 1);
+        sqLiteDatabase = connection.getWritableDatabase();
+
+        String delete = "DELETE FROM app WHERE packageName = ?";
+
+        SQLiteStatement statement = sqLiteDatabase.compileStatement(delete);
+
+        statement.bindString(1, packageName);
+
+        statement.executeUpdateDelete();
+
+        sqLiteDatabase.close();
+    }
+
+    @Override
+    public boolean isAppInDatabase(String packageName) {
+        boolean isAppInDatabase;
+
+        connection = new BD(context, DB_PATH, 1);
+        sqLiteDatabase = connection.getReadableDatabase();
+
+        String select =
+            "SELECT * " +
+            "FROM app " +
+            "WHERE packageName = ?";
+
+        SQLiteStatement statement = sqLiteDatabase.compileStatement(select);
+
+        statement.bindString(1, packageName);
+
+        String query = statement.simpleQueryForString();
+
+        cursor = sqLiteDatabase.rawQuery(query, null);
+
+        isAppInDatabase = cursor.moveToFirst();
+
+        sqLiteDatabase.close();
+
+        return isAppInDatabase;
     }
 }

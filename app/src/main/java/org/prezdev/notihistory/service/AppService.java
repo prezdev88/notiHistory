@@ -19,4 +19,10 @@ public interface AppService {
     Drawable getDrawableByPackageName(String packageName) throws PackageManager.NameNotFoundException;
 
     boolean isSystemPackage(PackageInfo pkgInfo);
+
+    void save(InstalledApp installedApp);
+
+    void delete(String packageName);
+
+    boolean isAppInDatabase(String packageName);
 }

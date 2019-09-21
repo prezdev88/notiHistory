@@ -24,11 +24,11 @@ public class NotificationDao extends Connection implements INotificationDao {
     @Override
     public void save(NotificationVO notificationVO) {
         connection = new BD(context, DB_PATH, 1);
-        db = connection.getWritableDatabase();
+        sqLiteDatabase = connection.getWritableDatabase();
 
         String insert = "INSERT INTO notification VALUES(null, ?,?,?,?,?,?,?,?,?)";
 
-        SQLiteStatement statement = db.compileStatement(insert);
+        SQLiteStatement statement = sqLiteDatabase.compileStatement(insert);
 
         statement.bindString(1, String.valueOf(notificationVO.getColor()));
         statement.bindString(2, notificationVO.getCategory());
@@ -42,7 +42,7 @@ public class NotificationDao extends Connection implements INotificationDao {
 
         statement.executeInsert();
 
-        db.close();
+        sqLiteDatabase.close();
     }
 
     @Override
@@ -67,9 +67,9 @@ public class NotificationDao extends Connection implements INotificationDao {
         NotificationVO notificationVO = null;
 
         connection = new BD(context, DB_PATH, 1);
-        db = connection.getWritableDatabase();
+        sqLiteDatabase = connection.getWritableDatabase();
 
-        cursor = db.rawQuery(query, null);
+        cursor = sqLiteDatabase.rawQuery(query, null);
 
         if(cursor.moveToFirst()){
             do{
@@ -96,7 +96,7 @@ public class NotificationDao extends Connection implements INotificationDao {
             }while(cursor.moveToNext());
         }
 
-        db.close();
+        sqLiteDatabase.close();
 
         return lista;
     }

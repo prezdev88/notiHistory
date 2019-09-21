@@ -11,7 +11,7 @@ public class Connection {
     protected Context context;
     protected SimpleDateFormat dateFormat;
     protected BD connection;
-    protected SQLiteDatabase db;
+    protected SQLiteDatabase sqLiteDatabase;
     protected Cursor cursor;
     protected final String DB_PATH =
             Environment.getExternalStorageDirectory().getPath()+"/notiHistory/notiHistory.sqlite";
