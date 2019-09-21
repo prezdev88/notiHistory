@@ -9,8 +9,6 @@ import java.util.List;
 public interface NotificationService {
     List<NotificationVO> read();
 
-    List<NotificationInstalledApp> getNotificationApps();
-
     List<NotificationVO> findAllByPackageName(String packageName);
 
     List<InstalledApp> getInstalledApps(boolean systemAppsIncluded);

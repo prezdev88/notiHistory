@@ -1,13 +1,10 @@
 package org.prezdev.notihistory.model.impl;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.os.Environment;
 
 import org.prezdev.notihistory.dataBase.BD;
-import org.prezdev.notihistory.model.NotificationInstalledApp;
+import org.prezdev.notihistory.dataBase.Connection;
 import org.prezdev.notihistory.model.INotificationDao;
 import org.prezdev.notihistory.model.NotificationVO;
 
@@ -16,17 +13,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationDao implements INotificationDao {
-    private Context context;
-    private SimpleDateFormat dateFormat;
-    private BD connection;
-    private SQLiteDatabase db;
-    private Cursor cursor;
-    private final String DB_PATH =
-            Environment.getExternalStorageDirectory().getPath()+"/notiHistory/notiHistory.sqlite";
+public class NotificationDao extends Connection implements INotificationDao {
+
 
     public NotificationDao(Context context){
-        this.context = context;
+        super(context);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
@@ -59,37 +50,6 @@ public class NotificationDao implements INotificationDao {
         return findAllByQuery("SELECT * FROM notification");
     }
 
-    @Override
-    public List<NotificationInstalledApp> getApps() {
-        List<NotificationInstalledApp> notificationApps = new ArrayList<>();
-
-        String query =
-            "SELECT DISTINCT(packageName), COUNT(*), id " +
-            "FROM notification " +
-            "WHERE extraText != '' " +
-            "GROUP BY packageName ORDER BY postTime DESC";
-
-        connection = new BD(context, DB_PATH, 1);
-        db = connection.getWritableDatabase();
-        cursor = db.rawQuery(query, null);
-
-        NotificationInstalledApp notificationApp;
-        if(cursor.moveToFirst()){
-            do{
-                notificationApp = new NotificationInstalledApp();
-
-                notificationApp.setPackageName(cursor.getString(0));
-                notificationApp.setNotificationsCount(cursor.getInt(1));
-                notificationApp.setId(cursor.getInt(2));
-
-                notificationApps.add(notificationApp);
-            }while(cursor.moveToNext());
-        }
-
-        db.close();
-
-        return notificationApps;
-    }
 
     @Override
     public List<NotificationVO> findAllByPackageName(String packageName) {

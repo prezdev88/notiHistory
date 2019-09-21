@@ -12,6 +12,7 @@ import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.ArrayList;
@@ -22,12 +23,14 @@ public class OnSearchListener implements SearchView.OnQueryTextListener {
     private Util util;
     private MainActivity mainActivity;
     private NotificationServiceImpl notificationService;
+    private AppServiceImpl appService;
     private Context context;
 
     public OnSearchListener(MainActivity mainActivity){
         PackageManager packageManager = mainActivity.getApplicationContext().getPackageManager();
         this.util = Util.getInstance(packageManager);
         this.notificationService = NotificationServiceImpl.getInstance(mainActivity.getApplicationContext());
+        this.appService = AppServiceImpl.getInstance(mainActivity.getApplicationContext());
         this.mainActivity = mainActivity;
         this.context = mainActivity.getApplicationContext();
     }
@@ -44,7 +47,7 @@ public class OnSearchListener implements SearchView.OnQueryTextListener {
         Fragment visibleFragment = Util.getVisibleFragment(mainActivity);
 
         if(visibleFragment instanceof AppsFragment){
-            List<NotificationInstalledApp> notificationApps = notificationService.getNotificationApps();
+            List<NotificationInstalledApp> notificationApps = appService.getNotificationInstalledApps();
             List<NotificationInstalledApp> search = new ArrayList<>();
 
             for(NotificationInstalledApp notificationApp : notificationApps){

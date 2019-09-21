@@ -8,6 +8,7 @@ import android.widget.ListView;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public class SwipeRefreshAppsListener implements SwipeRefreshLayout.OnRefreshListener, Runnable {
 
     private View view;
-    private NotificationServiceImpl notificationService;
+    private AppServiceImpl appService;
     private SwipeRefreshLayout appsSwipeRefresh;
     private ListView lvApps;
 
@@ -32,10 +33,10 @@ public class SwipeRefreshAppsListener implements SwipeRefreshLayout.OnRefreshLis
 
     @Override
     public void run() {
-        notificationService = NotificationServiceImpl.getInstance(view.getContext());
+        appService = AppServiceImpl.getInstance(view.getContext());
 
         // Obteniendo las apps de la base de datos de notificaciones
-        List<NotificationInstalledApp> notificationApps = notificationService.getNotificationApps();
+        List<NotificationInstalledApp> notificationApps = appService.getNotificationInstalledApps();
 
         // Creando el adapter
         AppAdapter appAdapter = new AppAdapter(view.getContext(), notificationApps);

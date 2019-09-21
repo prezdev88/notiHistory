@@ -1,7 +1,6 @@
 package org.prezdev.notihistory.service.impl;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
@@ -39,11 +38,6 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<NotificationVO> read() {
         return notificationDao.findAll();
-    }
-
-    @Override
-    public List<NotificationInstalledApp> getNotificationApps() {
-        return notificationDao.getApps();
     }
 
     @Override
