@@ -14,6 +14,7 @@ import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.List;
 
@@ -21,12 +22,12 @@ public class AppAdapter extends BaseAdapter {
 
     private Context context;
     private List<NotificationInstalledApp> notificationApps;
-    private Util util;
+    private AppServiceImpl appService;
 
     public AppAdapter(Context context, List<NotificationInstalledApp> notificationApps) {
         this.context = context;
         this.notificationApps = notificationApps;
-        this.util = Util.getInstance(context.getPackageManager());
+        this.appService = AppServiceImpl.getInstance(context);
     }
 
     @Override
@@ -59,12 +60,12 @@ public class AppAdapter extends BaseAdapter {
         TextView lblNotificationCount = view.findViewById(R.id.lblNotificationCount);
 
         try {
-            ivIcon.setImageDrawable(util.getDrawableByPackageName(notificationApp.getPackageName()));
+            ivIcon.setImageDrawable(appService.getDrawableByPackageName(notificationApp.getPackageName()));
         } catch (PackageManager.NameNotFoundException e) {
 
         }
 
-        lblAppName.setText(util.getAppNameByPackageName(notificationApp.getPackageName()));
+        lblAppName.setText(appService.getAppNameByPackageName(notificationApp.getPackageName()));
         lblNotificationCount.setText(String.valueOf(notificationApp.getNotificationsCount()));
 
         // ivIcon.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));

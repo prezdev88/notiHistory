@@ -12,7 +12,7 @@ import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.InstalledAppAdapter;
 import org.prezdev.notihistory.listeners.OnInstalledAppClickListener;
 import org.prezdev.notihistory.model.InstalledApp;
-import org.prezdev.notihistory.service.NotificationService;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class InstalledAppsFragment extends Fragment {
     private ListView lvInstalledApps;
-    private NotificationServiceImpl notificationService;
+    private AppServiceImpl appService;
 
     @Override
     public View onCreateView(
@@ -35,9 +35,9 @@ public class InstalledAppsFragment extends Fragment {
 
         lvInstalledApps.setOnItemClickListener(new OnInstalledAppClickListener());
 
-        notificationService = NotificationServiceImpl.getInstance(context);
+        appService = AppServiceImpl.getInstance(context);
 
-        List<InstalledApp> installedApps = notificationService.getInstalledApps(false);
+        List<InstalledApp> installedApps = appService.getInstalledApps(false);
 
         InstalledAppAdapter installedAppAdapter = new InstalledAppAdapter(context, installedApps);
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.model.NotificationVO;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.List;
 
@@ -19,12 +20,12 @@ public class NotificationAdapter extends BaseAdapter {
 
     private Context context;
     private List<NotificationVO> notifications;
-    public Util util;
+    private AppServiceImpl appService;
 
     public NotificationAdapter(Context context, List<NotificationVO> notifications) {
         this.context = context;
         this.notifications = notifications;
-        this.util = Util.getInstance(context.getPackageManager());
+        this.appService = AppServiceImpl.getInstance(context);
     }
 
     @Override
@@ -58,14 +59,14 @@ public class NotificationAdapter extends BaseAdapter {
         TextView lblTitle = view.findViewById(R.id.lblTitle);
         TextView lblContent = view.findViewById(R.id.lblContent);
 
-        String appName = util.getAppNameByPackageName(notification.getPackageName());
+        String appName = appService.getAppNameByPackageName(notification.getPackageName());
 
         lblDatetime.setText(appName+" - "+Util.getDateFormat(notification.getPostTime()));
         lblTitle.setText(notification.getExtraTitle());
         lblContent.setText((notification.getExtraBigText().isEmpty() ? notification.getExtraText() : notification.getExtraBigText()));
 
         try {
-            notiIcon.setImageDrawable(util.getDrawableByPackageName(notification.getPackageName()));
+            notiIcon.setImageDrawable(appService.getDrawableByPackageName(notification.getPackageName()));
             /*notiIcon.setImageDrawable(notification.getDrawable(view.getContext().getPackageManager()));
 
             ColorDrawable color = new ColorDrawable(notification.getColor());

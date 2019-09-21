@@ -20,16 +20,11 @@ import java.util.List;
 
 public class OnSearchListener implements SearchView.OnQueryTextListener {
 
-    private Util util;
     private MainActivity mainActivity;
-    private NotificationServiceImpl notificationService;
     private AppServiceImpl appService;
     private Context context;
 
     public OnSearchListener(MainActivity mainActivity){
-        PackageManager packageManager = mainActivity.getApplicationContext().getPackageManager();
-        this.util = Util.getInstance(packageManager);
-        this.notificationService = NotificationServiceImpl.getInstance(mainActivity.getApplicationContext());
         this.appService = AppServiceImpl.getInstance(mainActivity.getApplicationContext());
         this.mainActivity = mainActivity;
         this.context = mainActivity.getApplicationContext();
@@ -51,7 +46,7 @@ public class OnSearchListener implements SearchView.OnQueryTextListener {
             List<NotificationInstalledApp> search = new ArrayList<>();
 
             for(NotificationInstalledApp notificationApp : notificationApps){
-                String appName = util.getAppNameByPackageName(notificationApp.getPackageName());
+                String appName = appService.getAppNameByPackageName(notificationApp.getPackageName());
                 appName = appName.toLowerCase();
 
                 if(appName.contains(text)){

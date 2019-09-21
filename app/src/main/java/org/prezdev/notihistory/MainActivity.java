@@ -35,6 +35,7 @@ import org.prezdev.notihistory.listeners.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.OnSearchListener;
 import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
@@ -42,7 +43,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private NotificationServiceImpl notificationService;
+    private AppServiceImpl appService;
 
     @Override
     public void onResume(){
@@ -94,10 +95,10 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        notificationService = NotificationServiceImpl.getInstance(getApplicationContext());
+        appService = AppServiceImpl.getInstance(getApplicationContext());
 
 
-        List<InstalledApp> installedApps = notificationService.getInstalledApps(false);
+        List<InstalledApp> installedApps = appService.getInstalledApps(false);
 
         for(InstalledApp installedApp : installedApps){
             System.out.println(installedApp.getName());

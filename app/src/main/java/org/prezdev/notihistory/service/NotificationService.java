@@ -11,5 +11,5 @@ public interface NotificationService {
 
     List<NotificationVO> findAllByPackageName(String packageName);
 
-    List<InstalledApp> getInstalledApps(boolean systemAppsIncluded);
+
 }

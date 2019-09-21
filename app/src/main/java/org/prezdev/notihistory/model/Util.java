@@ -14,38 +14,19 @@ import java.util.Date;
 import java.util.List;
 
 public class Util {
-    private PackageManager packageManager;
     public static NotificationInstalledApp currentNotificationApp;
     public static Util util;
 
-    public static Util getInstance(PackageManager packageManager){
+    public static Util getInstance(){
         if(util == null){
-            util = new Util(packageManager);
+            util = new Util();
         }
 
         return util;
     }
 
-    private Util(PackageManager packageManager) {
-        this.packageManager = packageManager;
-    }
-
-    public Drawable getDrawableByPackageName(String packageName) throws PackageManager.NameNotFoundException {
-        return packageManager.getApplicationIcon(packageName);
-    }
-
     public static String getDateFormat(Date date){
         return new SimpleDateFormat("dd 'de' MMM yyyy '-' HH:mm").format(date);
-    }
-
-    public String getAppNameByPackageName(String packageName){
-        ApplicationInfo applicationInfo;
-        try {
-            applicationInfo = packageManager.getApplicationInfo(packageName, 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            applicationInfo = null;
-        }
-        return (String) (applicationInfo != null ? packageManager.getApplicationLabel(applicationInfo) : "App sin nombre");
     }
 
     public static Fragment getVisibleFragment(MainActivity mainActivity){
@@ -62,7 +43,5 @@ public class Util {
         return null;
     }
 
-    public boolean isSystemPackage(PackageInfo pkgInfo) {
-        return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
-    }
+
 }
