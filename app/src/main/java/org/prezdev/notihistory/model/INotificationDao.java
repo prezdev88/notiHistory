@@ -7,7 +7,7 @@ public interface INotificationDao {
 
     List<NotificationVO> findAll();
 
-    List<NotificationApp> getApps();
+    List<NotificationInstalledApp> getApps();
 
     List<NotificationVO> findAllByPackageName(String packageName);
 

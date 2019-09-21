@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.os.Environment;
 
 import org.prezdev.notihistory.dataBase.BD;
-import org.prezdev.notihistory.model.NotificationApp;
+import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.INotificationDao;
 import org.prezdev.notihistory.model.NotificationVO;
 
@@ -60,8 +60,8 @@ public class NotificationDao implements INotificationDao {
     }
 
     @Override
-    public List<NotificationApp> getApps() {
-        List<NotificationApp> notificationApps = new ArrayList<>();
+    public List<NotificationInstalledApp> getApps() {
+        List<NotificationInstalledApp> notificationApps = new ArrayList<>();
 
         String query =
             "SELECT DISTINCT(packageName), COUNT(*), id " +
@@ -73,10 +73,10 @@ public class NotificationDao implements INotificationDao {
         db = connection.getWritableDatabase();
         cursor = db.rawQuery(query, null);
 
-        NotificationApp notificationApp;
+        NotificationInstalledApp notificationApp;
         if(cursor.moveToFirst()){
             do{
-                notificationApp = new NotificationApp();
+                notificationApp = new NotificationInstalledApp();
 
                 notificationApp.setPackageName(cursor.getString(0));
                 notificationApp.setNotificationsCount(cursor.getInt(1));

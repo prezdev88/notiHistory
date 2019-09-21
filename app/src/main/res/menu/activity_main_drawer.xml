@@ -8,6 +8,11 @@
             android:id="@+id/nav_app_notifications"
             android:icon="@drawable/ic_notifications"
             android:title="@string/menu_notifications" />
+
+        <item
+            android:id="@+id/nav_installed_apps"
+            android:icon="@drawable/ic_app"
+            android:title="@string/menu_aplicaciones" />
     </group>
 
     <item android:title="Communicate">

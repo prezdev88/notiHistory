@@ -2,13 +2,26 @@ package org.prezdev.notihistory.model;
 
 import android.graphics.drawable.Drawable;
 
-public class App {
+public class InstalledApp {
     private int id;
     private String name;
     private String packageName;
     private Drawable icon;
     private String versionName;
     private int versionCode;
+    private boolean selected;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public void toogle(){
+        this.selected = !selected;
+    }
 
     public String getVersionName() {
         return versionName;

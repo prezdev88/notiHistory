@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".items.AppInstalledItem">
+    tools:context=".items.InstalledAppItem">
 
     <ImageView
         android:id="@+id/appInstalledIcon"
@@ -23,13 +23,15 @@
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/lblPackageName"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/lblAppPackageName"
         app:layout_constraintEnd_toStartOf="@+id/chkAddApp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/appInstalledIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.SwitchCompat
+    <Switch
         android:id="@+id/chkAddApp"
         android:layout_width="60sp"
         android:layout_height="64sp"
@@ -38,25 +40,27 @@
         android:gravity="center"
         android:textColor="#303F9F"
         android:textStyle="bold"
+        android:focusable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lblAppName"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/lblPackageName"
+        android:id="@+id/lblAppPackageName"
         android:layout_width="259dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/lblVersion"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/lblAppVersion"
         app:layout_constraintEnd_toStartOf="@+id/chkAddApp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/appInstalledIcon"
         app:layout_constraintTop_toBottomOf="@+id/lblAppInstalledName" />
 
     <TextView
-        android:id="@+id/lblVersion"
+        android:id="@+id/lblAppVersion"
         android:layout_width="259dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -65,6 +69,6 @@
         app:layout_constraintEnd_toStartOf="@+id/chkAddApp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/appInstalledIcon"
-        app:layout_constraintTop_toBottomOf="@+id/lblPackageName" />
+        app:layout_constraintTop_toBottomOf="@+id/lblAppPackageName" />
 
 </android.support.constraint.ConstraintLayout>

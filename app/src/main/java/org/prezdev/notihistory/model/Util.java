@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Util {
     private PackageManager packageManager;
-    public static NotificationApp currentNotificationApp;
+    public static NotificationInstalledApp currentNotificationApp;
     public static Util util;
 
     public static Util getInstance(PackageManager packageManager){

@@ -10,7 +10,7 @@ import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.fragments.AppsFragment;
-import org.prezdev.notihistory.model.NotificationApp;
+import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
@@ -44,10 +44,10 @@ public class OnSearchListener implements SearchView.OnQueryTextListener {
         Fragment visibleFragment = Util.getVisibleFragment(mainActivity);
 
         if(visibleFragment instanceof AppsFragment){
-            List<NotificationApp> notificationApps = notificationService.getNotificationApps();
-            List<NotificationApp> search = new ArrayList<>();
+            List<NotificationInstalledApp> notificationApps = notificationService.getNotificationApps();
+            List<NotificationInstalledApp> search = new ArrayList<>();
 
-            for(NotificationApp notificationApp : notificationApps){
+            for(NotificationInstalledApp notificationApp : notificationApps){
                 String appName = util.getAppNameByPackageName(notificationApp.getPackageName());
                 appName = appName.toLowerCase();
 

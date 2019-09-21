@@ -29,10 +29,11 @@ import android.widget.Toast;
 
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
+import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.listeners.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.OnSearchListener;
-import org.prezdev.notihistory.model.App;
+import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
-        TextView lblVersion = headerView.findViewById(R.id.lblVersion);
+        TextView lblVersion = headerView.findViewById(R.id.lblAppVersion);
         lblVersion.setText("v"+BuildConfig.VERSION_NAME+"-alpha");
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -96,12 +97,12 @@ public class MainActivity extends AppCompatActivity
         notificationService = NotificationServiceImpl.getInstance(getApplicationContext());
 
 
-        List<App> installedApps = notificationService.getInstalledApps(false);
+        List<InstalledApp> installedApps = notificationService.getInstalledApps(false);
 
-        for(App app : installedApps){
-            System.out.println(app.getName());
-            System.out.println(app.getPackageName());
-            System.out.println(app.getVersionName() + " - " + app.getVersionCode());
+        for(InstalledApp installedApp : installedApps){
+            System.out.println(installedApp.getName());
+            System.out.println(installedApp.getPackageName());
+            System.out.println(installedApp.getVersionName() + " - " + installedApp.getVersionCode());
             System.out.println("--------------------------");
         }
 
@@ -202,10 +203,13 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(R.id.content, appsFragment)
                 .commit();
-        }  else if (id == R.id.nav_share) {
+        }  else if(id == R.id.nav_installed_apps){
+            InstalledAppsFragment installedAppsFragment = new InstalledAppsFragment();
 
-        } else if (id == R.id.nav_send) {
-
+            fragmentManager
+                .beginTransaction()
+                .replace(R.id.content, installedAppsFragment)
+                .commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

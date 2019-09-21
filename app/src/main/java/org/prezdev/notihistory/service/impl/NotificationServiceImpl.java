@@ -5,14 +5,16 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import org.prezdev.notihistory.model.App;
-import org.prezdev.notihistory.model.NotificationApp;
+import org.prezdev.notihistory.model.InstalledApp;
+import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.NotificationVO;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.model.impl.NotificationDao;
 import org.prezdev.notihistory.service.NotificationService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class NotificationServiceImpl implements NotificationService {
@@ -40,7 +42,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<NotificationApp> getNotificationApps() {
+    public List<NotificationInstalledApp> getNotificationApps() {
         return notificationDao.getApps();
     }
 
@@ -50,21 +52,19 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<App> getInstalledApps(boolean systemAppsIncluded) {
-        List<App> installedApps = new ArrayList<>();
+    public List<InstalledApp> getInstalledApps(boolean systemAppsIncluded) {
+        List<InstalledApp> installedApps = new ArrayList<>();
         PackageManager packageManager = this.context.getPackageManager();
 
-        List<ApplicationInfo> installedApplications = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-
-        App app;
+        InstalledApp installedApp;
         String appName;
         String packageName;
         Util util = Util.getInstance(packageManager);
 
         List<PackageInfo> packs = packageManager.getInstalledPackages(0);
 
+        int id = 1;
         for(PackageInfo packageInfo : packs){
-
             // No hay que incluir las apps del systema?
             if(!systemAppsIncluded){
                 // la app es del sistema
@@ -73,24 +73,33 @@ public class NotificationServiceImpl implements NotificationService {
                 }
             }
 
-            app = new App();
+            installedApp = new InstalledApp();
 
             packageName = packageInfo.packageName;
 
-            app.setPackageName(packageName);
+            installedApp.setId(id++);
+            installedApp.setPackageName(packageName);
             appName = util.getAppNameByPackageName(packageName);
-            app.setName(appName);
+            installedApp.setName(appName);
 
             try {
-                app.setIcon(util.getDrawableByPackageName(packageName));
+                installedApp.setIcon(util.getDrawableByPackageName(packageName));
             } catch (PackageManager.NameNotFoundException e) { }
 
-            app.setVersionName(packageInfo.versionName);
-            app.setVersionCode(packageInfo.versionCode);
+            installedApp.setVersionName(packageInfo.versionName);
+            installedApp.setVersionCode(packageInfo.versionCode);
 
-            installedApps.add(app);
-
+            installedApps.add(installedApp);
         }
+
+        Comparator<InstalledApp> installedAppComparator = new Comparator<InstalledApp>() {
+            @Override
+            public int compare(InstalledApp installedApp1, InstalledApp installedApp2) {
+                return installedApp1.getName().compareTo(installedApp2.getName());
+            }
+        };
+
+        Collections.sort(installedApps, installedAppComparator);
 
         return installedApps;
     }

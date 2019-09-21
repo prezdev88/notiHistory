@@ -1,6 +1,6 @@
 package org.prezdev.notihistory.model;
 
-public class NotificationApp extends App{
+public class NotificationInstalledApp extends InstalledApp {
     private int notificationsCount;
 
     public int getNotificationsCount() {

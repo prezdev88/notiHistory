@@ -8,7 +8,7 @@ import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
-import org.prezdev.notihistory.model.NotificationApp;
+import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
@@ -28,7 +28,7 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
         notificationService = NotificationServiceImpl.getInstance(view.getContext());
 
         AppAdapter appAdapter = (AppAdapter) adapterView.getAdapter();
-        NotificationApp notificationApp = (NotificationApp) appAdapter.getItem(i);
+        NotificationInstalledApp notificationApp = (NotificationInstalledApp) appAdapter.getItem(i);
 
         Util.currentNotificationApp = notificationApp;
 

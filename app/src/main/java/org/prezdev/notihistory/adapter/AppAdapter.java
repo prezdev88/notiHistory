@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.configuration.Config;
-import org.prezdev.notihistory.model.NotificationApp;
+import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
 
 import java.util.List;
@@ -20,10 +20,10 @@ import java.util.List;
 public class AppAdapter extends BaseAdapter {
 
     private Context context;
-    private List<NotificationApp> notificationApps;
+    private List<NotificationInstalledApp> notificationApps;
     private Util util;
 
-    public AppAdapter(Context context, List<NotificationApp> notificationApps) {
+    public AppAdapter(Context context, List<NotificationInstalledApp> notificationApps) {
         this.context = context;
         this.notificationApps = notificationApps;
         this.util = Util.getInstance(context.getPackageManager());
@@ -52,10 +52,10 @@ public class AppAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.activity_app_item, null);
         }
 
-        NotificationApp notificationApp = notificationApps.get(i);
+        NotificationInstalledApp notificationApp = notificationApps.get(i);
 
-        ImageView ivIcon = view.findViewById(R.id.notiIcon);
-        TextView lblAppName = view.findViewById(R.id.lblDatetime);
+        ImageView ivIcon = view.findViewById(R.id.appIcon);
+        TextView lblAppName = view.findViewById(R.id.lblAppName);
         TextView lblNotificationCount = view.findViewById(R.id.lblNotificationCount);
 
         try {

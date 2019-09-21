@@ -2,11 +2,6 @@ package org.prezdev.notihistory.adapter;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.ColorSpace;
-import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,9 +52,9 @@ public class NotificationAdapter extends BaseAdapter {
 
         NotificationVO notification = notifications.get(i);
 
-        ImageView notiIcon = view.findViewById(R.id.notiIcon);
+        ImageView notiIcon = view.findViewById(R.id.appIcon);
 
-        TextView lblDatetime = view.findViewById(R.id.lblDatetime);
+        TextView lblDatetime = view.findViewById(R.id.lblAppName);
         TextView lblTitle = view.findViewById(R.id.lblTitle);
         TextView lblContent = view.findViewById(R.id.lblContent);
 
