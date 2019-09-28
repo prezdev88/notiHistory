@@ -10,11 +10,15 @@ import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.FragmentService;
+import org.prezdev.notihistory.service.NotificationService;
+import org.prezdev.notihistory.service.impl.FragmentServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 public class OnAppClickListener implements AdapterView.OnItemClickListener {
 
-    private NotificationServiceImpl notificationService;
+    private NotificationService notificationService;
+    private FragmentService fragmentService;
     private MainActivity mainActivity;
 
     public OnAppClickListener(MainActivity mainActivity) {
@@ -26,23 +30,18 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
         Toolbar toolbar = mainActivity.findViewById(R.id.toolbar);
 
         notificationService = NotificationServiceImpl.getInstance(view.getContext());
+        fragmentService = FragmentServiceImpl.getInstance(mainActivity);
 
         AppAdapter appAdapter = (AppAdapter) adapterView.getAdapter();
         NotificationInstalledApp notificationApp = (NotificationInstalledApp) appAdapter.getItem(i);
 
         Util.currentNotificationApp = notificationApp;
 
-        // lanzar un fragment
+        // lanzar fragment de las notificaciones de esa app
         NotificationsFragment notificationsFragment = new NotificationsFragment();
 
-        if(mainActivity != null){
-            mainActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content, notificationsFragment)
-                .commit();
+        fragmentService.load(notificationsFragment);
 
-            toolbar.collapseActionView();
-        }
-
+        toolbar.collapseActionView();
     }
 }

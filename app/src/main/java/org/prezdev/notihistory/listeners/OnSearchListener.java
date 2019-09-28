@@ -12,6 +12,7 @@ import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
@@ -21,7 +22,7 @@ import java.util.List;
 public class OnSearchListener implements SearchView.OnQueryTextListener {
 
     private MainActivity mainActivity;
-    private AppServiceImpl appService;
+    private AppService appService;
     private Context context;
 
     public OnSearchListener(MainActivity mainActivity){

@@ -14,6 +14,7 @@ import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class AppAdapter extends BaseAdapter {
 
     private Context context;
     private List<NotificationInstalledApp> notificationApps;
-    private AppServiceImpl appService;
+    private AppService appService;
 
     public AppAdapter(Context context, List<NotificationInstalledApp> notificationApps) {
         this.context = context;

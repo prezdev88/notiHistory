@@ -10,12 +10,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SearchView;
 import android.view.View;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
@@ -27,23 +25,20 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.listeners.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.OnSearchListener;
-import org.prezdev.notihistory.model.InstalledApp;
-import org.prezdev.notihistory.model.Util;
-import org.prezdev.notihistory.service.impl.AppServiceImpl;
-import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
-
-import java.util.List;
+import org.prezdev.notihistory.service.FragmentService;
+import org.prezdev.notihistory.service.impl.FragmentServiceImpl;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppServiceImpl appService;
+    private FragmentService fragmentService;
 
     @Override
     public void onResume(){
@@ -95,7 +90,11 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        appService = AppServiceImpl.getInstance(getApplicationContext());
+        fragmentService = FragmentServiceImpl.getInstance(this);
+
+        fragmentService.load(new InstalledAppsFragment());
+
+
         /*
         Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
         startActivity(intent);*/
@@ -126,41 +125,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        /*DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }*/
-
-        /*Fragment visibleFragment = Util.getVisibleFragment(this);
+        Fragment visibleFragment = fragmentService.getVisibleFragment();
 
         if(visibleFragment == null){
             super.onBackPressed();
-        }else{
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            fragmentManager.beginTransaction().replace(R.id.content, appsFragment).commit();
-
-        }*/
-
-        Fragment visibleFragment = Util.getVisibleFragment(this);
-
-        if(visibleFragment == null){
+        }else if(visibleFragment instanceof AppsFragment){
             super.onBackPressed();
-        }else{
-            if(visibleFragment instanceof AppsFragment){
-                super.onBackPressed();
-            }else if(visibleFragment instanceof NotificationsFragment){
-                AppsFragment appsFragment = new AppsFragment(this);
+        }else if(visibleFragment instanceof NotificationsFragment){
+            AppsFragment appsFragment = new AppsFragment(this);
 
-                getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content, appsFragment)
-                    .commit();
-            }
+            fragmentService.load(appsFragment);
         }
-
     }
 
     @Override
@@ -181,29 +156,17 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = null;
 
         if (id == R.id.nav_app_notifications) {
-            AppsFragment appsFragment = new AppsFragment(this);
-
-            fragmentManager
-                .beginTransaction()
-                .replace(R.id.content, appsFragment)
-                .commit();
+            fragment = new AppsFragment(this);
         }  else if(id == R.id.nav_installed_apps){
-            InstalledAppsFragment installedAppsFragment = new InstalledAppsFragment();
-
-            fragmentManager
-                .beginTransaction()
-                .replace(R.id.content, installedAppsFragment)
-                .commit();
+            fragment = new InstalledAppsFragment();
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        fragmentService.load(fragment);
+
         return true;
     }
 
@@ -227,6 +190,5 @@ public class MainActivity extends AppCompatActivity
 
         return true;
     }
-
     /*SEARCH BAR*/
 }

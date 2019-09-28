@@ -6,6 +6,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -14,6 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppSwitchListener;
 import org.prezdev.notihistory.model.InstalledApp;
@@ -80,6 +82,10 @@ public class InstalledAppAdapter extends BaseAdapter {
         lblAppVersion.setText("v"+installedApp.getVersionName());
 
         chkAddApp.setChecked(installedApp.isSelected());
+
+        if(Config.appItemListAnimation){
+            view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
+        }
 
         return view;
     }

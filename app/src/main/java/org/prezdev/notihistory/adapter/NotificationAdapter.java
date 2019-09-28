@@ -5,11 +5,13 @@ import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.model.NotificationVO;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
@@ -74,6 +76,10 @@ public class NotificationAdapter extends BaseAdapter {
             notiIcon.setColorFilter(color.getColor());*/
         } catch (PackageManager.NameNotFoundException e) {
 
+        }
+
+        if(Config.appItemListAnimation){
+            view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
         }
 
         return view;

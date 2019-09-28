@@ -10,6 +10,4 @@ public interface NotificationService {
     List<NotificationVO> read();
 
     List<NotificationVO> findAllByPackageName(String packageName);
-
-
 }

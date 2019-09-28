@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.NotificationAdapter;
+import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.listeners.SwipeRefreshNotificationsListener;
 import org.prezdev.notihistory.model.NotificationVO;
 import org.prezdev.notihistory.model.Util;
@@ -27,8 +28,10 @@ public class NotificationsFragment extends Fragment {
     private SwipeRefreshLayout notificationsSwipeRefresh;
 
     public NotificationsFragment(){
-        this.setExitTransition(new Fade());
-        this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
+        if(Config.fragmentTransition){
+            this.setExitTransition(new Fade());
+            this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
+        }
     }
 
     @Override

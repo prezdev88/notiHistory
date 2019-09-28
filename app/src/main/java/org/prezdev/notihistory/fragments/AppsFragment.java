@@ -15,6 +15,7 @@ import android.widget.ListView;
 import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
+import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.listeners.OnAppClickListener;
 import org.prezdev.notihistory.listeners.SwipeRefreshAppsListener;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
@@ -37,9 +38,11 @@ public class AppsFragment extends Fragment {
 
     public AppsFragment(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
-        //this.setExitTransition(new Slide(Gravity.LEFT).setDuration(300));
-        this.setExitTransition(new Fade());
-        this.setEnterTransition(new Slide(Gravity.LEFT).setDuration(300));
+
+        if(Config.fragmentTransition){
+            this.setExitTransition(new Fade());
+            this.setEnterTransition(new Slide(Gravity.LEFT).setDuration(300));
+        }
     }
 
     @Override
