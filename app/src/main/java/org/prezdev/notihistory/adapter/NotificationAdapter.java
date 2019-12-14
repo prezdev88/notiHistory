@@ -27,7 +27,7 @@ public class NotificationAdapter extends BaseAdapter {
     public NotificationAdapter(Context context, List<NotificationVO> notifications) {
         this.context = context;
         this.notifications = notifications;
-        this.appService = AppServiceImpl.getInstance(context);
+        this.appService = new AppServiceImpl(context);
     }
 
     @Override

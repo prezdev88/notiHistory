@@ -16,20 +16,10 @@ public class FragmentServiceImpl implements FragmentService {
     private MainActivity mainActivity;
     private DrawerLayout drawerLayout;
 
-    private static FragmentServiceImpl fragmentService;
-
-    private FragmentServiceImpl(MainActivity mainActivity){
+    public FragmentServiceImpl(MainActivity mainActivity){
         this.mainActivity = mainActivity;
         fragmentManager = mainActivity.getSupportFragmentManager();
         drawerLayout = mainActivity.findViewById(R.id.drawer_layout);
-    }
-
-    public static FragmentServiceImpl getInstance(MainActivity mainActivity){
-        if(fragmentService == null){
-            fragmentService = new FragmentServiceImpl(mainActivity);
-        }
-
-        return fragmentService;
     }
 
     public void load(Fragment fragment){

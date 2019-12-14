@@ -26,7 +26,7 @@ public class OnSearchListener implements SearchView.OnQueryTextListener {
     private Context context;
 
     public OnSearchListener(MainActivity mainActivity){
-        this.appService = AppServiceImpl.getInstance(mainActivity.getApplicationContext());
+        this.appService = new AppServiceImpl(mainActivity);
         this.mainActivity = mainActivity;
         this.context = mainActivity.getApplicationContext();
     }

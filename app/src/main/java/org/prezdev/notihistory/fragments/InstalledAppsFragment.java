@@ -18,9 +18,12 @@ import org.prezdev.notihistory.listeners.OnInstalledAppClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppLongClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
 import org.prezdev.notihistory.model.InstalledApp;
+import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -49,13 +52,18 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
         lvInstalledApps.setOnItemClickListener(new OnInstalledAppClickListener(this));
         lvInstalledApps.setOnItemLongClickListener(new OnInstalledAppLongClickListener());
 
-        appService = AppServiceImpl.getInstance(context);
+        appService = new AppServiceImpl(context);
 
-        List<InstalledApp> installedApps = appService.getInstalledApps(Config.showSystemApps);
+        List<InstalledApp> installedApps;
+        try{
+            installedApps = appService.getInstalledApps(Config.showSystemApps);
+        }catch (Exception ex){
+            installedApps = new ArrayList();
 
-        InstalledAppAdapter installedAppAdapter = new InstalledAppAdapter(
-            context, installedApps, this
-        );
+            Permisions.checkAppPermissions();
+        }
+
+        InstalledAppAdapter installedAppAdapter = new InstalledAppAdapter(context, installedApps, this);
 
         lvInstalledApps.setAdapter(installedAppAdapter);
 

@@ -34,7 +34,7 @@ public class SwipeRefreshAppsListener implements SwipeRefreshLayout.OnRefreshLis
 
     @Override
     public void run() {
-        appService = AppServiceImpl.getInstance(view.getContext());
+        appService = new AppServiceImpl(view.getContext());
 
         // Obteniendo las apps de la base de datos de notificaciones
         List<NotificationInstalledApp> notificationApps = appService.getNotificationInstalledApps();

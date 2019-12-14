@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -32,6 +33,8 @@ import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.listeners.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.OnSearchListener;
+import org.prezdev.notihistory.permission.Permisions;
+import org.prezdev.notihistory.permission.RequestCode;
 import org.prezdev.notihistory.service.FragmentService;
 import org.prezdev.notihistory.service.impl.FragmentServiceImpl;
 
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentService fragmentService;
+
+    private static MainActivity mainActivity;
 
     @Override
     public void onResume(){
@@ -57,6 +62,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainActivity = this;
+
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -81,18 +89,11 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                    10);
+        Permisions.checkAppPermissions();
 
-        }
+        fragmentService = new FragmentServiceImpl(this);
 
-        fragmentService = FragmentServiceImpl.getInstance(this);
-
-        fragmentService.load(new InstalledAppsFragment());
+        fragmentService.load(Config.defaultFragment);
 
 
         /*
@@ -107,13 +108,15 @@ public class MainActivity extends AppCompatActivity
         int[] grantResults
     ) {
         switch (requestCode) {
-            case 10: {
+            case RequestCode.READ_AND_WRITE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                     Toast.makeText(getApplicationContext(), "Permisos concedidos", Toast.LENGTH_LONG).show();
+
+                    fragmentService.load(Config.defaultFragment);
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -191,4 +194,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     /*SEARCH BAR*/
+
+    public static MainActivity getActivity(){
+        return mainActivity;
+    }
 }

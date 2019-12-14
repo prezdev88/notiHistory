@@ -1,6 +1,8 @@
 package org.prezdev.notihistory.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,12 +21,14 @@ import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.listeners.OnAppClickListener;
 import org.prezdev.notihistory.listeners.SwipeRefreshAppsListener;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
+import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
-import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
+/*This fragment is where the user see that notifications apps*/
 public class AppsFragment extends Fragment {
 
     private SwipeRefreshLayout appsSwipeRefresh;
@@ -55,8 +59,15 @@ public class AppsFragment extends Fragment {
 
         lvApps.setOnItemClickListener(new OnAppClickListener(this.mainActivity));
 
-        appService = AppServiceImpl.getInstance(view.getContext());
-        notificationApps = appService.getNotificationInstalledApps();
+        appService = new AppServiceImpl(view.getContext());
+
+        try {
+            notificationApps = appService.getNotificationInstalledApps();
+        }catch (SQLiteCantOpenDatabaseException ex){
+            notificationApps = new ArrayList<>();
+
+            Permisions.checkAppPermissions();
+        }
 
         appAdapter = new AppAdapter(view.getContext(), notificationApps);
 

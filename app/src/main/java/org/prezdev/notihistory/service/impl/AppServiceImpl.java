@@ -22,19 +22,10 @@ public class AppServiceImpl implements AppService {
     private Context context;
     private PackageManager packageManager;
 
-    private static AppServiceImpl appService;
-
-    public static AppServiceImpl getInstance(Context context){
-        if(appService == null){
-            appService = new AppServiceImpl(context);
-        }
-
-        return appService;
-    }
-
-    private AppServiceImpl(Context context){
+    public AppServiceImpl(Context context){
         appDao = new AppDaoImpl(context);
         this.context = context;
+        packageManager = this.context.getPackageManager();
     }
 
     @Override
@@ -45,7 +36,6 @@ public class AppServiceImpl implements AppService {
     @Override
     public List<InstalledApp> getInstalledApps(boolean showSystemApps) {
         List<InstalledApp> installedApps = new ArrayList<>();
-        packageManager = this.context.getPackageManager();
 
         InstalledApp installedApp;
         String appName;

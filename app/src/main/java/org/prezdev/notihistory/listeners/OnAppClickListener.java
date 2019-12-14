@@ -29,8 +29,8 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toolbar toolbar = mainActivity.findViewById(R.id.toolbar);
 
-        notificationService = NotificationServiceImpl.getInstance(view.getContext());
-        fragmentService = FragmentServiceImpl.getInstance(mainActivity);
+        notificationService = new NotificationServiceImpl(view.getContext());
+        fragmentService = new FragmentServiceImpl(mainActivity);
 
         AppAdapter appAdapter = (AppAdapter) adapterView.getAdapter();
         NotificationInstalledApp notificationApp = (NotificationInstalledApp) appAdapter.getItem(i);
