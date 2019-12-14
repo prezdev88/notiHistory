@@ -7,8 +7,6 @@ import org.prezdev.notihistory.fragments.AppsFragment;
 
 public class Config {
 
-    public static MainActivity mainActivity;
-
     public static boolean appItemListAnimation = true;
 
     // En el constructor de cada fragment, se pregunta por esta variable
@@ -16,5 +14,5 @@ public class Config {
 
     public static boolean showSystemApps = false;
 
-    public static Fragment homeScreenFragment = new AppsFragment(Config.mainActivity);
+    public static Fragment homeScreenFragment = new AppsFragment(MainActivity.getActivity());
 }
