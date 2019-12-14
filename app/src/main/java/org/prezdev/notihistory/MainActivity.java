@@ -1,18 +1,14 @@
 package org.prezdev.notihistory;
 
-import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -93,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 
         fragmentService = new FragmentServiceImpl(this);
 
-        fragmentService.load(Config.defaultFragment);
+        fragmentService.load(Config.homeScreenFragment);
 
 
         /*
@@ -116,7 +112,7 @@ public class MainActivity extends AppCompatActivity
                     // contacts-related task you need to do.
                     Toast.makeText(getApplicationContext(), "Permisos concedidos", Toast.LENGTH_LONG).show();
 
-                    fragmentService.load(Config.defaultFragment);
+                    fragmentService.load(Config.homeScreenFragment);
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
