@@ -1,4 +1,4 @@
-package org.prezdev.notihistory.dialogFragments;
+package org.prezdev.notihistory.fragments.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
