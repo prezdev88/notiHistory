@@ -10,12 +10,7 @@ import android.support.v4.content.ContextCompat;
 public class Permisions {
 
     public static void checkAppPermissions(Activity activity){
-        if (
-            ContextCompat.checkSelfPermission(
-                activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        if (!isWriteExternalPermissionGranted(activity)) {
             // Permission is not granted
             ActivityCompat.requestPermissions(
                 activity,
@@ -27,5 +22,12 @@ public class Permisions {
             );
 
         }
+    }
+
+    public static boolean isWriteExternalPermissionGranted(Activity activity){
+        return (ContextCompat.checkSelfPermission(
+                activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED);
     }
 }
