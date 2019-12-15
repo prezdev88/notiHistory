@@ -1,5 +1,6 @@
 package org.prezdev.notihistory.service.impl;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -13,13 +14,13 @@ import java.util.List;
 
 public class FragmentServiceImpl implements FragmentService {
     private FragmentManager fragmentManager;
-    private MainActivity mainActivity;
+    private Activity mainActivity;
     private DrawerLayout drawerLayout;
 
-    public FragmentServiceImpl(MainActivity mainActivity){
-        this.mainActivity = mainActivity;
-        fragmentManager = mainActivity.getSupportFragmentManager();
-        drawerLayout = mainActivity.findViewById(R.id.drawer_layout);
+    public FragmentServiceImpl(Activity activity){
+        this.mainActivity = activity;
+        fragmentManager = ((MainActivity)activity).getSupportFragmentManager();
+        drawerLayout = activity.findViewById(R.id.drawer_layout);
     }
 
     public void load(Fragment fragment){
@@ -32,8 +33,6 @@ public class FragmentServiceImpl implements FragmentService {
     }
 
     public Fragment getVisibleFragment(){
-        FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
-
         List<Fragment> fragments = fragmentManager.getFragments();
 
         if(fragments != null){
