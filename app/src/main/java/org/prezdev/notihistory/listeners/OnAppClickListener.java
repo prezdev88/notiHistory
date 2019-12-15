@@ -1,23 +1,24 @@
 package org.prezdev.notihistory.listeners;
 
 import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
-import org.prezdev.notihistory.adapter.NotificationAdapter;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
-import org.prezdev.notihistory.model.App;
+import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.FragmentService;
+import org.prezdev.notihistory.service.NotificationService;
+import org.prezdev.notihistory.service.impl.FragmentServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 public class OnAppClickListener implements AdapterView.OnItemClickListener {
 
-    private NotificationServiceImpl notificationService;
+    private NotificationService notificationService;
+    private FragmentService fragmentService;
     private MainActivity mainActivity;
 
     public OnAppClickListener(MainActivity mainActivity) {
@@ -28,24 +29,21 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toolbar toolbar = mainActivity.findViewById(R.id.toolbar);
 
-        notificationService = NotificationServiceImpl.getInstance(view.getContext());
+        notificationService = new NotificationServiceImpl(view.getContext());
+        fragmentService = new FragmentServiceImpl(mainActivity);
 
         AppAdapter appAdapter = (AppAdapter) adapterView.getAdapter();
-        App app = (App) appAdapter.getItem(i);
+        NotificationInstalledApp notificationApp = (NotificationInstalledApp) appAdapter.getItem(i);
 
-        Util.currentApp = app;
+        Util.currentNotificationApp = notificationApp;
 
-        // lanzar un fragment
+        // lanzar fragment de las notificaciones de esa app
         NotificationsFragment notificationsFragment = new NotificationsFragment();
 
-        if(mainActivity != null){
-            mainActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content, notificationsFragment)
-                .commit();
+        // TODO: Se cae acá aveces, cuando cierro la app, la vuelvo a abrir y pincho una app
+        // para ver las notificaciones
+        fragmentService.load(notificationsFragment);
 
-            toolbar.collapseActionView();
-        }
-
+        toolbar.collapseActionView();
     }
 }

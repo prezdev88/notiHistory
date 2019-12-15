@@ -2,21 +2,19 @@ package org.prezdev.notihistory.adapter;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.ColorSpace;
-import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.model.NotificationVO;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.List;
 
@@ -24,12 +22,12 @@ public class NotificationAdapter extends BaseAdapter {
 
     private Context context;
     private List<NotificationVO> notifications;
-    public Util util;
+    private AppServiceImpl appService;
 
     public NotificationAdapter(Context context, List<NotificationVO> notifications) {
         this.context = context;
         this.notifications = notifications;
-        this.util = Util.getInstance(context.getPackageManager());
+        this.appService = new AppServiceImpl(context);
     }
 
     @Override
@@ -57,20 +55,20 @@ public class NotificationAdapter extends BaseAdapter {
 
         NotificationVO notification = notifications.get(i);
 
-        ImageView notiIcon = view.findViewById(R.id.notiIcon);
+        ImageView notiIcon = view.findViewById(R.id.appIcon);
 
-        TextView lblDatetime = view.findViewById(R.id.lblDatetime);
+        TextView lblDatetime = view.findViewById(R.id.lblAppName);
         TextView lblTitle = view.findViewById(R.id.lblTitle);
         TextView lblContent = view.findViewById(R.id.lblContent);
 
-        String appName = util.getAppNameByPackageName(notification.getPackageName());
+        String appName = appService.getAppNameByPackageName(notification.getPackageName());
 
         lblDatetime.setText(appName+" - "+Util.getDateFormat(notification.getPostTime()));
         lblTitle.setText(notification.getExtraTitle());
         lblContent.setText((notification.getExtraBigText().isEmpty() ? notification.getExtraText() : notification.getExtraBigText()));
 
         try {
-            notiIcon.setImageDrawable(util.getDrawableByPackageName(notification.getPackageName()));
+            notiIcon.setImageDrawable(appService.getDrawableByPackageName(notification.getPackageName()));
             /*notiIcon.setImageDrawable(notification.getDrawable(view.getContext().getPackageManager()));
 
             ColorDrawable color = new ColorDrawable(notification.getColor());
@@ -78,6 +76,10 @@ public class NotificationAdapter extends BaseAdapter {
             notiIcon.setColorFilter(color.getColor());*/
         } catch (PackageManager.NameNotFoundException e) {
 
+        }
+
+        if(Config.appItemListAnimation){
+            view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
         }
 
         return view;

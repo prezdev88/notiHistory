@@ -8,32 +8,30 @@ import android.database.sqlite.SQLiteOpenHelper;
 // TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").
 public class BD extends SQLiteOpenHelper{
 
-    private String tNotification =
-        "CREATE TABLE notification("+
-            "id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-            "color INTEGER," +
-            "category TEXT," +
-            "postTime TEXT," + //  TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS")
-            "packageName TEXT," +
-            "iconId INTEGER," +
-            "extraText TEXT," +
-            "extraTitle TEXT," +
-            "extraSummaryText TEXT," +
-            "extraBigText TEXT" +
-        ")";
+    private static final int DB_VERSION = 2;
 
-    public BD(Context context, String name, int version) {
-        super(context, name, null, version);
+    public BD(Context context, String name) {
+        super(context, name, null, DB_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(tNotification);
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        try{
+            sqLiteDatabase.execSQL(Table.NOTIFICATION);
+            sqLiteDatabase.execSQL(Table.APP);
+        }catch(Exception ex){}
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        /*No implementado*/
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        try{
+            switch (newVersion){
+                case 2:
+                    sqLiteDatabase.execSQL(Table.APP);
+
+                    break;
+            }
+        }catch(Exception ex){}
     }
 
 }

@@ -1,19 +1,11 @@
 package org.prezdev.notihistory.model.impl;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import org.prezdev.notihistory.dataBase.BD;
-import org.prezdev.notihistory.model.App;
-import org.prezdev.notihistory.model.INotificationDao;
+import org.prezdev.notihistory.dataBase.Connection;
+import org.prezdev.notihistory.model.NotificationDao;
 import org.prezdev.notihistory.model.NotificationVO;
 
 import java.text.ParseException;
@@ -21,28 +13,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationDao implements INotificationDao {
-    private Context context;
-    private SimpleDateFormat dateFormat;
-    private BD connection;
-    private SQLiteDatabase db;
-    private Cursor cursor;
-    private final String DB_PATH =
-            Environment.getExternalStorageDirectory().getPath()+"/notiHistory/notiHistory.sqlite";
+public class NotificationDaoImpl extends Connection implements NotificationDao {
 
-    public NotificationDao(Context context){
-        this.context = context;
+
+    public NotificationDaoImpl(Context context){
+        super(context);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
     @Override
     public void save(NotificationVO notificationVO) {
-        connection = new BD(context, DB_PATH, 1);
-        db = connection.getWritableDatabase();
+        connection = new BD(context, DB_PATH);
+        sqLiteDatabase = connection.getWritableDatabase();
 
         String insert = "INSERT INTO notification VALUES(null, ?,?,?,?,?,?,?,?,?)";
 
-        SQLiteStatement statement = db.compileStatement(insert);
+        SQLiteStatement statement = sqLiteDatabase.compileStatement(insert);
 
         statement.bindString(1, String.valueOf(notificationVO.getColor()));
         statement.bindString(2, notificationVO.getCategory());
@@ -56,7 +42,7 @@ public class NotificationDao implements INotificationDao {
 
         statement.executeInsert();
 
-        db.close();
+        sqLiteDatabase.close();
     }
 
     @Override
@@ -64,37 +50,6 @@ public class NotificationDao implements INotificationDao {
         return findAllByQuery("SELECT * FROM notification");
     }
 
-    @Override
-    public List<App> getApps() {
-        List<App> apps = new ArrayList<>();
-
-        String query =
-            "SELECT DISTINCT(packageName), COUNT(*), id " +
-            "FROM notification " +
-            "WHERE extraText != '' " +
-            "GROUP BY packageName ORDER BY postTime DESC";
-
-        connection = new BD(context, DB_PATH, 1);
-        db = connection.getWritableDatabase();
-        cursor = db.rawQuery(query, null);
-
-        App app;
-        if(cursor.moveToFirst()){
-            do{
-                app = new App();
-
-                app.setPackageName(cursor.getString(0));
-                app.setNotificationsCount(cursor.getInt(1));
-                app.setId(cursor.getInt(2));
-
-                apps.add(app);
-            }while(cursor.moveToNext());
-        }
-
-        db.close();
-
-        return apps;
-    }
 
     @Override
     public List<NotificationVO> findAllByPackageName(String packageName) {
@@ -111,10 +66,10 @@ public class NotificationDao implements INotificationDao {
         List<NotificationVO> lista = new ArrayList<>();
         NotificationVO notificationVO = null;
 
-        connection = new BD(context, DB_PATH, 1);
-        db = connection.getWritableDatabase();
+        connection = new BD(context, DB_PATH);
+        sqLiteDatabase = connection.getWritableDatabase();
 
-        cursor = db.rawQuery(query, null);
+        cursor = sqLiteDatabase.rawQuery(query, null);
 
         if(cursor.moveToFirst()){
             do{
@@ -141,7 +96,7 @@ public class NotificationDao implements INotificationDao {
             }while(cursor.moveToNext());
         }
 
-        db.close();
+        sqLiteDatabase.close();
 
         return lista;
     }

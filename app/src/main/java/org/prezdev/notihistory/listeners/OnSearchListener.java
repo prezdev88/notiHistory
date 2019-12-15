@@ -10,8 +10,10 @@ import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.fragments.AppsFragment;
-import org.prezdev.notihistory.model.App;
+import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.AppService;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.ArrayList;
@@ -19,15 +21,12 @@ import java.util.List;
 
 public class OnSearchListener implements SearchView.OnQueryTextListener {
 
-    private Util util;
     private MainActivity mainActivity;
-    private NotificationServiceImpl notificationService;
+    private AppService appService;
     private Context context;
 
     public OnSearchListener(MainActivity mainActivity){
-        PackageManager packageManager = mainActivity.getApplicationContext().getPackageManager();
-        this.util = Util.getInstance(packageManager);
-        this.notificationService = NotificationServiceImpl.getInstance(mainActivity.getApplicationContext());
+        this.appService = new AppServiceImpl(mainActivity);
         this.mainActivity = mainActivity;
         this.context = mainActivity.getApplicationContext();
     }
@@ -44,15 +43,15 @@ public class OnSearchListener implements SearchView.OnQueryTextListener {
         Fragment visibleFragment = Util.getVisibleFragment(mainActivity);
 
         if(visibleFragment instanceof AppsFragment){
-            List<App> apps = notificationService.getApps();
-            List<App> search = new ArrayList<>();
+            List<NotificationInstalledApp> notificationApps = appService.getNotificationInstalledApps();
+            List<NotificationInstalledApp> search = new ArrayList<>();
 
-            for(App app : apps){
-                String appName = util.getAppNameByPackageName(app.getPackageName());
+            for(NotificationInstalledApp notificationApp : notificationApps){
+                String appName = appService.getAppNameByPackageName(notificationApp.getPackageName());
                 appName = appName.toLowerCase();
 
                 if(appName.contains(text)){
-                    search.add(app);
+                    search.add(notificationApp);
                 }
             }
 

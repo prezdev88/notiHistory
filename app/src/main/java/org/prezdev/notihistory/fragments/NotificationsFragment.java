@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.NotificationAdapter;
+import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.listeners.SwipeRefreshNotificationsListener;
 import org.prezdev.notihistory.model.NotificationVO;
 import org.prezdev.notihistory.model.Util;
@@ -27,8 +28,10 @@ public class NotificationsFragment extends Fragment {
     private SwipeRefreshLayout notificationsSwipeRefresh;
 
     public NotificationsFragment(){
-        this.setExitTransition(new Fade());
-        this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
+        if(Config.fragmentTransition){
+            this.setExitTransition(new Fade());
+            this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
+        }
     }
 
     @Override
@@ -52,11 +55,11 @@ public class NotificationsFragment extends Fragment {
         notificationsSwipeRefresh.setOnRefreshListener(new SwipeRefreshNotificationsListener(view));
         /*------------------------- Swipe Refresh -------------------------*/
 
-        notificationService = NotificationServiceImpl.getInstance(view.getContext());
+        notificationService = new NotificationServiceImpl(view.getContext());
         lvNotifications = view.findViewById(R.id.lvNotifications);
 
         // Se obtiene el nombre del paquete de la app seleccionada por el usuario
-        String packageName = Util.currentApp.getPackageName();
+        String packageName = Util.currentNotificationApp.getPackageName();
 
         // Se obtienen las notificaciones de esa app
         List<NotificationVO> notifications = notificationService.findAllByPackageName(packageName);

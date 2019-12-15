@@ -12,36 +12,38 @@ import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.configuration.Config;
-import org.prezdev.notihistory.model.App;
+import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.AppService;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.List;
 
 public class AppAdapter extends BaseAdapter {
 
     private Context context;
-    private List<App> apps;
-    private Util util;
+    private List<NotificationInstalledApp> notificationApps;
+    private AppService appService;
 
-    public AppAdapter(Context context, List<App> apps) {
+    public AppAdapter(Context context, List<NotificationInstalledApp> notificationApps) {
         this.context = context;
-        this.apps = apps;
-        this.util = Util.getInstance(context.getPackageManager());
+        this.notificationApps = notificationApps;
+        this.appService = new AppServiceImpl(context);
     }
 
     @Override
     public int getCount() {
-        return apps.size();
+        return notificationApps.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return apps.get(i);
+        return notificationApps.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return apps.get(i).getId();
+        return notificationApps.get(i).getId();
     }
 
     @Override
@@ -52,20 +54,20 @@ public class AppAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.activity_app_item, null);
         }
 
-        App app = apps.get(i);
+        NotificationInstalledApp notificationApp = notificationApps.get(i);
 
-        ImageView ivIcon = view.findViewById(R.id.notiIcon);
-        TextView lblAppName = view.findViewById(R.id.lblDatetime);
+        ImageView ivIcon = view.findViewById(R.id.appIcon);
+        TextView lblAppName = view.findViewById(R.id.lblAppName);
         TextView lblNotificationCount = view.findViewById(R.id.lblNotificationCount);
 
         try {
-            ivIcon.setImageDrawable(util.getDrawableByPackageName(app.getPackageName()));
+            ivIcon.setImageDrawable(appService.getDrawableByPackageName(notificationApp.getPackageName()));
         } catch (PackageManager.NameNotFoundException e) {
 
         }
 
-        lblAppName.setText(util.getAppNameByPackageName(app.getPackageName()));
-        lblNotificationCount.setText(String.valueOf(app.getNotificationsCount()));
+        lblAppName.setText(appService.getAppNameByPackageName(notificationApp.getPackageName()));
+        lblNotificationCount.setText(String.valueOf(notificationApp.getNotificationsCount()));
 
         // ivIcon.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
         // lblAppName.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
