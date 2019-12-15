@@ -22,8 +22,7 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.prezdev.notihistory.configuration.Config;
-import org.prezdev.notihistory.dialogFragments.NotificationConfigDialog;
+import org.prezdev.notihistory.fragments.dialog.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;

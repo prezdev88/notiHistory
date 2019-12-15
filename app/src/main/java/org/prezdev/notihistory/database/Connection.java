@@ -1,4 +1,4 @@
-package org.prezdev.notihistory.dataBase;
+package org.prezdev.notihistory.database;
 
 import android.content.Context;
 import android.database.Cursor;

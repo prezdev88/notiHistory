@@ -1,8 +1,7 @@
-package org.prezdev.notihistory.dataBase;
+package org.prezdev.notihistory.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 // TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").

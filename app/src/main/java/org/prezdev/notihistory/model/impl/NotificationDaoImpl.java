@@ -3,8 +3,8 @@ package org.prezdev.notihistory.model.impl;
 import android.content.Context;
 import android.database.sqlite.SQLiteStatement;
 
-import org.prezdev.notihistory.dataBase.BD;
-import org.prezdev.notihistory.dataBase.Connection;
+import org.prezdev.notihistory.database.BD;
+import org.prezdev.notihistory.database.Connection;
 import org.prezdev.notihistory.model.NotificationDao;
 import org.prezdev.notihistory.model.NotificationVO;
 

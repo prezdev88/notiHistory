@@ -1,4 +1,4 @@
-package org.prezdev.notihistory.dataBase;
+package org.prezdev.notihistory.database;
 
 public class Table {
 
