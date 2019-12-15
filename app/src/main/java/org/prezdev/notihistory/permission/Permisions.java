@@ -1,23 +1,24 @@
 package org.prezdev.notihistory.permission;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import org.prezdev.notihistory.MainActivity;
-
 public class Permisions {
-    public static void checkAppPermissions(){
+
+    public static void checkAppPermissions(Activity activity){
         if (
             ContextCompat.checkSelfPermission(
-                MainActivity.getActivity(),
+                activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             // Permission is not granted
             ActivityCompat.requestPermissions(
-                MainActivity.getActivity(),
+                activity,
                 new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE

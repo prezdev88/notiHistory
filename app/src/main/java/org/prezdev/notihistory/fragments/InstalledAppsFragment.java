@@ -1,5 +1,6 @@
 package org.prezdev.notihistory.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.InstalledAppAdapter;
 import org.prezdev.notihistory.configuration.Config;
@@ -27,16 +29,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@SuppressLint("ValidFragment")
 public class InstalledAppsFragment extends Fragment implements OnInstalledAppStateChangeListener {
     private ListView lvInstalledApps;
     private AppService appService;
+    private MainActivity mainActivity;
 
-    public InstalledAppsFragment(){
+    public InstalledAppsFragment(MainActivity mainActivity){
+        this.mainActivity = mainActivity;
+
         if(Config.fragmentTransition){
             this.setExitTransition(new Fade());
             this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
         }
     }
+
 
     @Override
     public View onCreateView(
@@ -60,7 +67,7 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
         }catch (Exception ex){
             installedApps = new ArrayList();
 
-            Permisions.checkAppPermissions();
+            Permisions.checkAppPermissions(mainActivity);
         }
 
         InstalledAppAdapter installedAppAdapter = new InstalledAppAdapter(context, installedApps, this);

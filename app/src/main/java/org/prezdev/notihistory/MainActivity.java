@@ -85,11 +85,12 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        Permisions.checkAppPermissions();
+
+        Permisions.checkAppPermissions(this);
 
         fragmentService = new FragmentServiceImpl(this);
 
-        fragmentService.load(Config.homeScreenFragment);
+        //fragmentService.load(Config.homeScreenFragment);
 
 
         /*
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity
                     // contacts-related task you need to do.
                     Toast.makeText(getApplicationContext(), "Permisos concedidos", Toast.LENGTH_LONG).show();
 
-                    fragmentService.load(Config.homeScreenFragment);
+                    //fragmentService.load(Config.homeScreenFragment);
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -126,11 +127,7 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         Fragment visibleFragment = fragmentService.getVisibleFragment();
 
-        if(visibleFragment == null){
-            super.onBackPressed();
-        }else if(visibleFragment instanceof AppsFragment){
-            super.onBackPressed();
-        }else if(visibleFragment instanceof NotificationsFragment){
+        if(visibleFragment != null && visibleFragment instanceof NotificationsFragment){
             AppsFragment appsFragment = new AppsFragment(this);
 
             fragmentService.load(appsFragment);
@@ -161,7 +158,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_app_notifications) {
             fragment = new AppsFragment(this);
         }  else if(id == R.id.nav_installed_apps){
-            fragment = new InstalledAppsFragment();
+            fragment = new InstalledAppsFragment(this);
         }
 
         fragmentService.load(fragment);
@@ -191,7 +188,9 @@ public class MainActivity extends AppCompatActivity
     }
     /*SEARCH BAR*/
 
-    public static MainActivity getActivity(){
+    /*public static MainActivity getActivity(){
         return mainActivity;
     }
+
+     */
 }

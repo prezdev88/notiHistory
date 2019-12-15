@@ -66,7 +66,7 @@ public class AppsFragment extends Fragment {
         }catch (SQLiteCantOpenDatabaseException ex){
             notificationApps = new ArrayList<>();
 
-            Permisions.checkAppPermissions();
+            Permisions.checkAppPermissions(mainActivity);
         }
 
         appAdapter = new AppAdapter(view.getContext(), notificationApps);

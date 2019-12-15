@@ -40,6 +40,8 @@ public class OnAppClickListener implements AdapterView.OnItemClickListener {
         // lanzar fragment de las notificaciones de esa app
         NotificationsFragment notificationsFragment = new NotificationsFragment();
 
+        // TODO: Se cae acá aveces, cuando cierro la app, la vuelvo a abrir y pincho una app
+        // para ver las notificaciones
         fragmentService.load(notificationsFragment);
 
         toolbar.collapseActionView();

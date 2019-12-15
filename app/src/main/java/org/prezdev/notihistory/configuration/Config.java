@@ -14,5 +14,5 @@ public class Config {
 
     public static boolean showSystemApps = false;
 
-    public static Fragment homeScreenFragment = new AppsFragment(MainActivity.getActivity());
+    //public static Fragment homeScreenFragment = new AppsFragment(MainActivity.getActivity());
 }
