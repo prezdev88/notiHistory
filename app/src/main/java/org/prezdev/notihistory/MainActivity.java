@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.fragments.dialog.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity
 
         fragmentService = new FragmentServiceImpl(this);
 
-        //fragmentService.load(Config.homeScreenFragment);
+        fragmentService.load(Config.homeScreenFragment);
 
 
         /*
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity
                     // contacts-related task you need to do.
                     Toast.makeText(getApplicationContext(), "Permisos concedidos", Toast.LENGTH_LONG).show();
 
-                    //fragmentService.load(Config.homeScreenFragment);
+                    fragmentService.load(Config.homeScreenFragment);
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         Fragment visibleFragment = fragmentService.getVisibleFragment();
 
         if(visibleFragment != null && visibleFragment instanceof NotificationsFragment){
-            AppsFragment appsFragment = new AppsFragment(this);
+            AppsFragment appsFragment = new AppsFragment();
 
             fragmentService.load(appsFragment);
         }
@@ -155,9 +156,9 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_app_notifications) {
-            fragment = new AppsFragment(this);
+            fragment = new AppsFragment();
         }  else if(id == R.id.nav_installed_apps){
-            fragment = new InstalledAppsFragment(this);
+            fragment = new InstalledAppsFragment();
         }
 
         fragmentService.load(fragment);

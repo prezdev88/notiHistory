@@ -27,7 +27,6 @@ import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressLint("ValidFragment")
 /*This fragment is where the user see that notifications apps*/
 public class AppsFragment extends Fragment {
 
@@ -36,13 +35,8 @@ public class AppsFragment extends Fragment {
     private List<NotificationInstalledApp> notificationApps;
     private AppAdapter appAdapter;
     private ListView lvApps;
-    private MainActivity mainActivity;
 
-    public AppsFragment(){}
-
-    public AppsFragment(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-
+    public AppsFragment() {
         if(Config.fragmentTransition){
             this.setExitTransition(new Fade());
             this.setEnterTransition(new Slide(Gravity.LEFT).setDuration(300));
@@ -57,7 +51,7 @@ public class AppsFragment extends Fragment {
 
         lvApps = view.findViewById(R.id.lvApps);
 
-        lvApps.setOnItemClickListener(new OnAppClickListener(this.mainActivity));
+        lvApps.setOnItemClickListener(new OnAppClickListener(getActivity()));
 
         appService = new AppServiceImpl(view.getContext());
 
@@ -66,7 +60,7 @@ public class AppsFragment extends Fragment {
         }catch (SQLiteCantOpenDatabaseException ex){
             notificationApps = new ArrayList<>();
 
-            Permisions.checkAppPermissions(mainActivity);
+            Permisions.checkAppPermissions(getActivity());
         }
 
         appAdapter = new AppAdapter(view.getContext(), notificationApps);
