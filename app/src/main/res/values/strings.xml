@@ -17,6 +17,23 @@
     <string name="_continue">Continuar</string>
     <string name="exit">Salir</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Sliders -->
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">SIGUIENTE</string>
+    <string name="skip">SALTAR</string>
+    <string name="start">VAMOS</string>
+
+    <string name="slide_1_title">¡Bienvenido a Notihistory!</string>
+    <string name="slide_1_desc">La manera más fácil de almacenar tus notificaciones</string>
+
+    <string name="slide_2_title">Permisos</string>
+    <string name="slide_2_desc">Necesitamos permiso para acceder a tus notificaciones</string>
+
+    <string name="slide_3_title">Permisos</string>
+    <string name="slide_3_desc">Necesitamos permiso para almacenar las notificaciones en tu dispositivo</string>
+
+    <string name="slide_4_title">¡Bien hecho!</string>
+    <string name="slide_4_desc">Disfruta de la aplicación</string>
+
+    <string name="grant_permission">Conceder Permiso</string>
 </resources>
