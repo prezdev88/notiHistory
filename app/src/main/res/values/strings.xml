@@ -5,7 +5,7 @@
     <string name="nav_header_title">Noti-history</string>
     <string name="nav_header_subtitle">Notifications history</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustes</string>
 
     <string name="menu_notifications">Notificaciones</string>
     <string name="menu_aplicaciones">Aplicaciones</string>

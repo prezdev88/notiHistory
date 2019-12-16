@@ -2,6 +2,7 @@ package org.prezdev.notihistory;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.prezdev.notihistory.configuration.Config;
+import org.prezdev.notihistory.configuration.preferences.MainPreferenceFragment;
+import org.prezdev.notihistory.configuration.preferences.SettingsActivity;
 import org.prezdev.notihistory.fragments.dialog.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
@@ -143,6 +146,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             return true;
         }
 
@@ -159,9 +163,13 @@ public class MainActivity extends AppCompatActivity
             fragment = new AppsFragment();
         }  else if(id == R.id.nav_installed_apps){
             fragment = new InstalledAppsFragment();
+        } else if(id == R.id.nav_settings){
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
 
-        fragmentService.load(fragment);
+        if(fragment != null){
+            fragmentService.load(fragment);
+        }
 
         return true;
     }

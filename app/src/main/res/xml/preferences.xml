@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://www.programcreek.com/java-api-examples/?class=android.support.v7.app.AppCompatActivity&method=getSupportActionBar -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/animations">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="fragmentTransition"
+            android:title="@string/fragment_transition"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="appItemListAnimation"
+            android:title="@string/app_item_list_animation" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/apps">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="showSystemApps"
+            android:title="@string/show_system_apps" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/about">
+        <Preference
+            android:summary="v0.x.x-alpha"
+            android:title="@string/version" />
+
+        <Preference
+            android:summary="https://github.com/pperezp/notiHistory"
+            android:title="@string/github">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/pperezp/notiHistory" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

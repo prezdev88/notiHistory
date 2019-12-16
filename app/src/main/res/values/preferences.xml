@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="animations">Animaciones</string>
+    <string name="apps">Apps</string>
+    <string name="about">Acerca de</string>
+    <string name="version">Versión</string>
+    <string name="github">Proyecto GitHub</string>
+
+    <string name="fragment_transition">Transiciones</string>
+    <string name="app_item_list_animation">Animación de items de lista</string>
+    <string name="show_system_apps">Mostrar apps del sistema</string>
+</resources>
