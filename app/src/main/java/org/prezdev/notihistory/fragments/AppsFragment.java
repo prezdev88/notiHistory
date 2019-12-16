@@ -1,7 +1,5 @@
 package org.prezdev.notihistory.fragments;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
-import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnAppClickListener;
-import org.prezdev.notihistory.listeners.SwipeRefreshAppsListener;
+import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshAppsListener;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;

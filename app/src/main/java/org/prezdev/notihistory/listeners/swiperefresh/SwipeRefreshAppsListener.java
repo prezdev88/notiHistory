@@ -1,4 +1,4 @@
-package org.prezdev.notihistory.listeners;
+package org.prezdev.notihistory.listeners.swiperefresh;
 
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,7 +10,6 @@ import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
-import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
 

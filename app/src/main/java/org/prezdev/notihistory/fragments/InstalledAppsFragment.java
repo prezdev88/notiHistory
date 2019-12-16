@@ -3,6 +3,7 @@ package org.prezdev.notihistory.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.view.Gravity;
@@ -18,6 +19,8 @@ import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnInstalledAppClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppLongClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
+import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshAppsListener;
+import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshInstalledAppsListener;
 import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.service.AppService;
@@ -31,6 +34,7 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
     private ListView lvInstalledApps;
     private AppService appService;
     private Preferences preferences;
+    private SwipeRefreshLayout appsSwipeRefresh;
 
     public InstalledAppsFragment(){
         preferences = new Preferences();
@@ -40,7 +44,6 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
             this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
         }
     }
-
 
     @Override
     public View onCreateView(
@@ -60,7 +63,7 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
 
         List<InstalledApp> installedApps;
         try{
-            installedApps = appService.getInstalledApps(preferences.isShowSystemApps());
+            installedApps = appService.getInstalledApps();
         }catch (Exception ex){
             installedApps = new ArrayList();
 
@@ -70,6 +73,18 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
         InstalledAppAdapter installedAppAdapter = new InstalledAppAdapter(context, installedApps, this);
 
         lvInstalledApps.setAdapter(installedAppAdapter);
+
+        /*------------------------- Swipe Refresh -------------------------*/
+        appsSwipeRefresh = view.findViewById(R.id.installedAppsSwipeRefresh);
+
+        appsSwipeRefresh.setColorSchemeResources(
+            R.color.orange,
+            R.color.green,
+            R.color.blue
+        );
+
+        appsSwipeRefresh.setOnRefreshListener(new SwipeRefreshInstalledAppsListener(view));
+        /*------------------------- Swipe Refresh -------------------------*/
 
         return view;
     }

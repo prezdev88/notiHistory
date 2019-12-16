@@ -12,7 +12,7 @@ import java.util.List;
 public interface AppService {
     List<NotificationInstalledApp> getNotificationInstalledApps();
 
-    List<InstalledApp> getInstalledApps(boolean showSystemApps);
+    List<InstalledApp> getInstalledApps();
 
     String getAppNameByPackageName(String packageName);
 

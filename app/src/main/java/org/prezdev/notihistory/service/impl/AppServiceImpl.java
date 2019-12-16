@@ -5,7 +5,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.preference.Preference;
 
+import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.impl.AppDaoImpl;
@@ -21,11 +23,13 @@ public class AppServiceImpl implements AppService {
     private AppDaoImpl appDao;
     private Context context;
     private PackageManager packageManager;
+    private Preferences preferences;
 
     public AppServiceImpl(Context context){
-        appDao = new AppDaoImpl(context);
+        this.appDao = new AppDaoImpl(context);
         this.context = context;
-        packageManager = this.context.getPackageManager();
+        this.packageManager = this.context.getPackageManager();
+        this.preferences = new Preferences(this.context);
     }
 
     @Override
@@ -34,7 +38,9 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public List<InstalledApp> getInstalledApps(boolean showSystemApps) {
+    public List<InstalledApp> getInstalledApps() {
+        boolean showSystemApps = preferences.isShowSystemApps();
+
         List<InstalledApp> installedApps = new ArrayList<>();
 
         InstalledApp installedApp;

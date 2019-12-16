@@ -13,9 +13,8 @@ import android.widget.ListView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.NotificationAdapter;
-import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.configuration.Preferences;
-import org.prezdev.notihistory.listeners.SwipeRefreshNotificationsListener;
+import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshNotificationsListener;
 import org.prezdev.notihistory.model.NotificationVO;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
