@@ -24,14 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.prezdev.notihistory.configuration.Config;
-import org.prezdev.notihistory.configuration.preferences.MainPreferenceFragment;
 import org.prezdev.notihistory.configuration.preferences.SettingsActivity;
 import org.prezdev.notihistory.fragments.dialog.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
-import org.prezdev.notihistory.listeners.OnFocusChangeSearchListener;
-import org.prezdev.notihistory.listeners.OnSearchListener;
+import org.prezdev.notihistory.listeners.search.OnFocusChangeSearchListener;
+import org.prezdev.notihistory.listeners.search.OnSearchListener;
 import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.permission.RequestCode;
 import org.prezdev.notihistory.service.FragmentService;
