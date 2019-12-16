@@ -48,22 +48,11 @@ public class OnSearchListener implements SearchView.OnQueryTextListener {
         Fragment visibleFragment = Util.getVisibleFragment(mainActivity);
 
         if(visibleFragment instanceof AppsFragment){
-            List<NotificationInstalledApp> notificationApps = appService.getNotificationInstalledApps();
-            List<NotificationInstalledApp> search = new ArrayList<>();
-
-            for(NotificationInstalledApp notificationApp : notificationApps){
-                String appName = appService.getAppNameByPackageName(notificationApp.getPackageName());
-                appName = appName.toLowerCase();
-
-                if(appName.contains(text)){
-                    search.add(notificationApp);
-                }
-            }
-
-            AppAdapter appAdapter = new AppAdapter(context, search);
-
             ListView lvApps = mainActivity.findViewById(R.id.lvApps);
-            lvApps.setAdapter(appAdapter);
+
+            AppAdapter adapter = (AppAdapter)lvApps.getAdapter();
+
+            adapter.filter(text);
         }else if(visibleFragment instanceof InstalledAppsFragment){
             ListView lvInstalledApps = mainActivity.findViewById(R.id.lvInstalledApps);
 

@@ -14,6 +14,7 @@ public class OnFocusChangeSearchListener implements View.OnFocusChangeListener {
 
     @Override
     public void onFocusChange(View view, boolean focusGained) {
+        /*
         if(focusGained){
             // Desactivar efectos
             preferences.setAppItemListAnimation(false);
@@ -21,5 +22,6 @@ public class OnFocusChangeSearchListener implements View.OnFocusChangeListener {
             // Activar efectos
             preferences.setAppItemListAnimation(true);
         }
+        */
     }
 }

@@ -18,18 +18,21 @@ import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppAdapter extends BaseAdapter {
 
     private Context context;
     private List<NotificationInstalledApp> notificationApps;
+    private ArrayList<NotificationInstalledApp> clonedNotificationApps; // Used by filter listview
     private AppService appService;
     private Preferences preferences;
 
     public AppAdapter(Context context, List<NotificationInstalledApp> notificationApps) {
         this.context = context;
         this.notificationApps = notificationApps;
+        this.clonedNotificationApps = new ArrayList<>(notificationApps);
         this.appService = new AppServiceImpl(context);
         this.preferences = new Preferences();
     }
@@ -80,5 +83,29 @@ public class AppAdapter extends BaseAdapter {
         }
 
         return view;
+    }
+
+    public void filter(String text) {
+        text = text.toLowerCase();
+        List<NotificationInstalledApp> aux = new ArrayList<>();
+
+        if (text.length() == 0) {
+            aux.addAll(clonedNotificationApps);
+        } else {
+            for (NotificationInstalledApp notificationInstalledApp : clonedNotificationApps) {
+
+                String appName = appService.getAppNameByPackageName(notificationInstalledApp.getPackageName());
+                appName = appName.toLowerCase();
+
+                if (appName.contains(text)) {
+                    aux.add(notificationInstalledApp);
+                }
+            }
+        }
+
+        notificationApps.clear();
+        notificationApps.addAll(aux);
+
+        notifyDataSetChanged();
     }
 }

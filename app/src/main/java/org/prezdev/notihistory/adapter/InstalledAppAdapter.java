@@ -90,15 +90,15 @@ public class InstalledAppAdapter extends BaseAdapter {
         return view;
     }
 
-    public void filter(String charText) {
-        charText = charText.toLowerCase();
+    public void filter(String text) {
+        text = text.toLowerCase();
         List<InstalledApp> aux = new ArrayList<>();
 
-        if (charText.length() == 0) {
+        if (text.length() == 0) {
             aux.addAll(clonedInstalledApps);
         } else {
             for (InstalledApp installedApp : clonedInstalledApps) {
-                if (installedApp.getName().toLowerCase().contains(charText)) {
+                if (installedApp.getName().toLowerCase().contains(text)) {
                     aux.add(installedApp);
                 }
             }
