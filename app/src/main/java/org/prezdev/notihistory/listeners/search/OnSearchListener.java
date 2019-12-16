@@ -1,21 +1,26 @@
-package org.prezdev.notihistory.listeners;
+package org.prezdev.notihistory.listeners.search;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
+import org.prezdev.notihistory.adapter.InstalledAppAdapter;
 import org.prezdev.notihistory.fragments.AppsFragment;
+import org.prezdev.notihistory.fragments.InstalledAppsFragment;
+import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +64,12 @@ public class OnSearchListener implements SearchView.OnQueryTextListener {
 
             ListView lvApps = mainActivity.findViewById(R.id.lvApps);
             lvApps.setAdapter(appAdapter);
+        }else if(visibleFragment instanceof InstalledAppsFragment){
+            ListView lvInstalledApps = mainActivity.findViewById(R.id.lvInstalledApps);
+
+            InstalledAppAdapter adapter = (InstalledAppAdapter)lvInstalledApps.getAdapter();
+
+            adapter.filter(text);
         }
 
         return false;
