@@ -14,6 +14,7 @@ import android.widget.ListView;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.InstalledAppAdapter;
 import org.prezdev.notihistory.configuration.Config;
+import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnInstalledAppClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppLongClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
@@ -29,9 +30,12 @@ import java.util.List;
 public class InstalledAppsFragment extends Fragment implements OnInstalledAppStateChangeListener {
     private ListView lvInstalledApps;
     private AppService appService;
+    private Preferences preferences;
 
     public InstalledAppsFragment(){
-        if(Config.fragmentTransition){
+        preferences = new Preferences();
+
+        if(preferences.isFragmentTransition()){
             this.setExitTransition(new Fade());
             this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
         }
@@ -56,7 +60,7 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
 
         List<InstalledApp> installedApps;
         try{
-            installedApps = appService.getInstalledApps(Config.showSystemApps);
+            installedApps = appService.getInstalledApps(preferences.isShowSystemApps());
         }catch (Exception ex){
             installedApps = new ArrayList();
 

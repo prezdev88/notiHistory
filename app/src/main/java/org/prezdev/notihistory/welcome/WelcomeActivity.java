@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
-import org.prezdev.notihistory.configuration.PrefManager;
+import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.permission.RequestCode;
 
@@ -38,7 +38,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private Button btnSkip, btnNext;
-    private PrefManager prefManager;
+    private Preferences preferences;
 
     private boolean userClickOnNotificationPermission;
 
@@ -60,8 +60,8 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Checking for first time launch - before calling setContentView()
-        prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()) {
+        preferences = new Preferences(this);
+        if (!preferences.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();
         }
@@ -144,7 +144,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        prefManager.setFirstTimeLaunch(false);
+        preferences.setFirstTimeLaunch(false);
         startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
         finish();
     }
