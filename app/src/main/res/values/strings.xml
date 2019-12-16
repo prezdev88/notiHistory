@@ -36,4 +36,6 @@
     <string name="slide_4_desc">Disfruta de la aplicación</string>
 
     <string name="grant_permission">Conceder Permiso</string>
+
+    <string name="error_open_app">No es posible abrir esta aplicación</string>
 </resources>

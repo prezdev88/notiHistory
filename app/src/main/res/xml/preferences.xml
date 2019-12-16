@@ -4,25 +4,25 @@
     <PreferenceCategory android:title="@string/animations">
         <SwitchPreference
             android:defaultValue="true"
-            android:key="fragmentTransition"
+            android:key="@string/fragment_transition_key"
             android:title="@string/fragment_transition"/>
 
         <SwitchPreference
             android:defaultValue="true"
-            android:key="appItemListAnimation"
+            android:key="@string/app_item_list_animation_key"
             android:title="@string/app_item_list_animation" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/apps">
         <SwitchPreference
             android:defaultValue="true"
-            android:key="showSystemApps"
+            android:key="@string/show_system_apps_key"
             android:title="@string/show_system_apps" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about">
         <Preference
-            android:summary="v0.x.x-alpha"
+            android:key="@string/version"
             android:title="@string/version" />
 
         <Preference

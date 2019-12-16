@@ -9,4 +9,9 @@
     <string name="fragment_transition">Transiciones</string>
     <string name="app_item_list_animation">Animación de items de lista</string>
     <string name="show_system_apps">Mostrar apps del sistema</string>
+
+    <string name="fragment_transition_key">fragmentTransition</string>
+    <string name="app_item_list_animation_key">appItemListAnimation</string>
+    <string name="show_system_apps_key">showSystemApps</string>
+    <string name="first_time_launch_key">isFirstTimeLaunch</string>
 </resources>

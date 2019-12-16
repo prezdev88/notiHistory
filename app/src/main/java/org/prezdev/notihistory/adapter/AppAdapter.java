@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.configuration.Config;
+import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
 import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.AppService;
@@ -24,11 +25,13 @@ public class AppAdapter extends BaseAdapter {
     private Context context;
     private List<NotificationInstalledApp> notificationApps;
     private AppService appService;
+    private Preferences preferences;
 
     public AppAdapter(Context context, List<NotificationInstalledApp> notificationApps) {
         this.context = context;
         this.notificationApps = notificationApps;
         this.appService = new AppServiceImpl(context);
+        this.preferences = new Preferences();
     }
 
     @Override
@@ -72,7 +75,7 @@ public class AppAdapter extends BaseAdapter {
         // ivIcon.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
         // lblAppName.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
 
-        if(Config.appItemListAnimation){
+        if(preferences.isAppItemListAnimation()){
             view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
         }
 

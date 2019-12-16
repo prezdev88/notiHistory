@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.configuration.Config;
+import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppSwitchListener;
 import org.prezdev.notihistory.model.InstalledApp;
@@ -27,6 +28,7 @@ public class InstalledAppAdapter extends BaseAdapter {
     private Context context;
     private List<InstalledApp> installedApps;
     private OnInstalledAppStateChangeListener onInstalledAppStateChangeListener;
+    private Preferences preferences;
 
     public InstalledAppAdapter(
         Context context,
@@ -36,6 +38,7 @@ public class InstalledAppAdapter extends BaseAdapter {
         this.context = context;
         this.installedApps = installedApps;
         this.onInstalledAppStateChangeListener = onInstalledAppStateChangeListener;
+        this.preferences = new Preferences();
     }
 
     @Override
@@ -83,7 +86,7 @@ public class InstalledAppAdapter extends BaseAdapter {
 
         chkAddApp.setChecked(installedApp.isSelected());
 
-        if(Config.appItemListAnimation){
+        if(preferences.isAppItemListAnimation()){
             view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
         }
 

@@ -18,6 +18,7 @@ import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
 import org.prezdev.notihistory.configuration.Config;
+import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnAppClickListener;
 import org.prezdev.notihistory.listeners.SwipeRefreshAppsListener;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
@@ -35,9 +36,12 @@ public class AppsFragment extends Fragment {
     private List<NotificationInstalledApp> notificationApps;
     private AppAdapter appAdapter;
     private ListView lvApps;
+    private Preferences preferences;
 
     public AppsFragment() {
-        if(Config.fragmentTransition){
+        preferences = new Preferences();
+
+        if(preferences.isFragmentTransition()){
             this.setExitTransition(new Fade());
             this.setEnterTransition(new Slide(Gravity.LEFT).setDuration(300));
         }
