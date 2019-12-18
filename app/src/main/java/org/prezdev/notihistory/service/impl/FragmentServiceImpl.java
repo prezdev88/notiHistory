@@ -8,6 +8,9 @@ import android.support.v4.widget.DrawerLayout;
 
 import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.fragments.AppsFragment;
+import org.prezdev.notihistory.fragments.InstalledAppsFragment;
+import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.service.FragmentService;
 
 import java.util.List;
@@ -28,6 +31,16 @@ public class FragmentServiceImpl implements FragmentService {
             .beginTransaction()
             .replace(R.id.content, fragment)
             .commit();
+
+        if(fragment instanceof InstalledAppsFragment){
+            mainActivity.setTitle(R.string.installed_apps_title);
+        }else if(fragment instanceof AppsFragment){
+            mainActivity.setTitle(R.string.notifications_apps_title);
+        }else if(fragment instanceof NotificationsFragment){
+            mainActivity.setTitle(R.string.notifications_apps_title);
+        }else{
+            mainActivity.setTitle(R.string.app_name);
+        }
 
         drawerLayout.closeDrawer(GravityCompat.START);
     }
