@@ -1,19 +1,23 @@
 package org.prezdev.notihistory.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.transition.Fade;
 import android.transition.Slide;
+import android.util.TimingLogger;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.InstalledAppAdapter;
+import org.prezdev.notihistory.cache.Cache;
 import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnInstalledAppClickListener;
@@ -29,12 +33,12 @@ import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class InstalledAppsFragment extends Fragment implements OnInstalledAppStateChangeListener {
     private ListView lvInstalledApps;
     private AppService appService;
     private Preferences preferences;
     private SwipeRefreshLayout appsSwipeRefresh;
+    private List<InstalledApp> installedApps;
 
     public InstalledAppsFragment(){
         preferences = new Preferences();
@@ -43,6 +47,11 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
             this.setExitTransition(new Fade());
             this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
         }
+
+        appService = new AppServiceImpl(MainActivity.getActivity());
+
+        this.installedApps = Cache.getInstalledApps();
+
     }
 
     @Override
@@ -55,20 +64,8 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
         Context context = view.getContext();
 
         lvInstalledApps = view.findViewById(R.id.lvInstalledApps);
-
         lvInstalledApps.setOnItemClickListener(new OnInstalledAppClickListener(this));
         lvInstalledApps.setOnItemLongClickListener(new OnInstalledAppLongClickListener());
-
-        appService = new AppServiceImpl(context);
-
-        List<InstalledApp> installedApps;
-        try{
-            installedApps = appService.getInstalledApps();
-        }catch (Exception ex){
-            installedApps = new ArrayList();
-
-            Permisions.checkAppPermissions(getActivity());
-        }
 
         InstalledAppAdapter installedAppAdapter = new InstalledAppAdapter(context, installedApps, this);
 
