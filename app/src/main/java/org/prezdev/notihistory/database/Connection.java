@@ -13,8 +13,6 @@ public class Connection {
     protected BD connection;
     protected SQLiteDatabase sqLiteDatabase;
     protected Cursor cursor;
-    protected final String DB_PATH =
-            Environment.getExternalStorageDirectory().getPath()+"/notiHistory/notiHistory.sqlite";
 
     public Connection(Context context) {
         this.context = context;

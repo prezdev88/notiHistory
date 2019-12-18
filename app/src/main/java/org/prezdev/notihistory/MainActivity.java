@@ -33,6 +33,7 @@ import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.listeners.search.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.search.OnSearchListener;
 import org.prezdev.notihistory.model.InstalledApp;
+import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.permission.RequestCode;
 import org.prezdev.notihistory.service.AppService;
@@ -40,6 +41,7 @@ import org.prezdev.notihistory.service.FragmentService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.FragmentServiceImpl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView lblVersion = headerView.findViewById(R.id.lblAppVersion);
+
         lblVersion.setText("v"+BuildConfig.VERSION_NAME);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

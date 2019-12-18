@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import org.prezdev.notihistory.MainActivity;
+import org.prezdev.notihistory.configuration.Config;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +43,13 @@ public class Util {
             }
         }
         return null;
+    }
+
+    public static String getDatabaseSize(){
+        long sizeInBytes = new File(Config.DB_PATH).length();
+        float sizeInMegas = ((float)sizeInBytes / 1024 / 1024);
+
+        return  String.format("%.2f", sizeInMegas)+ " Mb";
     }
 
 

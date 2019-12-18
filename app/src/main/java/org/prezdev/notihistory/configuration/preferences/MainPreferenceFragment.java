@@ -9,6 +9,7 @@ import org.prezdev.notihistory.BuildConfig;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.configuration.preferences.listeners.PreferenceChangeListener;
+import org.prezdev.notihistory.model.Util;
 
 public class MainPreferenceFragment extends PreferenceFragment {
 
@@ -26,9 +27,15 @@ public class MainPreferenceFragment extends PreferenceFragment {
         Preference version = findPreference(getString(R.string.version));
         version.setSummary("v"+BuildConfig.VERSION_NAME);
 
-        SwitchPreference fragmentTransition = (SwitchPreference)findPreference("fragmentTransition");
-        SwitchPreference appItemListAnimation = (SwitchPreference)findPreference("appItemListAnimation");
-        SwitchPreference showSystemApps = (SwitchPreference)findPreference("showSystemApps");
+        Preference databaseSize = findPreference(getString(R.string.database_size_key));
+        databaseSize.setSummary(Util.getDatabaseSize());
+
+        SwitchPreference fragmentTransition = (SwitchPreference)
+                findPreference(getString(R.string.fragment_transition_key));
+        SwitchPreference appItemListAnimation = (SwitchPreference)
+                findPreference(getString(R.string.app_item_list_animation_key));
+        SwitchPreference showSystemApps = (SwitchPreference)
+                findPreference(getString(R.string.show_system_apps_key));
 
         // Listeners
         fragmentTransition.setOnPreferenceChangeListener(new PreferenceChangeListener());
