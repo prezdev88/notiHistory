@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.NotificationAdapter;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshNotificationsListener;
 import org.prezdev.notihistory.model.NotificationVO;
 import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.AppService;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
@@ -27,9 +30,11 @@ public class NotificationsFragment extends Fragment {
     private ListView lvNotifications;
     private SwipeRefreshLayout notificationsSwipeRefresh;
     private Preferences preferences;
+    private AppService appService;
 
     public NotificationsFragment(){
         preferences = new Preferences();
+        appService = new AppServiceImpl(MainActivity.getActivity());
 
         if(preferences.isFragmentTransition()){
             this.setExitTransition(new Fade());
@@ -63,6 +68,9 @@ public class NotificationsFragment extends Fragment {
 
         // Se obtiene el nombre del paquete de la app seleccionada por el usuario
         String packageName = Util.currentNotificationApp.getPackageName();
+        String appName = appService.getAppNameByPackageName(packageName);
+
+        MainActivity.getActivity().setTitle(appName);
 
         // Se obtienen las notificaciones de esa app
         List<NotificationVO> notifications = notificationService.findAllByPackageName(packageName);

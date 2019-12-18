@@ -11,6 +11,8 @@ import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
+import org.prezdev.notihistory.model.Util;
+import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.FragmentService;
 
 import java.util.List;
@@ -19,11 +21,13 @@ public class FragmentServiceImpl implements FragmentService {
     private FragmentManager fragmentManager;
     private Activity mainActivity;
     private DrawerLayout drawerLayout;
+    private AppService appService;
 
     public FragmentServiceImpl(Activity activity){
         this.mainActivity = activity;
         fragmentManager = ((MainActivity)activity).getSupportFragmentManager();
         drawerLayout = activity.findViewById(R.id.drawer_layout);
+        appService = new AppServiceImpl(activity);
     }
 
     public void load(Fragment fragment){
@@ -36,10 +40,6 @@ public class FragmentServiceImpl implements FragmentService {
             mainActivity.setTitle(R.string.installed_apps_title);
         }else if(fragment instanceof AppsFragment){
             mainActivity.setTitle(R.string.notifications_apps_title);
-        }else if(fragment instanceof NotificationsFragment){
-            mainActivity.setTitle(R.string.notifications_apps_title);
-        }else{
-            mainActivity.setTitle(R.string.app_name);
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

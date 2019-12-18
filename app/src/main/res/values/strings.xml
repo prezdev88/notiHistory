@@ -40,6 +40,5 @@
     <string name="error_open_app">No es posible abrir esta aplicación</string>
 
     <string name="installed_apps_title">Aplicaciones</string>
-    <string name="notifications_apps_title">Sus apps</string>
-    <string name="notifications_title">Notificaciones</string>
+    <string name="notifications_apps_title">Mis apps</string>
 </resources>
