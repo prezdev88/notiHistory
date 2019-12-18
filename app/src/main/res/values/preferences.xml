@@ -10,10 +10,14 @@
     <string name="app_item_list_animation">Animación de items de lista</string>
     <string name="show_system_apps">Mostrar apps del sistema</string>
     <string name="database_size">Tamaño de base de datos</string>
+    <string name="transition_duration">Duración de transición (en milisegundos)</string>
+    <string name="animation_duration">Duración de animación (en milisegundos)</string>
 
     <string name="fragment_transition_key">fragmentTransition</string>
     <string name="app_item_list_animation_key">appItemListAnimation</string>
     <string name="show_system_apps_key">showSystemApps</string>
     <string name="first_time_launch_key">isFirstTimeLaunch</string>
     <string name="database_size_key">databaseSize</string>
+    <string name="transition_duration_key">transitionDuration</string>
+    <string name="animation_duration_key">animationDuration</string>
 </resources>

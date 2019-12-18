@@ -4,13 +4,25 @@
     <PreferenceCategory android:title="@string/animations">
         <SwitchPreference
             android:defaultValue="true"
+            android:key="@string/app_item_list_animation_key"
+            android:title="@string/app_item_list_animation" />
+
+        <EditTextPreference
+            android:key="@string/animation_duration_key"
+            android:title="@string/animation_duration"
+            android:inputType="number"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/fragment_transition">
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="@string/fragment_transition_key"
             android:title="@string/fragment_transition"/>
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/app_item_list_animation_key"
-            android:title="@string/app_item_list_animation" />
+        <EditTextPreference
+            android:key="@string/transition_duration_key"
+            android:title="@string/transition_duration"
+            android:inputType="number"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/apps">

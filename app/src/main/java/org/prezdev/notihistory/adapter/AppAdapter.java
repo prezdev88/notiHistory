@@ -2,6 +2,7 @@ package org.prezdev.notihistory.adapter;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.animations.Animation;
 import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
@@ -79,7 +81,7 @@ public class AppAdapter extends BaseAdapter {
         // lblAppName.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
 
         if(preferences.isAppItemListAnimation()){
-            view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
+            Animation.apply(view);
         }
 
         return view;

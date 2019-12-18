@@ -11,6 +11,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.animations.Animation;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppSwitchListener;
@@ -84,7 +85,7 @@ public class InstalledAppAdapter extends BaseAdapter {
         chkAddApp.setChecked(installedApp.isSelected());
 
         if(preferences.isAppItemListAnimation()){
-            view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
+            Animation.apply(view);
         }
 
         return view;
