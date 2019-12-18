@@ -1,5 +1,6 @@
 package org.prezdev.notihistory.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.InstalledAppAdapter;
+import org.prezdev.notihistory.cache.Cache;
 import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnInstalledAppClickListener;
@@ -31,14 +33,12 @@ import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class InstalledAppsFragment extends Fragment implements OnInstalledAppStateChangeListener {
     private ListView lvInstalledApps;
     private AppService appService;
     private Preferences preferences;
     private SwipeRefreshLayout appsSwipeRefresh;
     private List<InstalledApp> installedApps;
-
 
     public InstalledAppsFragment(){
         preferences = new Preferences();
@@ -50,13 +50,8 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
 
         appService = new AppServiceImpl(MainActivity.getActivity());
 
-        try{
-            installedApps = appService.getInstalledApps();
-        }catch (Exception ex){
-            installedApps = new ArrayList();
+        this.installedApps = Cache.installedApps;
 
-            Permisions.checkAppPermissions(getActivity());
-        }
     }
 
     @Override

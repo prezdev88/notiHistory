@@ -11,8 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.util.TimingLogger;
 import android.view.View;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -25,6 +23,7 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.prezdev.notihistory.cache.Cache;
 import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.configuration.preferences.SettingsActivity;
 import org.prezdev.notihistory.fragments.dialog.NotificationConfigDialog;
@@ -33,19 +32,23 @@ import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.listeners.search.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.search.OnSearchListener;
+import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.permission.RequestCode;
+import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.FragmentService;
+import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.FragmentServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentService fragmentService;
-
     private static MainActivity mainActivity;
-
-    private Fragment installedApps;
+    private AppService appService;
 
     @Override
     public void onResume(){
@@ -58,6 +61,22 @@ public class MainActivity extends AppCompatActivity
                 notificationConfigDialog.show(this.getSupportFragmentManager(), "tag");
             }
         }
+
+        if(Cache.showSystemAppsSettingsChange){
+            Cache.showSystemAppsSettingsChange = false;
+
+            try{
+                Cache.installedApps = appService.getInstalledApps();
+            }catch (Exception ex){
+                Cache.installedApps = new ArrayList();
+
+                Permisions.checkAppPermissions(getActivity());
+            }
+
+            if(fragmentService.getVisibleFragment() instanceof InstalledAppsFragment){
+                fragmentService.load(new InstalledAppsFragment());
+            }
+        }
     }
 
     @Override
@@ -66,6 +85,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         mainActivity = this;
+        appService = new AppServiceImpl(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 
@@ -98,7 +118,13 @@ public class MainActivity extends AppCompatActivity
 
         fragmentService.load(Config.homeScreenFragment);
 
-        installedApps = new InstalledAppsFragment();
+        try{
+            Cache.installedApps = appService.getInstalledApps();
+        }catch (Exception ex){
+            Cache.installedApps = new ArrayList();
+
+            Permisions.checkAppPermissions(getActivity());
+        }
 
         /*
         Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
@@ -167,7 +193,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_app_notifications) {
             fragment = new AppsFragment();
         }  else if(id == R.id.nav_installed_apps){
-            fragment = installedApps;
+            fragment = new InstalledAppsFragment();
         } else if(id == R.id.nav_settings){
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
