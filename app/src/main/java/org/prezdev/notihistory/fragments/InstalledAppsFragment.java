@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.transition.Fade;
 import android.transition.Slide;
+import android.util.TimingLogger;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.InstalledAppAdapter;
 import org.prezdev.notihistory.configuration.Config;
@@ -35,6 +37,8 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
     private AppService appService;
     private Preferences preferences;
     private SwipeRefreshLayout appsSwipeRefresh;
+    private List<InstalledApp> installedApps;
+
 
     public InstalledAppsFragment(){
         preferences = new Preferences();
@@ -42,6 +46,16 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
         if(preferences.isFragmentTransition()){
             this.setExitTransition(new Fade());
             this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
+        }
+
+        appService = new AppServiceImpl(MainActivity.getActivity());
+
+        try{
+            installedApps = appService.getInstalledApps();
+        }catch (Exception ex){
+            installedApps = new ArrayList();
+
+            Permisions.checkAppPermissions(getActivity());
         }
     }
 
@@ -55,20 +69,8 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
         Context context = view.getContext();
 
         lvInstalledApps = view.findViewById(R.id.lvInstalledApps);
-
         lvInstalledApps.setOnItemClickListener(new OnInstalledAppClickListener(this));
         lvInstalledApps.setOnItemLongClickListener(new OnInstalledAppLongClickListener());
-
-        appService = new AppServiceImpl(context);
-
-        List<InstalledApp> installedApps;
-        try{
-            installedApps = appService.getInstalledApps();
-        }catch (Exception ex){
-            installedApps = new ArrayList();
-
-            Permisions.checkAppPermissions(getActivity());
-        }
 
         InstalledAppAdapter installedAppAdapter = new InstalledAppAdapter(context, installedApps, this);
 

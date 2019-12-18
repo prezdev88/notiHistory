@@ -11,6 +11,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.util.TimingLogger;
 import android.view.View;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity
     private FragmentService fragmentService;
 
     private static MainActivity mainActivity;
+
+    private Fragment installedApps;
 
     @Override
     public void onResume(){
@@ -94,6 +98,7 @@ public class MainActivity extends AppCompatActivity
 
         fragmentService.load(Config.homeScreenFragment);
 
+        installedApps = new InstalledAppsFragment();
 
         /*
         Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
@@ -155,13 +160,14 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         int id = item.getItemId();
         Fragment fragment = null;
 
         if (id == R.id.nav_app_notifications) {
             fragment = new AppsFragment();
         }  else if(id == R.id.nav_installed_apps){
-            fragment = new InstalledAppsFragment();
+            fragment = installedApps;
         } else if(id == R.id.nav_settings){
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
@@ -169,6 +175,7 @@ public class MainActivity extends AppCompatActivity
         if(fragment != null){
             fragmentService.load(fragment);
         }
+
 
         return true;
     }

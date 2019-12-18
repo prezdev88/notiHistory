@@ -5,7 +5,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.preference.Preference;
 
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.model.InstalledApp;
