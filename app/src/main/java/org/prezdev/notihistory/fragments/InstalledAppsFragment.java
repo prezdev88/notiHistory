@@ -1,14 +1,9 @@
 package org.prezdev.notihistory.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.util.TimingLogger;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +12,17 @@ import android.widget.ListView;
 import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.InstalledAppAdapter;
+import org.prezdev.notihistory.animations.Transition;
 import org.prezdev.notihistory.cache.Cache;
-import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnInstalledAppClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppLongClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
-import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshAppsListener;
 import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshInstalledAppsListener;
 import org.prezdev.notihistory.model.InstalledApp;
-import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InstalledAppsFragment extends Fragment implements OnInstalledAppStateChangeListener {
@@ -44,8 +36,7 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
         preferences = new Preferences();
 
         if(preferences.isFragmentTransition()){
-            this.setExitTransition(new Fade());
-            this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
+            Transition.apply(this);
         }
 
         appService = new AppServiceImpl(MainActivity.getActivity());

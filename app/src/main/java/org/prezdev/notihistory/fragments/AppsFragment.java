@@ -4,9 +4,6 @@ import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +11,7 @@ import android.widget.ListView;
 
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
+import org.prezdev.notihistory.animations.Transition;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnAppClickListener;
 import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshAppsListener;
@@ -38,8 +36,7 @@ public class AppsFragment extends Fragment {
         preferences = new Preferences();
 
         if(preferences.isFragmentTransition()){
-            this.setExitTransition(new Fade());
-            this.setEnterTransition(new Slide(Gravity.LEFT).setDuration(300));
+            Transition.apply(this);
         }
     }
 

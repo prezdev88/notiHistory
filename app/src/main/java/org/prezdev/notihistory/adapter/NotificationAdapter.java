@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.animations.Animation;
 import org.prezdev.notihistory.configuration.Config;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.model.NotificationVO;
@@ -82,7 +83,7 @@ public class NotificationAdapter extends BaseAdapter {
         }
 
         if(preferences.isAppItemListAnimation()){
-            view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_left));
+            Animation.apply(view);
         }
 
         return view;

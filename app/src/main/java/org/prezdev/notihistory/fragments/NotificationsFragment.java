@@ -3,9 +3,6 @@ package org.prezdev.notihistory.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +11,7 @@ import android.widget.ListView;
 import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.NotificationAdapter;
+import org.prezdev.notihistory.animations.Transition;
 import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshNotificationsListener;
 import org.prezdev.notihistory.model.NotificationVO;
@@ -37,8 +35,7 @@ public class NotificationsFragment extends Fragment {
         appService = new AppServiceImpl(MainActivity.getActivity());
 
         if(preferences.isFragmentTransition()){
-            this.setExitTransition(new Fade());
-            this.setEnterTransition(new Slide(Gravity.RIGHT).setDuration(300));
+            Transition.apply(this);
         }
     }
 

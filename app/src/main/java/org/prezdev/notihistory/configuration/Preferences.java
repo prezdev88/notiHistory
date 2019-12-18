@@ -18,6 +18,8 @@ public class Preferences {
     private String appItemListAnimationKey;
     private String showSystemAppsKey;
     private String firstTimeLaunchKey;
+    private String transitionDurationKey;
+    private String animationDurationKey;
 
     public Preferences() {
         this(MainActivity.getActivity());
@@ -37,6 +39,8 @@ public class Preferences {
         appItemListAnimationKey = context.getString(R.string.app_item_list_animation_key);
         showSystemAppsKey = context.getString(R.string.show_system_apps_key);
         firstTimeLaunchKey = context.getString(R.string.first_time_launch_key);
+        transitionDurationKey = context.getString(R.string.transition_duration_key);
+        animationDurationKey = context.getString(R.string.animation_duration_key);
     }
 
     public void setFragmentTransition(boolean fragmentTransition){
@@ -75,9 +79,19 @@ public class Preferences {
         return sharedPreferences.getBoolean(firstTimeLaunchKey, true);
     }
 
+    public long getTransitionDuration(){
+        return Long.parseLong(sharedPreferences.getString(transitionDurationKey, "250"));
+    }
+
+    public long getAnimationDuration(){
+        return Long.parseLong(sharedPreferences.getString(animationDurationKey, "100"));
+    }
+
     public void save(String key, Object value) {
         if(value instanceof Boolean){
             editor.putBoolean(key, Boolean.parseBoolean(value.toString()));
+        }else {
+            editor.putString(key, value.toString());
         }
 
         editor.commit();
