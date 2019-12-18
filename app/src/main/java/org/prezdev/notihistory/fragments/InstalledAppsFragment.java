@@ -50,7 +50,7 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
 
         appService = new AppServiceImpl(MainActivity.getActivity());
 
-        this.installedApps = Cache.installedApps;
+        this.installedApps = Cache.getInstalledApps();
 
     }
 

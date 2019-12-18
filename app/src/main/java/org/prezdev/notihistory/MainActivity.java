@@ -65,13 +65,7 @@ public class MainActivity extends AppCompatActivity
         if(Cache.showSystemAppsSettingsChange){
             Cache.showSystemAppsSettingsChange = false;
 
-            try{
-                Cache.installedApps = appService.getInstalledApps();
-            }catch (Exception ex){
-                Cache.installedApps = new ArrayList();
-
-                Permisions.checkAppPermissions(getActivity());
-            }
+            Cache.updateInstalledAppsCache();
 
             if(fragmentService.getVisibleFragment() instanceof InstalledAppsFragment){
                 fragmentService.load(new InstalledAppsFragment());
@@ -118,13 +112,7 @@ public class MainActivity extends AppCompatActivity
 
         fragmentService.load(Config.homeScreenFragment);
 
-        try{
-            Cache.installedApps = appService.getInstalledApps();
-        }catch (Exception ex){
-            Cache.installedApps = new ArrayList();
-
-            Permisions.checkAppPermissions(getActivity());
-        }
+        Cache.updateInstalledAppsCache();
 
         /*
         Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
