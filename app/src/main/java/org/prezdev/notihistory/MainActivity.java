@@ -30,10 +30,9 @@ import org.prezdev.notihistory.fragments.dialog.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
+import org.prezdev.notihistory.listeners.floaticon.OnFloatIconListener;
 import org.prezdev.notihistory.listeners.search.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.search.OnSearchListener;
-import org.prezdev.notihistory.model.InstalledApp;
-import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.permission.RequestCode;
 import org.prezdev.notihistory.service.AppService;
@@ -41,16 +40,13 @@ import org.prezdev.notihistory.service.FragmentService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 import org.prezdev.notihistory.service.impl.FragmentServiceImpl;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentService fragmentService;
     private static MainActivity mainActivity;
-    private AppService appService;
+    private SearchView searchView;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     public void onResume(){
@@ -81,19 +77,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         mainActivity = this;
-        appService = new AppServiceImpl(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+        floatingActionButton = findViewById(R.id.search_float_icon);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -204,16 +193,14 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
 
         // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new OnSearchListener(this));
-
         searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeSearchListener());
+
+        floatingActionButton.setOnClickListener(new OnFloatIconListener(searchView));
 
         return true;
     }
