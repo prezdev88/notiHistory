@@ -13,7 +13,7 @@ import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
 
-public class SwipeRefreshNotificationsListener implements SwipeRefreshLayout.OnRefreshListener, Runnable {
+public class SwipeRefreshNotificationsListener extends SwipeRefreshSettings implements SwipeRefreshLayout.OnRefreshListener, Runnable {
 
     private View view;
     private NotificationServiceImpl notificationService;
@@ -24,6 +24,7 @@ public class SwipeRefreshNotificationsListener implements SwipeRefreshLayout.OnR
         this.view = view;
         notificationsSwipeRefresh = view.findViewById(R.id.notificationsSwipeRefresh);
         lvNotifications = view.findViewById(R.id.lvNotifications);
+        super.applySettings(this.notificationsSwipeRefresh);
     }
 
     @Override

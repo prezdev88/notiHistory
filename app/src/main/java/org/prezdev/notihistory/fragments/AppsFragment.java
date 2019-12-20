@@ -67,12 +67,6 @@ public class AppsFragment extends Fragment {
         /*------------------------- Swipe Refresh -------------------------*/
         appsSwipeRefresh = view.findViewById(R.id.appsSwipeRefresh);
 
-        appsSwipeRefresh.setColorSchemeResources(
-            R.color.orange,
-            R.color.green,
-            R.color.blue
-        );
-
         appsSwipeRefresh.setOnRefreshListener(new SwipeRefreshAppsListener(view));
         /*------------------------- Swipe Refresh -------------------------*/
 

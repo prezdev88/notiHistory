@@ -51,12 +51,6 @@ public class NotificationsFragment extends Fragment {
         /*------------------------- Swipe Refresh -------------------------*/
         notificationsSwipeRefresh = view.findViewById(R.id.notificationsSwipeRefresh);
 
-        notificationsSwipeRefresh.setColorSchemeResources(
-            R.color.orange,
-            R.color.green,
-            R.color.blue
-        );
-
         notificationsSwipeRefresh.setOnRefreshListener(new SwipeRefreshNotificationsListener(view));
         /*------------------------- Swipe Refresh -------------------------*/
 
