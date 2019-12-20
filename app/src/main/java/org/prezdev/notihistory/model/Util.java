@@ -4,10 +4,13 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
 
 import org.prezdev.notihistory.MainActivity;
+import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.configuration.Config;
 
 import java.io.File;
@@ -52,5 +55,19 @@ public class Util {
         return  String.format("%.2f", sizeInMegas)+ " Mb";
     }
 
+    public static void showSnackbarMessage(String message, View.OnClickListener onClickListener){
+        Snackbar.make(
+            MainActivity.getActivity().findViewById(R.id.search_float_icon),
+            message,
+            Snackbar.LENGTH_LONG
+        ).setAction(
+            "Action",
+            onClickListener
+        ).show();
+    }
+
+    public static void showSnackbarMessage(String message){
+        showSnackbarMessage(message, null);
+    }
 
 }
