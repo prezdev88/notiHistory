@@ -13,7 +13,7 @@ import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.List;
 
-public class SwipeRefreshAppsListener implements SwipeRefreshLayout.OnRefreshListener, Runnable {
+public class SwipeRefreshAppsListener extends SwipeRefreshSettings implements SwipeRefreshLayout.OnRefreshListener, Runnable {
 
     private View view;
     private AppService appService;
@@ -24,6 +24,7 @@ public class SwipeRefreshAppsListener implements SwipeRefreshLayout.OnRefreshLis
         this.view = view;
         this.appsSwipeRefresh = view.findViewById(R.id.appsSwipeRefresh);
         this.lvApps = view.findViewById(R.id.lvApps);
+        super.applySettings(this.appsSwipeRefresh);
     }
 
     @Override

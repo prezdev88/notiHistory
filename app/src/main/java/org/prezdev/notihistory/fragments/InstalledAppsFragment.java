@@ -42,7 +42,6 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
         appService = new AppServiceImpl(MainActivity.getActivity());
 
         this.installedApps = Cache.getInstalledApps();
-
     }
 
     @Override
@@ -64,12 +63,6 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
 
         /*------------------------- Swipe Refresh -------------------------*/
         appsSwipeRefresh = view.findViewById(R.id.installedAppsSwipeRefresh);
-
-        appsSwipeRefresh.setColorSchemeResources(
-            R.color.orange,
-            R.color.green,
-            R.color.blue
-        );
 
         appsSwipeRefresh.setOnRefreshListener(new SwipeRefreshInstalledAppsListener(view));
         /*------------------------- Swipe Refresh -------------------------*/
