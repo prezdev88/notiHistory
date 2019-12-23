@@ -1,6 +1,7 @@
 package org.prezdev.notihistory.model.impl;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteStatement;
 
 import org.prezdev.notihistory.configuration.Config;
@@ -30,7 +31,11 @@ public class AppDaoImpl extends Connection implements AppDao {
             "GROUP BY packageName ORDER BY postTime DESC";
 
         connection = new BD(context);
-        sqLiteDatabase = connection.getWritableDatabase();
+        try{
+            sqLiteDatabase = connection.getWritableDatabase();
+        }catch(Exception ex){
+            return notificationApps;
+        }
         cursor = sqLiteDatabase.rawQuery(query, null);
 
         NotificationInstalledApp notificationApp;
@@ -88,8 +93,12 @@ public class AppDaoImpl extends Connection implements AppDao {
     public boolean isAppInDatabase(String packageName) {
         boolean isAppInDatabase;
 
-        connection = new BD(context);
-        sqLiteDatabase = connection.getReadableDatabase();
+        try{
+            connection = new BD(context);
+            sqLiteDatabase = connection.getReadableDatabase();
+        }catch(Exception ex){
+            return false;
+        }
 
         String select =
             "SELECT * " +
