@@ -54,9 +54,11 @@ public class MainActivity extends AppCompatActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             if (!NotificationManagerCompat.getEnabledListenerPackages(this).contains(getPackageName())) {
-                NotificationConfigDialog notificationConfigDialog = new NotificationConfigDialog();
+                if(!Config.notificatioConfigDialogIsVisible){
+                    NotificationConfigDialog notificationConfigDialog = new NotificationConfigDialog();
 
-                notificationConfigDialog.show(this.getSupportFragmentManager(), "tag");
+                    notificationConfigDialog.show(this.getSupportFragmentManager(), "tag");
+                }
             }
         }
 
