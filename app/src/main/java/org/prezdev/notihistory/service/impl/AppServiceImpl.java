@@ -6,9 +6,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
+import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
-import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.model.impl.AppDaoImpl;
 import org.prezdev.notihistory.service.AppService;
 
@@ -22,20 +22,13 @@ public class AppServiceImpl implements AppService {
     private AppDaoImpl appDao;
     private Context context;
     private PackageManager packageManager;
+    private Preferences preferences;
 
-    private static AppServiceImpl appService;
-
-    public static AppServiceImpl getInstance(Context context){
-        if(appService == null){
-            appService = new AppServiceImpl(context);
-        }
-
-        return appService;
-    }
-
-    private AppServiceImpl(Context context){
-        appDao = new AppDaoImpl(context);
+    public AppServiceImpl(Context context){
+        this.appDao = new AppDaoImpl(context);
         this.context = context;
+        this.packageManager = this.context.getPackageManager();
+        this.preferences = new Preferences(this.context);
     }
 
     @Override
@@ -44,21 +37,21 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public List<InstalledApp> getInstalledApps(boolean systemAppsIncluded) {
+    public List<InstalledApp> getInstalledApps() {
+        boolean showSystemApps = preferences.isShowSystemApps();
+
         List<InstalledApp> installedApps = new ArrayList<>();
-        packageManager = this.context.getPackageManager();
 
         InstalledApp installedApp;
         String appName;
         String packageName;
-        Util util = Util.getInstance();
 
         List<PackageInfo> packs = packageManager.getInstalledPackages(0);
 
         int id = 1;
         for(PackageInfo packageInfo : packs){
             // No hay que incluir las apps del sistema?
-            if(!systemAppsIncluded){
+            if(!showSystemApps){
                 // la app es del sistema
                 if(isSystemPackage(packageInfo)){
                     continue;

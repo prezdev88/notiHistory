@@ -5,7 +5,7 @@
     <string name="nav_header_title">Noti-history</string>
     <string name="nav_header_subtitle">Notifications history</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustes</string>
 
     <string name="menu_notifications">Notificaciones</string>
     <string name="menu_aplicaciones">Aplicaciones</string>
@@ -17,6 +17,28 @@
     <string name="_continue">Continuar</string>
     <string name="exit">Salir</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Sliders -->
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">SIGUIENTE</string>
+    <string name="skip">SALTAR</string>
+    <string name="start">VAMOS</string>
+
+    <string name="slide_1_title">¡Bienvenido a Notihistory!</string>
+    <string name="slide_1_desc">La manera más fácil de almacenar tus notificaciones</string>
+
+    <string name="slide_2_title">Permisos</string>
+    <string name="slide_2_desc">Necesitamos permiso para acceder a tus notificaciones</string>
+
+    <string name="slide_3_title">Permisos</string>
+    <string name="slide_3_desc">Necesitamos permiso para almacenar las notificaciones en tu dispositivo</string>
+
+    <string name="slide_4_title">¡Bien hecho!</string>
+    <string name="slide_4_desc">Disfruta de la aplicación</string>
+
+    <string name="grant_permission">Conceder Permiso</string>
+
+    <string name="error_open_app">No es posible abrir esta aplicación</string>
+
+    <string name="installed_apps_title">Aplicaciones</string>
+    <string name="notifications_apps_title">Mis apps</string>
 </resources>

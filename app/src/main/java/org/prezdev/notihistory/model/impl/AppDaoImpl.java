@@ -3,8 +3,9 @@ package org.prezdev.notihistory.model.impl;
 import android.content.Context;
 import android.database.sqlite.SQLiteStatement;
 
-import org.prezdev.notihistory.dataBase.BD;
-import org.prezdev.notihistory.dataBase.Connection;
+import org.prezdev.notihistory.configuration.Config;
+import org.prezdev.notihistory.database.BD;
+import org.prezdev.notihistory.database.Connection;
 import org.prezdev.notihistory.model.AppDao;
 import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
@@ -28,7 +29,7 @@ public class AppDaoImpl extends Connection implements AppDao {
             "WHERE extraText != '' " +
             "GROUP BY packageName ORDER BY postTime DESC";
 
-        connection = new BD(context, DB_PATH);
+        connection = new BD(context);
         sqLiteDatabase = connection.getWritableDatabase();
         cursor = sqLiteDatabase.rawQuery(query, null);
 
@@ -52,7 +53,7 @@ public class AppDaoImpl extends Connection implements AppDao {
 
     @Override
     public void save(InstalledApp installedApp) {
-        connection = new BD(context, DB_PATH);
+        connection = new BD(context);
         sqLiteDatabase = connection.getWritableDatabase();
 
         String insert = "INSERT INTO app VALUES(null, ?,?)";
@@ -69,7 +70,7 @@ public class AppDaoImpl extends Connection implements AppDao {
 
     @Override
     public void delete(String packageName) {
-        connection = new BD(context, DB_PATH);
+        connection = new BD(context);
         sqLiteDatabase = connection.getWritableDatabase();
 
         String delete = "DELETE FROM app WHERE packageName = ?";
@@ -87,7 +88,7 @@ public class AppDaoImpl extends Connection implements AppDao {
     public boolean isAppInDatabase(String packageName) {
         boolean isAppInDatabase;
 
-        connection = new BD(context, DB_PATH);
+        connection = new BD(context);
         sqLiteDatabase = connection.getReadableDatabase();
 
         String select =

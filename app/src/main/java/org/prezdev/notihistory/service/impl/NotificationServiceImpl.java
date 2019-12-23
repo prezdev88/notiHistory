@@ -11,20 +11,9 @@ import java.util.List;
 public class NotificationServiceImpl implements NotificationService {
 
     private NotificationDaoImpl notificationDao;
-    private Context context;
-    private static NotificationServiceImpl notificationService;
 
-    public static NotificationServiceImpl getInstance(Context context){
-        if(notificationService == null){
-            notificationService = new NotificationServiceImpl(context);
-        }
-
-        return notificationService;
-    }
-
-    private NotificationServiceImpl(Context context){
+    public NotificationServiceImpl(Context context){
         notificationDao = new NotificationDaoImpl(context);
-        this.context = context;
     }
 
     @Override

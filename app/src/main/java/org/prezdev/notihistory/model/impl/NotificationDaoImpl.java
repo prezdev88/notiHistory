@@ -3,8 +3,9 @@ package org.prezdev.notihistory.model.impl;
 import android.content.Context;
 import android.database.sqlite.SQLiteStatement;
 
-import org.prezdev.notihistory.dataBase.BD;
-import org.prezdev.notihistory.dataBase.Connection;
+import org.prezdev.notihistory.configuration.Config;
+import org.prezdev.notihistory.database.BD;
+import org.prezdev.notihistory.database.Connection;
 import org.prezdev.notihistory.model.NotificationDao;
 import org.prezdev.notihistory.model.NotificationVO;
 
@@ -23,7 +24,7 @@ public class NotificationDaoImpl extends Connection implements NotificationDao {
 
     @Override
     public void save(NotificationVO notificationVO) {
-        connection = new BD(context, DB_PATH);
+        connection = new BD(context);
         sqLiteDatabase = connection.getWritableDatabase();
 
         String insert = "INSERT INTO notification VALUES(null, ?,?,?,?,?,?,?,?,?)";
@@ -66,7 +67,7 @@ public class NotificationDaoImpl extends Connection implements NotificationDao {
         List<NotificationVO> lista = new ArrayList<>();
         NotificationVO notificationVO = null;
 
-        connection = new BD(context, DB_PATH);
+        connection = new BD(context);
         sqLiteDatabase = connection.getWritableDatabase();
 
         cursor = sqLiteDatabase.rawQuery(query, null);

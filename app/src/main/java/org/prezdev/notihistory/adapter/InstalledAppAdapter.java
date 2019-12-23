@@ -1,30 +1,31 @@
 package org.prezdev.notihistory.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import org.prezdev.notihistory.R;
+import org.prezdev.notihistory.animations.Animation;
+import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppSwitchListener;
 import org.prezdev.notihistory.model.InstalledApp;
-import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InstalledAppAdapter extends BaseAdapter {
     private Context context;
     private List<InstalledApp> installedApps;
+    private ArrayList<InstalledApp> clonedInstalledApps; // Used by filter listview
     private OnInstalledAppStateChangeListener onInstalledAppStateChangeListener;
+    private Preferences preferences;
 
     public InstalledAppAdapter(
         Context context,
@@ -33,7 +34,9 @@ public class InstalledAppAdapter extends BaseAdapter {
     ) {
         this.context = context;
         this.installedApps = installedApps;
+        this.clonedInstalledApps = new ArrayList<>(installedApps);
         this.onInstalledAppStateChangeListener = onInstalledAppStateChangeListener;
+        this.preferences = new Preferences();
     }
 
     @Override
@@ -81,6 +84,30 @@ public class InstalledAppAdapter extends BaseAdapter {
 
         chkAddApp.setChecked(installedApp.isSelected());
 
+        if(preferences.isAppItemListAnimation()){
+            Animation.apply(view);
+        }
+
         return view;
+    }
+
+    public void filter(String text) {
+        text = text.toLowerCase();
+        List<InstalledApp> aux = new ArrayList<>();
+
+        if (text.length() == 0) {
+            aux.addAll(clonedInstalledApps);
+        } else {
+            for (InstalledApp installedApp : clonedInstalledApps) {
+                if (installedApp.getName().toLowerCase().contains(text)) {
+                    aux.add(installedApp);
+                }
+            }
+        }
+
+        installedApps.clear();
+        installedApps.addAll(aux);
+
+        notifyDataSetChanged();
     }
 }

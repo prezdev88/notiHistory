@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://www.programcreek.com/java-api-examples/?class=android.support.v7.app.AppCompatActivity&method=getSupportActionBar -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/animations">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/app_item_list_animation_key"
+            android:title="@string/app_item_list_animation" />
+
+        <EditTextPreference
+            android:key="@string/animation_duration_key"
+            android:title="@string/animation_duration"
+            android:inputType="number"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/fragment_transition">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/fragment_transition_key"
+            android:title="@string/fragment_transition"/>
+
+        <EditTextPreference
+            android:key="@string/transition_duration_key"
+            android:title="@string/transition_duration"
+            android:inputType="number"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/apps">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/show_system_apps_key"
+            android:title="@string/show_system_apps" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/about">
+        <Preference
+            android:key="@string/version"
+            android:title="@string/version" />
+
+        <Preference
+            android:key="@string/database_size_key"
+            android:title="@string/database_size" />
+
+        <Preference
+            android:summary="https://github.com/pperezp/notiHistory"
+            android:title="@string/github">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/pperezp/notiHistory" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

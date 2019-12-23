@@ -1,4 +1,4 @@
-package org.prezdev.notihistory.listeners;
+package org.prezdev.notihistory.listeners.swiperefresh;
 
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,7 +13,7 @@ import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 import java.util.List;
 
-public class SwipeRefreshNotificationsListener implements SwipeRefreshLayout.OnRefreshListener, Runnable {
+public class SwipeRefreshNotificationsListener extends SwipeRefreshSettings implements SwipeRefreshLayout.OnRefreshListener, Runnable {
 
     private View view;
     private NotificationServiceImpl notificationService;
@@ -24,6 +24,7 @@ public class SwipeRefreshNotificationsListener implements SwipeRefreshLayout.OnR
         this.view = view;
         notificationsSwipeRefresh = view.findViewById(R.id.notificationsSwipeRefresh);
         lvNotifications = view.findViewById(R.id.lvNotifications);
+        super.applySettings(this.notificationsSwipeRefresh);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class SwipeRefreshNotificationsListener implements SwipeRefreshLayout.OnR
     @Override
     public void run() {
         // Se obtiene el servicio de notificaciones
-        notificationService = NotificationServiceImpl.getInstance(view.getContext());
+        notificationService = new NotificationServiceImpl(view.getContext());
 
         // Se obtienen las notificaciones de la aplicación actual
         List<NotificationVO> notifications = notificationService.findAllByPackageName(

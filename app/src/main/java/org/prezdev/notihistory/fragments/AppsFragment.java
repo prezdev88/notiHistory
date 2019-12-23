@@ -1,29 +1,28 @@
 package org.prezdev.notihistory.fragments;
 
-import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.adapter.AppAdapter;
+import org.prezdev.notihistory.animations.Transition;
+import org.prezdev.notihistory.configuration.Preferences;
 import org.prezdev.notihistory.listeners.OnAppClickListener;
-import org.prezdev.notihistory.listeners.SwipeRefreshAppsListener;
+import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshAppsListener;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
+import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
-import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@SuppressLint("ValidFragment")
+/*This fragment is where the user see that notifications apps*/
 public class AppsFragment extends Fragment {
 
     private SwipeRefreshLayout appsSwipeRefresh;
@@ -31,15 +30,14 @@ public class AppsFragment extends Fragment {
     private List<NotificationInstalledApp> notificationApps;
     private AppAdapter appAdapter;
     private ListView lvApps;
-    private MainActivity mainActivity;
+    private Preferences preferences;
 
-    public AppsFragment(){}
+    public AppsFragment() {
+        preferences = new Preferences();
 
-    public AppsFragment(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-        //this.setExitTransition(new Slide(Gravity.LEFT).setDuration(300));
-        this.setExitTransition(new Fade());
-        this.setEnterTransition(new Slide(Gravity.LEFT).setDuration(300));
+        if(preferences.isFragmentTransition()){
+            Transition.apply(this);
+        }
     }
 
     @Override
@@ -50,10 +48,17 @@ public class AppsFragment extends Fragment {
 
         lvApps = view.findViewById(R.id.lvApps);
 
-        lvApps.setOnItemClickListener(new OnAppClickListener(this.mainActivity));
+        lvApps.setOnItemClickListener(new OnAppClickListener(getActivity()));
 
-        appService = AppServiceImpl.getInstance(view.getContext());
-        notificationApps = appService.getNotificationInstalledApps();
+        appService = new AppServiceImpl(view.getContext());
+
+        try {
+            notificationApps = appService.getNotificationInstalledApps();
+        }catch (SQLiteCantOpenDatabaseException ex){
+            notificationApps = new ArrayList<>();
+
+            Permisions.checkAppPermissions(getActivity());
+        }
 
         appAdapter = new AppAdapter(view.getContext(), notificationApps);
 
@@ -61,12 +66,6 @@ public class AppsFragment extends Fragment {
 
         /*------------------------- Swipe Refresh -------------------------*/
         appsSwipeRefresh = view.findViewById(R.id.appsSwipeRefresh);
-
-        appsSwipeRefresh.setColorSchemeResources(
-            R.color.orange,
-            R.color.green,
-            R.color.blue
-        );
 
         appsSwipeRefresh.setOnRefreshListener(new SwipeRefreshAppsListener(view));
         /*------------------------- Swipe Refresh -------------------------*/

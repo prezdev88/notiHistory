@@ -21,7 +21,7 @@ public class NotificationListenerServiceImpl extends NotificationListenerService
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        appService = AppServiceImpl.getInstance(getApplicationContext());
+        appService = new AppServiceImpl(getApplicationContext());
 
         String packageName = sbn.getPackageName();
 
