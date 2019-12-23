@@ -4,10 +4,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "org.prezdev.notihistory"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "0.1.46-RC"
+        versionCode 2
+        versionName "0.1.47-RC"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
