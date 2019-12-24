@@ -11,7 +11,6 @@ import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
-import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.FragmentService;
 
@@ -31,18 +30,22 @@ public class FragmentServiceImpl implements FragmentService {
     }
 
     public void load(Fragment fragment){
-        fragmentManager
-            .beginTransaction()
-            .replace(R.id.content, fragment)
-            .commit();
+        if(!isFragmentVisible(fragment)){
+            fragmentManager
+                .beginTransaction()
+                .replace(R.id.content, fragment)
+                .commit();
 
-        if(fragment instanceof InstalledAppsFragment){
-            mainActivity.setTitle(R.string.installed_apps_title);
-        }else if(fragment instanceof AppsFragment){
-            mainActivity.setTitle(R.string.notifications_apps_title);
+            if(fragment instanceof InstalledAppsFragment){
+                mainActivity.setTitle(R.string.installed_apps_title);
+            }else if(fragment instanceof AppsFragment){
+                mainActivity.setTitle(R.string.my_notifications_apps_title);
+            }
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START);
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 
     public Fragment getVisibleFragment(){
@@ -56,5 +59,22 @@ public class FragmentServiceImpl implements FragmentService {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean isFragmentVisible(Fragment fragment) {
+        Fragment visibleFragment = getVisibleFragment();
+
+        if(visibleFragment == null){
+            return false;
+        }else if(fragment instanceof AppsFragment && visibleFragment instanceof AppsFragment){
+            return true;
+        }else if(fragment instanceof InstalledAppsFragment && visibleFragment instanceof InstalledAppsFragment){
+            return true;
+        }else if(fragment instanceof NotificationsFragment && visibleFragment instanceof NotificationsFragment){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

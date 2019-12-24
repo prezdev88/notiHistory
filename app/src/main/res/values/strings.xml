@@ -40,5 +40,6 @@
     <string name="error_open_app">No es posible abrir esta aplicación</string>
 
     <string name="installed_apps_title">Aplicaciones</string>
-    <string name="notifications_apps_title">Mis apps</string>
+    <string name="my_notifications_apps_title">Mis notificaciones</string>
+    <string name="search">Buscar</string>
 </resources>
