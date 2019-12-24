@@ -6,8 +6,8 @@ android {
         applicationId "org.prezdev.notihistory"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 3
-        versionName "0.1.50-beta"
+        versionCode 4
+        versionName "0.1.51-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
