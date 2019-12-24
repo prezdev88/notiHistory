@@ -56,6 +56,7 @@ public class Util {
     }
 
     public static void showSnackbarMessage(String message, View.OnClickListener onClickListener){
+        /*
         Snackbar.make(
             MainActivity.getActivity().findViewById(R.id.search_float_icon),
             message,
@@ -63,7 +64,7 @@ public class Util {
         ).setAction(
             "Action",
             onClickListener
-        ).show();
+        ).show();*/
     }
 
     public static void showSnackbarMessage(String message){

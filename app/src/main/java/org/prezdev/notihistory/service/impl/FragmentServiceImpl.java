@@ -10,8 +10,6 @@ import org.prezdev.notihistory.MainActivity;
 import org.prezdev.notihistory.R;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
-import org.prezdev.notihistory.fragments.NotificationsFragment;
-import org.prezdev.notihistory.model.Util;
 import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.FragmentService;
 
@@ -39,7 +37,7 @@ public class FragmentServiceImpl implements FragmentService {
         if(fragment instanceof InstalledAppsFragment){
             mainActivity.setTitle(R.string.installed_apps_title);
         }else if(fragment instanceof AppsFragment){
-            mainActivity.setTitle(R.string.notifications_apps_title);
+            mainActivity.setTitle(R.string.my_notifications_apps_title);
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
