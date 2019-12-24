@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ import org.prezdev.notihistory.fragments.dialog.NotificationConfigDialog;
 import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
+import org.prezdev.notihistory.listeners.bottomNavigation.OnNavigationBottomClickListener;
 import org.prezdev.notihistory.listeners.floaticon.OnFloatIconListener;
 import org.prezdev.notihistory.listeners.search.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.search.OnSearchListener;
@@ -46,7 +48,8 @@ public class MainActivity extends AppCompatActivity
     private FragmentService fragmentService;
     private static MainActivity mainActivity;
     private SearchView searchView;
-    private FloatingActionButton floatingActionButton;
+    //private FloatingActionButton floatingActionButton;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     public void onResume(){
@@ -83,7 +86,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        floatingActionButton = findViewById(R.id.search_float_icon);
+        //floatingActionButton = findViewById(R.id.search_float_icon);
+        bottomNavigationView = findViewById(R.id.bottomNavigationMain);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -202,7 +206,11 @@ public class MainActivity extends AppCompatActivity
         searchView.setOnQueryTextListener(new OnSearchListener(this));
         searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeSearchListener());
 
-        floatingActionButton.setOnClickListener(new OnFloatIconListener(searchView));
+        //floatingActionButton.setOnClickListener(new OnFloatIconListener(searchView));
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+            new OnNavigationBottomClickListener(searchView)
+        );
 
         return true;
     }

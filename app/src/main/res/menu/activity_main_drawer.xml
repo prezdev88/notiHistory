@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_app_notifications"
             android:icon="@drawable/ic_notifications"
-            android:title="@string/menu_notifications" />
+            android:title="@string/my_notifications_apps_title" />
 
         <item
             android:id="@+id/nav_installed_apps"
