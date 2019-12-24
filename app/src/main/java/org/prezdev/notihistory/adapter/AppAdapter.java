@@ -2,6 +2,7 @@ package org.prezdev.notihistory.adapter;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,9 @@ import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AppAdapter extends BaseAdapter {
 
@@ -94,15 +97,26 @@ public class AppAdapter extends BaseAdapter {
         if (text.length() == 0) {
             aux.addAll(clonedNotificationApps);
         } else {
-            for (NotificationInstalledApp notificationInstalledApp : clonedNotificationApps) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                String finalText = text;
+                aux = clonedNotificationApps.parallelStream()
+                        .filter(notificationInstalledApp -> appService.getAppNameByPackageName(
+                                notificationInstalledApp.getPackageName()).toLowerCase().contains(finalText))
+                        .collect(Collectors.toList());
+                aux.sort(Comparator.comparing(NotificationInstalledApp::getName));
+            }
+            else {
+                String appName;
+                for (NotificationInstalledApp notificationInstalledApp : clonedNotificationApps) {
+                    appName = appService.getAppNameByPackageName(
+                            notificationInstalledApp.getPackageName()).toLowerCase();
 
-                String appName = appService.getAppNameByPackageName(notificationInstalledApp.getPackageName());
-                appName = appName.toLowerCase();
-
-                if (appName.contains(text)) {
-                    aux.add(notificationInstalledApp);
+                    if (appName.contains(text)) {
+                        aux.add(notificationInstalledApp);
+                    }
                 }
             }
+
         }
 
         notificationApps.clear();

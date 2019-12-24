@@ -1,6 +1,7 @@
 package org.prezdev.notihistory.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,9 @@ import org.prezdev.notihistory.listeners.OnInstalledAppSwitchListener;
 import org.prezdev.notihistory.model.InstalledApp;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InstalledAppAdapter extends BaseAdapter {
     private Context context;
@@ -98,11 +101,21 @@ public class InstalledAppAdapter extends BaseAdapter {
         if (text.length() == 0) {
             aux.addAll(clonedInstalledApps);
         } else {
-            for (InstalledApp installedApp : clonedInstalledApps) {
-                if (installedApp.getName().toLowerCase().contains(text)) {
-                    aux.add(installedApp);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                final String finalText = text;
+                aux = clonedInstalledApps.parallelStream()
+                        .filter(installedApp->installedApp.getName().toLowerCase().contains(finalText))
+                        .collect(Collectors.toList());
+                aux.sort(Comparator.comparing(InstalledApp::getName));
+            }
+            else {
+                for (InstalledApp installedApp : clonedInstalledApps) {
+                    if (installedApp.getName().toLowerCase().contains(text)) {
+                        aux.add(installedApp);
+                    }
                 }
             }
+
         }
 
         installedApps.clear();
