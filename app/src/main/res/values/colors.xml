@@ -3,6 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+    <color name="splashBackColor">#1e2e83</color>
 
     <!-- Swipe refresh -->
     <color name="red">#DF0000</color>
