@@ -7,8 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.SearchView;
@@ -32,15 +30,14 @@ import org.prezdev.notihistory.fragments.AppsFragment;
 import org.prezdev.notihistory.fragments.InstalledAppsFragment;
 import org.prezdev.notihistory.fragments.NotificationsFragment;
 import org.prezdev.notihistory.listeners.bottomNavigation.OnNavigationBottomClickListener;
-import org.prezdev.notihistory.listeners.floaticon.OnFloatIconListener;
 import org.prezdev.notihistory.listeners.search.OnFocusChangeSearchListener;
 import org.prezdev.notihistory.listeners.search.OnSearchListener;
 import org.prezdev.notihistory.permission.Permisions;
 import org.prezdev.notihistory.permission.RequestCode;
-import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.FragmentService;
-import org.prezdev.notihistory.service.impl.AppServiceImpl;
+import org.prezdev.notihistory.service.NotificationService;
 import org.prezdev.notihistory.service.impl.FragmentServiceImpl;
+import org.prezdev.notihistory.service.impl.NotificationServiceImpl;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,14 +47,17 @@ public class MainActivity extends AppCompatActivity
     private SearchView searchView;
     //private FloatingActionButton floatingActionButton;
     private BottomNavigationView bottomNavigationView;
+    private NotificationService notificationService;
 
     @Override
     public void onResume(){
         super.onResume();
 
+        loadFileNotifications();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             if (!NotificationManagerCompat.getEnabledListenerPackages(this).contains(getPackageName())) {
-                if(!Config.notificatioConfigDialogIsVisible){
+                if(!Config.notificationConfigDialogIsVisible){
                     NotificationConfigDialog notificationConfigDialog = new NotificationConfigDialog();
 
                     notificationConfigDialog.show(this.getSupportFragmentManager(), "tag");
@@ -106,15 +106,26 @@ public class MainActivity extends AppCompatActivity
 
         Permisions.checkAppPermissions(this);
 
+        loadFileNotifications();
+
         fragmentService = new FragmentServiceImpl(this);
 
         fragmentService.load(Config.homeScreenFragment);
 
         Cache.updateInstalledAppsCache();
 
+
         /*
         Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
         startActivity(intent);*/
+    }
+
+    private void loadFileNotifications() {
+        if(notificationService == null){
+            notificationService = new NotificationServiceImpl(MainActivity.getActivity());
+        }
+
+        notificationService.loadFileNotifications();
     }
 
     @Override

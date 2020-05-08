@@ -1,13 +1,16 @@
 package org.prezdev.notihistory.listeners.notificationListener;
 
 import android.app.Notification;
+import android.content.Context;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+
+import org.prezdev.notihistory.model.NotificationDao;
 import org.prezdev.notihistory.model.NotificationVO;
-import org.prezdev.notihistory.model.impl.AppDaoImpl;
-import org.prezdev.notihistory.model.impl.NotificationDaoImpl;
+import org.prezdev.notihistory.model.impl.FileNotificationDaoImpl;
+import org.prezdev.notihistory.model.impl.SQLiteNotificationDaoImpl;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
 import java.util.Date;
@@ -16,54 +19,54 @@ import java.util.Date;
 //if(!TextUtils.isEmpty(chars))
 
 public class NotificationListenerServiceImpl extends NotificationListenerService {
-    private NotificationDaoImpl notificationDao;
+    private NotificationDao notificationDao;
     private AppServiceImpl appService;
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        appService = new AppServiceImpl(getApplicationContext());
-
+        Context applicationContext = getApplicationContext();
         String packageName = sbn.getPackageName();
+        appService = new AppServiceImpl(applicationContext);
+
+        if(applicationContext != null){
+            notificationDao = new SQLiteNotificationDaoImpl(applicationContext);
+        }else{
+            notificationDao = new FileNotificationDaoImpl();
+        }
 
         // El usuario quiere guardar las notificaciones de esa app?
         if(appService.isAppInDatabase(packageName)){
-            notificationDao = new NotificationDaoImpl(getApplicationContext());
+            Notification notification   = sbn.getNotification();
+            Bundle bundle               = notification.extras;
+            CharSequence extraBigText   = bundle.getCharSequence(Notification.EXTRA_BIG_TEXT);
+            int iconId                  = bundle.getInt(Notification.EXTRA_SMALL_ICON);
 
+            NotificationVO notificationVO = new NotificationVO();
 
-            Notification notification = sbn.getNotification();
-            Bundle bundle = notification.extras;
-            CharSequence extraBigText = bundle.getCharSequence(Notification.EXTRA_BIG_TEXT);
-            int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
+            notificationVO.setPackageName(packageName);
+            notificationVO.setCategory(notification.category);
+            notificationVO.setColor(notification.color);
+            notificationVO.setIconId(iconId);
 
-
-            NotificationVO noti = new NotificationVO();
-
-            noti.setPackageName(packageName);
-            noti.setCategory(notification.category);
-            noti.setColor(notification.color);
-            noti.setIconId(iconId);
-
-            noti.setPostTime(new Date(sbn.getPostTime()));
+            notificationVO.setPostTime(new Date(sbn.getPostTime()));
 
             if(extraBigText != null){
-                noti.setExtraBigText(extraBigText.toString());
+                notificationVO.setExtraBigText(extraBigText.toString());
             }
 
             if(bundle.getCharSequence(Notification.EXTRA_SUMMARY_TEXT) != null){
-                noti.setExtraSummaryText(bundle.getCharSequence(Notification.EXTRA_SUMMARY_TEXT).toString());
+                notificationVO.setExtraSummaryText(bundle.getCharSequence(Notification.EXTRA_SUMMARY_TEXT).toString());
             }
 
             if(bundle.getCharSequence(Notification.EXTRA_TEXT) != null){
-                noti.setExtraText(bundle.getCharSequence(Notification.EXTRA_TEXT).toString());
+                notificationVO.setExtraText(bundle.getCharSequence(Notification.EXTRA_TEXT).toString());
             }
 
             if(bundle.getCharSequence(Notification.EXTRA_TITLE) != null){
-                noti.setExtraTitle(bundle.getCharSequence(Notification.EXTRA_TITLE).toString());
+                notificationVO.setExtraTitle(bundle.getCharSequence(Notification.EXTRA_TITLE).toString());
             }
 
-            Log.d("New Notification", noti.toString());
-
-            notificationDao.save(noti);
+            notificationDao.save(notificationVO);
         }
     }
 

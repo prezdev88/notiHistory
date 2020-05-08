@@ -13,7 +13,7 @@ import org.prezdev.notihistory.configuration.Config;
 public class NotificationConfigDialog extends DialogFragment {
 
     public NotificationConfigDialog(){
-        Config.notificatioConfigDialogIsVisible = true;
+        Config.notificationConfigDialogIsVisible = true;
     }
 
     @Override
@@ -24,14 +24,14 @@ public class NotificationConfigDialog extends DialogFragment {
         builder.setMessage(R.string.notificationNotConfigured)
             .setPositiveButton(R.string._continue, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    Config.notificatioConfigDialogIsVisible = false;
+                    Config.notificationConfigDialogIsVisible = false;
                     Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                     startActivity(intent);
                 }
             })
             .setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    Config.notificatioConfigDialogIsVisible = false;
+                    Config.notificationConfigDialogIsVisible = false;
                     Intent homeIntent = new Intent(Intent.ACTION_MAIN);
                     homeIntent.addCategory( Intent.CATEGORY_HOME );
                     homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

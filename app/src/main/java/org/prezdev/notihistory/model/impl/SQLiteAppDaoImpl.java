@@ -14,9 +14,9 @@ import org.prezdev.notihistory.model.NotificationInstalledApp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppDaoImpl extends Connection implements AppDao {
+public class SQLiteAppDaoImpl extends Connection implements AppDao {
 
-    public AppDaoImpl(Context context) {
+    public SQLiteAppDaoImpl(Context context) {
         super(context);
     }
 

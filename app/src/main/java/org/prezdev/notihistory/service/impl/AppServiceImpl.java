@@ -7,9 +7,11 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
 import org.prezdev.notihistory.configuration.Preferences;
+import org.prezdev.notihistory.model.AppDao;
 import org.prezdev.notihistory.model.InstalledApp;
 import org.prezdev.notihistory.model.NotificationInstalledApp;
-import org.prezdev.notihistory.model.impl.AppDaoImpl;
+import org.prezdev.notihistory.model.impl.FileAppDaoImpl;
+import org.prezdev.notihistory.model.impl.SQLiteAppDaoImpl;
 import org.prezdev.notihistory.service.AppService;
 
 import java.util.ArrayList;
@@ -19,16 +21,21 @@ import java.util.List;
 
 public class AppServiceImpl implements AppService {
 
-    private AppDaoImpl appDao;
+    private AppDao appDao;
     private Context context;
     private PackageManager packageManager;
     private Preferences preferences;
 
     public AppServiceImpl(Context context){
-        this.appDao = new AppDaoImpl(context);
         this.context = context;
-        this.packageManager = this.context.getPackageManager();
-        this.preferences = new Preferences(this.context);
+
+        if(this.context != null){
+            this.appDao         = new SQLiteAppDaoImpl(context);
+            this.preferences    = new Preferences(this.context);
+            this.packageManager = this.context.getPackageManager();
+        }else{
+            this.appDao = new FileAppDaoImpl();
+        }
     }
 
     @Override
@@ -99,7 +106,7 @@ public class AppServiceImpl implements AppService {
         } catch (PackageManager.NameNotFoundException e) {
             applicationInfo = null;
         }
-        return (String) (applicationInfo != null ? packageManager.getApplicationLabel(applicationInfo) : "App sin nombre");
+        return (String) (applicationInfo != null ? packageManager.getApplicationLabel(applicationInfo) : packageName);
     }
 
     @Override
@@ -109,9 +116,7 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public boolean isSystemPackage(PackageInfo pkgInfo) {
-        return !(packageManager.getLaunchIntentForPackage(pkgInfo.packageName) != null);
-
-        // return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+        return packageManager.getLaunchIntentForPackage(pkgInfo.packageName) == null;
     }
 
     /*------------------- Apps que el usuario escogió en el Fragment -------------------*/

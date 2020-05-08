@@ -19,7 +19,9 @@ import org.prezdev.notihistory.listeners.OnInstalledAppClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppLongClickListener;
 import org.prezdev.notihistory.listeners.OnInstalledAppStateChangeListener;
 import org.prezdev.notihistory.listeners.swiperefresh.SwipeRefreshInstalledAppsListener;
+import org.prezdev.notihistory.model.AppDao;
 import org.prezdev.notihistory.model.InstalledApp;
+import org.prezdev.notihistory.model.impl.FileAppDaoImpl;
 import org.prezdev.notihistory.service.AppService;
 import org.prezdev.notihistory.service.impl.AppServiceImpl;
 
@@ -73,10 +75,14 @@ public class InstalledAppsFragment extends Fragment implements OnInstalledAppSta
 
     @Override
     public void stateChange(InstalledApp installedApp) {
+        AppDao appDao = new FileAppDaoImpl();
+
         if(installedApp.isSelected()){
             appService.save(installedApp);
+            appDao.save(installedApp);
         }else{
             appService.delete(installedApp.getPackageName());
+            appDao.delete(installedApp.getPackageName());
         }
     }
 }

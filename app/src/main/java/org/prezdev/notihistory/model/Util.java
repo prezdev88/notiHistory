@@ -1,5 +1,6 @@
 package org.prezdev.notihistory.model;
 
+import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -69,6 +70,11 @@ public class Util {
 
     public static void showSnackbarMessage(String message){
         showSnackbarMessage(message, null);
+    }
+
+    public static Application getApplicationUsingReflection() throws Exception {
+        return (Application) Class.forName("android.app.ActivityThread")
+                .getMethod("currentApplication").invoke(null, (Object[]) null);
     }
 
 }

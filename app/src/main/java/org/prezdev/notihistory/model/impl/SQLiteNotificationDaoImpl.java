@@ -14,10 +14,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationDaoImpl extends Connection implements NotificationDao {
+public class SQLiteNotificationDaoImpl extends Connection implements NotificationDao {
 
 
-    public NotificationDaoImpl(Context context){
+    public SQLiteNotificationDaoImpl(Context context){
         super(context);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
